@@ -28,7 +28,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 github_username: lucagrementieri
 
 # Build settings
-theme: chesterhow/tale
+remote_theme: chesterhow/tale
 permalink:  /:year-:month-:day/:title
 paginate:   5
 plugins:
