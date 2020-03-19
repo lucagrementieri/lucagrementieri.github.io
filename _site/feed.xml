@@ -1,4 +1,155 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-18T23:48:29+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/2020-03-18/welcome-to-jekyll" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2020-03-18T22:49:49+01:00</published><updated>2020-03-18T22:49:49+01:00</updated><id>http://localhost:4000/2020-03-18/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2020-03-18/welcome-to-jekyll">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-19T23:01:16+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning.</subtitle><entry><title type="html">Function Approximation</title><link href="http://localhost:4000/2020-03-19/function-approximation" rel="alternate" type="text/html" title="Function Approximation" /><published>2020-03-19T00:00:00+01:00</published><updated>2020-03-19T00:00:00+01:00</updated><id>http://localhost:4000/2020-03-19/function-approximation</id><content type="html" xml:base="http://localhost:4000/2020-03-19/function-approximation">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes&quot;&gt;
+    &lt;title&gt;Why convolutions are everywhere&lt;/title&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;Mathematical foundations of signal processing and convolutions&quot;&gt;
+    &lt;meta name=&quot;robots&quot; content=&quot;index,follow&quot;&gt;
+
+    &lt;meta property=&quot;og:title&quot; content=&quot;Why convolutions are everywhere&quot;&gt;
+    &lt;meta property=&quot;og:description&quot; content=&quot;Mathematical foundations of signal processing and convolutions&quot;&gt;
+    &lt;meta name=&quot;twitter:card&quot; content=&quot;summary_large_image&quot;&gt;
+
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css&quot; integrity=&quot;sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq&quot; crossorigin=&quot;anonymous&quot;&gt;
+    &lt;!-- The loading of KaTeX is deferred to speed up page rendering --&gt;
+    &lt;script defer src=&quot;https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js&quot; integrity=&quot;sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;
+    &lt;!-- To automatically render math in text elements, include the auto-render extension: --&gt;
+    &lt;script defer src=&quot;https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js&quot; integrity=&quot;sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI&quot; crossorigin=&quot;anonymous&quot;
+    onload=&quot;renderMathInElement(document.body,{delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});&quot;&gt;&lt;/script&gt;
+    &lt;link href=&quot;https://unpkg.com/@nextbitlabs/rapido@^3/rapido.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;main&gt;
+      &lt;article class=&quot;rapido&quot;&gt;
+        &lt;header&gt;
+          &lt;h1&gt;Why convolutions are everywhere&lt;/h1&gt;
+          &lt;p&gt;
+            Modern deep learning architectures often include convolutions.
+            This choice derives from simple assumptions on the data and can be mathematically deduced.
+          &lt;/p&gt;
+        &lt;/header&gt;
+        &lt;section&gt;
+          &lt;h1 id=&quot;signals-functions&quot;&gt;Signals as functions&lt;/h1&gt;
+          &lt;p&gt;
+            Real world data is collected using sensors.
+            These devices produce discrete signals by sampling or aggregating information from the continuous world around us.
+            For example a camera collects photons in every pixels &lt;em&gt;aggregating&lt;/em&gt; the light coming from all directions in a
+            short amount of time. The final photo produced by a camera is a discrete signal.
+          &lt;/p&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+            A discrete &lt;strong&gt;signal&lt;/strong&gt; is a function whose domain is $\mathbb{Z}$,
+            $f: \mathbb{Z} \longrightarrow \mathbb{R}$.&lt;/br&gt;
+            We denote the $n$-th value of the function as $f[n]$.
+          &lt;/p&gt;
+          &lt;p&gt;
+              However we can imagine a photo with an infinite number of infinitely small pixels...
+          &lt;/p&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+          &lt;h1 id=&quot;continuous-convolution&quot;&gt;Continuous convolution&lt;/h1&gt;
+          &lt;p&gt;
+            In mathematics the convolution operation is usually introduced as an operation of two functions.
+            On the other hand, in deep learning convolution is an operation of discrete signals.
+            To understand the properties of this operation we are going to study the operation in the continuous world
+            and then define an equivalent discrete version that can be used in practice on real data.
+            In the beginning we are going to restrict our analysis to 1D functions, then we will generalize it to
+            multiple dimensions.
+          &lt;/p&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+            Let $f$, $g$ be two real function then the &lt;strong&gt;convolution&lt;/strong&gt; of $f$ and $g$ is
+            $$
+            (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt.
+            $$
+          &lt;/p&gt;
+          &lt;p&gt;
+            The integral in the convolution definition is not always defined but
+            recalling Holder's inequality we can find
+            a sufficient condition to establish its existence.
+          &lt;/p&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+            Let $f \in L^{p}(\mathbb{R})$ and $g \in L^{q}(\mathbb{R})$ be functions
+            with $p, q \in [1, \infty]$ such that
+            $$
+            \frac{1}{p} + \frac{1}{q} = 1 \quad \text{or} \quad \{p, q\} = \{1, \infty\},
+            $$
+            then $f * g$ is bounded.
+            &lt;small&gt;
+                $L^{\infty}(\mathbb{R})$ is the space of functions essentially bounded, i.e.
+                $f \in L^{\infty}(\mathbb{R})$ if and only if $\exists \:M \in \mathbb{R}$
+                such that $\mu(\{x \in \mathbb{R}, |f(x)| \geq M\}) = 0$.
+                $$
+            &lt;/small&gt;
+          &lt;/p&gt;
+          &lt;h3&gt;Proof&lt;/h3&gt;
+          &lt;p&gt;
+            $f * g$ is a bounded function if $\exist \:M \in \mathbb{R}$ such that
+            $$
+            |(f*g)(x)| \leq M \quad \forall\:x \in \mathbb{R}.
+            $$
+            Using Hölder's inequality and with a simple change of variable we conclude the proof
+            &lt;small&gt;
+            Hölder's inequality states that $||fg||_{1} \leq ||f||_{p}||g||_{q}$
+            if $p$, $q$ satisfies the condition of the theorem.
+            The special case $p=q=2$ gives the Cauchy–Schwarz inequality.
+            &lt;/small&gt;
+            $$
+            \begin{aligned}
+                |(f*g)(x)| &amp; \leq \int_{-\infty}^{+\infty}|f(t)g(x-t)| dt \\
+                &amp; \leq \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
+                \left[\int_{-\infty}^{+\infty}|g(x-t)|^{q}dt\right]^{\frac{1}{q}} \\
+                &amp; = \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
+                \left[\int_{-\infty}^{+\infty}|g(t)|^{q}dt\right]^{\frac{1}{q}} \\
+                &amp; = ||f||_{p}||g||_{q}.
+            \end{aligned}
+            $$
+          &lt;/p&gt;
+          &lt;p&gt;
+              Another remarkable property of the convolution is the commutativity.
+          &lt;/p&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+            Let $f, g$ two real functions such that its convolution is well-defined, then
+            $$
+            (f * g)(x) = (g * f)(x) \quad \forall\: x \in \mathbb{R}.
+            $$
+          &lt;/p&gt;
+          &lt;h3&gt;Proof&lt;/h3&gt;
+          &lt;p&gt;
+            For any fixed $x \in \mathbb{R}$, let $v = x-t$. Then $t = x- v$ and
+            $$
+            \begin{aligned}
+            (f * g)(x) &amp; = \int_{-\infty}^{+\infty}f(t)g(x-t) dt \\
+            &amp; = \int_{+\infty}^{-\infty}-f(x-v)g(v) dv \\
+            &amp; = \int_{-\infty}^{+\infty}g(v)f(x-v) dv = (g * f)(x).
+            \end{aligned}
+            $$
+          &lt;/p&gt;
+          &lt;p&gt;
+            These properties are sufficient to explain why convolutions are a fundamental component
+            of every processing system.
+          &lt;/p&gt;
+        &lt;/section&gt;
+        &lt;footer&gt;
+          &lt;section&gt;
+            &lt;h1&gt;Footnotes&lt;/h1&gt;
+          &lt;/section&gt;
+          &lt;section&gt;
+            &lt;h1&gt;References&lt;/h1&gt;
+          &lt;/section&gt;
+          &lt;section&gt;
+            &lt;h1&gt;Updates and Corrections&lt;/h1&gt;
+            &lt;p&gt;If you see mistakes or want to suggest changes, please &lt;a href=&quot;https://github.com/nextbitlabs/Rapido/issues&quot;&gt;open an issue on GitHub&lt;/a&gt;.&lt;/p&gt;
+          &lt;/section&gt;
+        &lt;/footer&gt;
+      &lt;/article&gt;
+    &lt;/main&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</content><author><name></name></author><summary type="html">Why convolutions are everywhere</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/2020-03-18/welcome-to-jekyll" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2020-03-18T22:49:49+01:00</published><updated>2020-03-18T22:49:49+01:00</updated><id>http://localhost:4000/2020-03-18/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2020-03-18/welcome-to-jekyll">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
 

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes">
+    <title>Why convolutions are everywhere</title>
+    <meta name="description" content="Mathematical foundations of signal processing and convolutions">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:title" content="Why convolutions are everywhere">
+    <meta property="og:description" content="Mathematical foundations of signal processing and convolutions">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body,{delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+    <link href="https://unpkg.com/@nextbitlabs/rapido@^3/rapido.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <main>
+      <article class="rapido">
+        <header>
+          <h1>Why convolutions are everywhere</h1>
+          <p>
+            Modern deep learning architectures often include convolutions.
+            This choice derives from simple assumptions on the data and can be mathematically deduced.
+          </p>
+        </header>
+        <section>
+          <h1 id="signals-functions">Signals as functions</h1>
+          <p>
+            Real world data is collected using sensors.
+            These devices produce discrete signals by sampling or aggregating information from the continuous world around us.
+            For example a camera collects photons in every pixels <em>aggregating</em> the light coming from all directions in a
+            short amount of time. The final photo produced by a camera is a discrete signal.
+          </p>
+          <p style="background-color:#d8deea; padding:10px;">
+            <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+            A discrete <strong>signal</strong> is a function whose domain is $\mathbb{Z}$,
+            $f: \mathbb{Z} \longrightarrow \mathbb{R}$.</br>
+            We denote the $n$-th value of the function as $f[n]$.
+          </p>
+          <p>
+              However we can imagine a photo with an infinite number of infinitely small pixels...
+          </p>
+        </section>
+        <section>
+          <h1 id="continuous-convolution">Continuous convolution</h1>
+          <p>
+            In mathematics the convolution operation is usually introduced as an operation of two functions.
+            On the other hand, in deep learning convolution is an operation of discrete signals.
+            To understand the properties of this operation we are going to study the operation in the continuous world
+            and then define an equivalent discrete version that can be used in practice on real data.
+            In the beginning we are going to restrict our analysis to 1D functions, then we will generalize it to
+            multiple dimensions.
+          </p>
+          <p style="background-color:#d8deea; padding:10px;">
+            <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+            Let $f$, $g$ be two real function then the <strong>convolution</strong> of $f$ and $g$ is
+            $$
+            (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt.
+            $$
+          </p>
+          <p>
+            The integral in the convolution definition is not always defined but
+            recalling Holder's inequality we can find
+            a sufficient condition to establish its existence.
+          </p>
+          <p style="background-color:#d8deea; padding:10px;">
+            <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+            Let $f \in L^{p}(\mathbb{R})$ and $g \in L^{q}(\mathbb{R})$ be functions
+            with $p, q \in [1, \infty]$ such that
+            $$
+            \frac{1}{p} + \frac{1}{q} = 1 \quad \text{or} \quad \{p, q\} = \{1, \infty\},
+            $$
+            then $f * g$ is bounded.
+            <small>
+                $L^{\infty}(\mathbb{R})$ is the space of functions essentially bounded, i.e.
+                $f \in L^{\infty}(\mathbb{R})$ if and only if $\exists \:M \in \mathbb{R}$
+                such that $\mu(\{x \in \mathbb{R}, |f(x)| \geq M\}) = 0$.
+                $$
+            </small>
+          </p>
+          <h3>Proof</h3>
+          <p>
+            $f * g$ is a bounded function if $\exist \:M \in \mathbb{R}$ such that
+            $$
+            |(f*g)(x)| \leq M \quad \forall\:x \in \mathbb{R}.
+            $$
+            Using Hölder's inequality and with a simple change of variable we conclude the proof
+            <small>
+            Hölder's inequality states that $||fg||_{1} \leq ||f||_{p}||g||_{q}$
+            if $p$, $q$ satisfies the condition of the theorem.
+            The special case $p=q=2$ gives the Cauchy–Schwarz inequality.
+            </small>
+            $$
+            \begin{aligned}
+                |(f*g)(x)| & \leq \int_{-\infty}^{+\infty}|f(t)g(x-t)| dt \\
+                & \leq \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
+                \left[\int_{-\infty}^{+\infty}|g(x-t)|^{q}dt\right]^{\frac{1}{q}} \\
+                & = \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
+                \left[\int_{-\infty}^{+\infty}|g(t)|^{q}dt\right]^{\frac{1}{q}} \\
+                & = ||f||_{p}||g||_{q}.
+            \end{aligned}
+            $$
+          </p>
+          <p>
+              Another remarkable property of the convolution is the commutativity.
+          </p>
+          <p style="background-color:#d8deea; padding:10px;">
+            <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+            Let $f, g$ two real functions such that its convolution is well-defined, then
+            $$
+            (f * g)(x) = (g * f)(x) \quad \forall\: x \in \mathbb{R}.
+            $$
+          </p>
+          <h3>Proof</h3>
+          <p>
+            For any fixed $x \in \mathbb{R}$, let $v = x-t$. Then $t = x- v$ and
+            $$
+            \begin{aligned}
+            (f * g)(x) & = \int_{-\infty}^{+\infty}f(t)g(x-t) dt \\
+            & = \int_{+\infty}^{-\infty}-f(x-v)g(v) dv \\
+            & = \int_{-\infty}^{+\infty}g(v)f(x-v) dv = (g * f)(x).
+            \end{aligned}
+            $$
+          </p>
+          <p>
+            These properties are sufficient to explain why convolutions are a fundamental component
+            of every processing system.
+          </p>
+        </section>
+        <footer>
+          <section>
+            <h1>Footnotes</h1>
+          </section>
+          <section>
+            <h1>References</h1>
+          </section>
+          <section>
+            <h1>Updates and Corrections</h1>
+            <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/nextbitlabs/Rapido/issues">open an issue on GitHub</a>.</p>
+          </section>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>
