@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-19T23:01:16+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning.</subtitle><entry><title type="html">Function Approximation</title><link href="http://localhost:4000/2020-03-19/function-approximation" rel="alternate" type="text/html" title="Function Approximation" /><published>2020-03-19T00:00:00+01:00</published><updated>2020-03-19T00:00:00+01:00</updated><id>http://localhost:4000/2020-03-19/function-approximation</id><content type="html" xml:base="http://localhost:4000/2020-03-19/function-approximation">&lt;!DOCTYPE html&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-03-23T23:50:28+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning.</subtitle><entry><title type="html">Convolutions</title><link href="http://localhost:4000/2020-03-19/convolutions" rel="alternate" type="text/html" title="Convolutions" /><published>2020-03-19T00:00:00+01:00</published><updated>2020-03-19T00:00:00+01:00</updated><id>http://localhost:4000/2020-03-19/convolutions</id><content type="html" xml:base="http://localhost:4000/2020-03-19/convolutions">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
   &lt;head&gt;
     &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -31,9 +31,9 @@
           &lt;/p&gt;
         &lt;/header&gt;
         &lt;section&gt;
-          &lt;h1 id=&quot;signals-functions&quot;&gt;Signals as functions&lt;/h1&gt;
+          &lt;h1 id=&quot;signals&quot;&gt;Signals&lt;/h1&gt;
           &lt;p&gt;
-            Real world data is collected using sensors.
+            Physical world data is collected using sensors.
             These devices produce discrete signals by sampling or aggregating information from the continuous world around us.
             For example a camera collects photons in every pixels &lt;em&gt;aggregating&lt;/em&gt; the light coming from all directions in a
             short amount of time. The final photo produced by a camera is a discrete signal.
@@ -45,11 +45,210 @@
             We denote the $n$-th value of the function as $f[n]$.
           &lt;/p&gt;
           &lt;p&gt;
-              However we can imagine a photo with an infinite number of infinitely small pixels...
+              A very particular signal is the discrete Dirac
+          &lt;/p&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+            A discrete &lt;strong&gt;Dirac delta&lt;/strong&gt; is a function whose domain is $\mathbb{Z}$,
+            $f: \mathbb{Z} \longrightarrow \mathbb{R}$.&lt;/br&gt;
+            We denote the $n$-th value of the function as $f[n]$.
           &lt;/p&gt;
         &lt;/section&gt;
         &lt;section&gt;
-          &lt;h1 id=&quot;continuous-convolution&quot;&gt;Continuous convolution&lt;/h1&gt;
+          &lt;h1 id=&quot;discrete-convolution&quot;&gt;Discrete convolution&lt;/h1&gt;
+          &lt;p&gt;
+            In mathematics the convolution operation is usually introduced as an operation of two functions.
+            On the other hand, in deep learning convolution is an operation of discrete signals.
+            To understand the properties of this operation we are going to study the operation in the continuous world
+            and then define an equivalent discrete version that can be used in practice on real data.
+            In the beginning we are going to restrict our analysis to 1D functions, then we will generalize it to
+            multiple dimensions.
+          &lt;/p&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+            Let $f$, $g$ be two real function then the &lt;strong&gt;convolution&lt;/strong&gt; of $f$ and $g$ is
+            $$
+            (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt.
+            $$
+          &lt;/p&gt;
+          &lt;p&gt;
+            The integral in the convolution definition is not always defined but
+            recalling Holder's inequality we can find
+            a sufficient condition to establish its existence.
+          &lt;/p&gt;
+          &lt;!-- Add or cite linearity!! --&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+            Let $f \in L^{p}(\mathbb{R})$ and $g \in L^{q}(\mathbb{R})$ be functions
+            with $p, q \in [1, \infty]$ such that
+            $$
+            \frac{1}{p} + \frac{1}{q} = 1 \quad \text{or} \quad \{p, q\} = \{1, \infty\},
+            $$
+            then $f * g$ is bounded.
+            &lt;small&gt;
+                $L^{\infty}(\mathbb{R})$ is the space of functions essentially bounded, i.e.
+                $f \in L^{\infty}(\mathbb{R})$ if and only if $\exists \:M \in \mathbb{R}$
+                such that $\mu(\{x \in \mathbb{R}, |f(x)| \geq M\}) = 0$.
+                $$
+            &lt;/small&gt;
+          &lt;/p&gt;
+          &lt;h3&gt;Proof&lt;/h3&gt;
+          &lt;p&gt;
+            $f * g$ is a bounded function if $\exist \:M \in \mathbb{R}$ such that
+            $$
+            |(f*g)(x)| \leq M \quad \forall\:x \in \mathbb{R}.
+            $$
+            Using Hölder's inequality and with a simple change of variable we conclude the proof
+            &lt;small&gt;
+            Hölder's inequality states that $||fg||_{1} \leq ||f||_{p}||g||_{q}$
+            if $p$, $q$ satisfies the condition of the theorem.
+            The special case $p=q=2$ gives the Cauchy–Schwarz inequality.
+            &lt;/small&gt;
+            $$
+            \begin{aligned}
+                |(f*g)(x)| &amp; \leq \int_{-\infty}^{+\infty}|f(t)g(x-t)| dt \\
+                &amp; \leq \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
+                \left[\int_{-\infty}^{+\infty}|g(x-t)|^{q}dt\right]^{\frac{1}{q}} \\
+                &amp; = \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
+                \left[\int_{-\infty}^{+\infty}|g(t)|^{q}dt\right]^{\frac{1}{q}} \\
+                &amp; = ||f||_{p}||g||_{q}.
+            \end{aligned}
+            $$
+          &lt;/p&gt;
+          &lt;p&gt;
+              Another remarkable property of the convolution is the commutativity.
+          &lt;/p&gt;
+          &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+            &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+            Let $f, g$ two real functions such that its convolution is well-defined, then
+            $$
+            (f * g)(x) = (g * f)(x) \quad \forall\: x \in \mathbb{R}.
+            $$
+          &lt;/p&gt;
+          &lt;h3&gt;Proof&lt;/h3&gt;
+          &lt;p&gt;
+            For any fixed $x \in \mathbb{R}$, let $v = x-t$. Then $t = x- v$ and
+            $$
+            \begin{aligned}
+            (f * g)(x) &amp; = \int_{-\infty}^{+\infty}f(t)g(x-t) dt \\
+            &amp; = \int_{+\infty}^{-\infty}-f(x-v)g(v) dv \\
+            &amp; = \int_{-\infty}^{+\infty}g(v)f(x-v) dv = (g * f)(x).
+            \end{aligned}
+            $$
+          &lt;/p&gt;
+          &lt;p&gt;
+            These properties are sufficient to explain why convolutions are a fundamental component
+            of every processing system.
+          &lt;/p&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+            &lt;h1 id=&quot;operators&quot;&gt;Operators&lt;/h1&gt;
+            &lt;p&gt;
+                A signal can be analyzed and manipulated by operators.
+                For example we can use an operator to remove or reduce noise.
+                A resampling or an approximation are other examples of manipulations that are associated
+                to an operator. The same can be told for the discrete differentiation and integration.
+                Every operation applied to a signal is associated to an operator.
+            &lt;/p&gt;
+            &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+              &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+              A discrete operator $L$ is &lt;strong&gt;linear&lt;/strong&gt; if $\forall\: a, b \in \mathbb{R}$
+              $$L(a \cdot f + b \cdot g)[n] = a \cdot L(f)[n] + b \cdot L(g)[n].$$
+            &lt;/p&gt;
+            &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+              &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+              A discrete operator is &lt;strong&gt;shift-invariant&lt;/strong&gt; if $\forall\: p \in \mathbb{Z}$
+              $$L(f[n-p]) = L(f)[n-p].$$
+            &lt;/p&gt;
+            &lt;p&gt;
+                The shift invariance assures that if the signal is shifted even the result of the operator
+                is shifted. Finite differences are examples of shift-invariant operators.
+                On the other hand, operations executed on a sliding window over the signal can be shift-invariant
+                or not. It depends on the stride of the sliding window, i.e. the difference between
+                two consecutive positions of the window.
+                If the stride is 1, then the operator is shift-invariant, otherwise it is not.
+            &lt;/p&gt;
+            &lt;p&gt;
+                Another interpretation of shift-invariance is that the result of the operation doesn't depend
+                on the absolute position of elements in a signal, but just on their relative position.
+                This new perspective on this property explains why it is of paramount importance.
+                Many analysis on data should not depend on the absolute position of the values in the signal,
+                in fact in most situations this position cannot be carefully chosen.
+                For example when we analyze an image we do not want to rely on the absolute position of
+                pixels because those positions change as soon as the image is cut or resized.
+            &lt;/p&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+            &lt;h1 id=&quot;operators-convolution&quot;&gt;Operators and convolution&lt;/h1&gt;
+            &lt;p&gt;
+                There is a tight relationship between linear shift-invariant operators and convolution.
+                In order to show this relationship we need to recall the discrete Dirac.
+                In particular we can notice that translating the discrete Dirac by $p$ we obtain
+                $$
+                \delta[n - p] =
+                \begin{cases}
+                1 &amp; n = p \\
+                0 &amp; n \neq p
+                \end{cases}.
+                $$
+            &lt;/p&gt;
+            &lt;p&gt;
+                Using this formulation we can express every signal as a linear combination of Dirac signals
+                $$
+                f[n] = \sum_{p = -\infty}^{+\infty} f[p] \cdot \delta[n - p].
+                $$
+            &lt;/p&gt;
+            &lt;p&gt;
+                With this fact in mind we can enunciate and prove the main theorem of this post.
+            &lt;/p&gt;
+            &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+              &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+              A discrete operator $L$ is linear and shift-invariant if and only if it exists a discrete
+              signal $h[n]$ such that for every signal $f[n]$
+              $$
+              L(f)[n] = (f * h)[n].
+              $$
+            &lt;/p&gt;
+            &lt;h3&gt;Proof&lt;/h3&gt;
+            &lt;p&gt;
+                If $L$ is linear and shift-invariant we set $h[n] = L(\delta)[n]$.
+                Thus
+                $$
+                \begin{aligned}
+                L(f)[n] &amp; = L\left(\sum_{p = -\infty}^{+\infty} f[p] \cdot \delta[n - p]\right) &amp; \\
+                &amp; = \sum_{p = -\infty}^{+\infty} f[p] \cdot L(\delta[n - p]) &amp; \textit{\footnotesize linearity} \\
+                &amp; = \sum_{p = -\infty}^{+\infty} f[p] \cdot L(\delta)[n - p] &amp; \textit{\footnotesize shift-invariance}\\
+                &amp; = \sum_{p = -\infty}^{+\infty} f[p] \cdot h[n - p] = (f * h)[n]. &amp;
+                \end{aligned}
+                $$
+                To prove the inverse implication we have to show that $L(f) = f * h$ is a linear shift-invariant operator.
+                The linearity comes from the linearity of the convolution proved above.
+                We show here that the resulting operation is also shift invariant.
+                $$
+                \begin{aligned}
+                    L(f[n-p]) &amp; = \sum_{k = -\infty}^{+\infty} f[k - p] \cdot h[n - k]) &amp; \\
+                    &amp; = \sum_{k' = -\infty}^{+\infty} f[k'] \cdot h[n - p - k']) &amp; \qquad {\footnotesize k' = k - p} \\
+                    &amp; = L(f)[n - p]
+                \end{aligned}
+                $$
+            &lt;/p&gt;
+            &lt;p&gt;
+                The theorem proved shows that convolution are used in many applications because there is
+                no alternative to express linear shift-invariant operations.
+                We have already discussed why the shift-invariance is often a required property, the linearity is often
+                requested because it simplifies a lot the operation and most basic operators are linear.
+            &lt;/p&gt;
+            &lt;p&gt;
+                Sometimes the linearity is required by properties of the data too.
+                &lt;!-- add reference --&gt;
+                For example sound waves satisfy the superposition property, i.e. the result of the superposition
+                of two waves can be obtained summing up the single waves.
+                In such cases it's natural to use linear operators because the linearity assures the
+                validity of the superposition principle also for the resulting waves.
+            &lt;/p&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+          &lt;h1 id=&quot;generalizations&quot;&gt;Generalizations&lt;/h1&gt;
           &lt;p&gt;
             In mathematics the convolution operation is usually introduced as an operation of two functions.
             On the other hand, in deep learning convolution is an operation of discrete signals.
@@ -134,10 +333,38 @@
             of every processing system.
           &lt;/p&gt;
         &lt;/section&gt;
+        &lt;section&gt;
+            &lt;h1 id=&quot;cnn&quot;&gt;Convolutional Neural Networks&lt;/h1&gt;
+            &lt;p&gt;
+                The convolution operation has become a fundamental operation in the context
+                of neural networks, in particolar in the field of computer vision.
+                In fact, Convolutional Neural Networks (CNN) are a sequence of 3D convolutions followed
+                by pooling operations.
+            &lt;/p&gt;
+            &lt;p&gt;
+                The most common pooling operations are max-pooling and average-pooling.
+                In both cases a 2D sliding window, usually of size $2 \times 2$ is passed over the output of the convolution.
+                As we have noticed after the defintion of shift-invariance, operations over a sliding windows
+                are shift-invariant only if the stride of the sliding window is 1.
+            &lt;/p&gt;
+            &lt;p&gt;
+                Currently most successful CNN rely on pooling operation with stride 2.
+                So they do not describe shift-invariant operations!
+                This fact has been noticed by some researchers that have proposed alternative pooling layers
+                as replacement to correct this flaw.
+                The correction of this defect gives CNNs more robust to noise and less prone to adversarial attacks.
+            &lt;/p&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+            &lt;h1 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h1&gt;
+            &lt;p&gt;
+                The convolution operation doesn't come out-of-the-blue.
+                It can be deduced from simple principles and assumptions on the data under exam.
+                The knowledge of these assumptions is fundamental to drive machine learning
+                researchers and practitioners in adapting state-of-the-art algorithms to different data and problems.
+            &lt;/p&gt;
+        &lt;/section&gt;
         &lt;footer&gt;
-          &lt;section&gt;
-            &lt;h1&gt;Footnotes&lt;/h1&gt;
-          &lt;/section&gt;
           &lt;section&gt;
             &lt;h1&gt;References&lt;/h1&gt;
           &lt;/section&gt;
