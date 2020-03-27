@@ -1,0 +1,44 @@
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <meta name="keywords" content="Luca Grementieri, Artificial Intelligence, Machine Learning, Mathematics"/>
+  <meta name="robots" content="index,follow">
+
+  <meta property="og:url" content="https://lucagrementieri.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Luca Grementieri">
+  <meta property="og:description" content="Scientific blog about maths and machine learning.">
+  <meta property="og:site_name" content="lucagrementieri.github.io">
+  <meta property="og:locale" content="en_US">
+
+  <meta name="twitter:card" content="Scientific blog about maths and machine learning.">
+  <meta name="twitter:url" content="https://lucagrementieri.github.io/">
+  <meta name="twitter:title" content="Luca Grementieri">
+  <meta name="twitter:description" content="Scientific blog about maths and machine learning.">
+
+  <meta itemprop="name" content="Luca Grementieri">
+  <meta itemprop="description" content="Scientific blog about maths and machine learning.">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ "/assets/favicon-32x32.png" | relative_url }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ "/assets/favicon-16x16.png" | relative_url }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ "/assets/apple-touch-icon.png" | relative_url }}">
+  <!--<link rel="shortcut icon" href="{{ "/assets/favicon-32x32.png" | relative_url }}">-->
+  <!-- Change favicon and favicon.ico -->
+
+  <!-- RSS -->
+  {% feed_meta %}
+
+  <!-- Google Analytics-->
+  {% if site.google_analytics and jekyll.environment == 'production' %}
+  {% include analytics.html %}
+  {% endif %}
+</head>
