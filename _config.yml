@@ -8,7 +8,7 @@
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # 'bundle exec jekyll serve'. If you change this file, please restart the server process.
 #
-# If you need help with YAML syntax, here are some quick references for you: 
+# If you need help with YAML syntax, here are some quick references for you:
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 #
@@ -23,27 +23,19 @@ email: luca.grementieri@ens-paris-saclay.fr
 description: >- # this means to ignore newlines until "baseurl:"
   Scientific blog about maths and machine learning.
 # baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://lucagrementieri.github.io" 
+# url: "" # the base hostname & protocol for your site, e.g. http://example.com
+# twitter_username: jekyllrb
+url: "https://lucagrementieri.github.io"
 github_username: lucagrementieri
 
 # Build settings
-markdown:       kramdown
-include:
-  - _pages
-
-#Gems
+remote_theme: chesterhow/tale
+permalink:  /:year-:month-:day/:title
+paginate:   5
 plugins:
   - jekyll-feed
   - jekyll-paginate
-  - jekyll-seo-tag
-  - jemoji
-
-# Permalinks
-permalink:      /:year-:month-:day/:title
-paginate:       5
-
-# Excludes
-exclude: [ Gemfile, Gemfile.lock ]
+  - jekyll-remote-theme
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -53,12 +45,12 @@ exclude: [ Gemfile, Gemfile.lock ]
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
 #   - node_modules/
 #   - vendor/bundle/
 #   - vendor/cache/
