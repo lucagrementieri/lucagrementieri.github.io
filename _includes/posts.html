@@ -1,0 +1,13 @@
+<section class="posts list">
+	<a name="blog"></a>
+	<h1>Blog</h1>
+	<ul>
+		{% for post in site.posts %}
+			<li>
+				<!-- <div {% if post.image %} style="background-image: url('/assets/images/{{ post.image }}');" {% endif %}></div> -->
+				<h1><a href="{{ post.url }}">{{ post.title }}</a></h1>
+				<p>{{ post.intro }}</p>
+			</li>
+		{% endfor %}
+	</ul>
+</section>
