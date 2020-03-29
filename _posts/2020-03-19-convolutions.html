@@ -27,56 +27,60 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
     A discrete <strong>signal</strong> is a function whose domain is $\mathbb{Z}$,
     $f: \mathbb{Z} \longrightarrow \mathbb{R}$.</br>
     We denote the $n$-th value of the function as $f[n]$.
+    <small>
+      The definition provided is very similar to the one of a sequence. We will use this parallelism to derive some theorems and properties of signals.
+    </small>
   </p>
   <p>
       A very particular signal is the discrete Dirac delta.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    A discrete <strong>Dirac delta</strong> is the signal
+    The discrete <strong>Dirac delta</strong> is the signal
     $\delta[n] =
     \begin{cases}
     1 & \text{if } n = 0 \\
     0 & \text{if } n \neq 0
     \end{cases}$.
   </p>
+  <!--Draw similarity with sequences and speakc about l^p -->
 </section>
 <section>
   <h1 id="discrete-convolution">Discrete convolution</h1>
   <p>
-    In mathematics the convolution operation is usually introduced as an operation of two functions.
-    On the other hand, in deep learning convolution is an operation of discrete signals.
-    To understand the properties of this operation we are going to study the operation in the continuous world
-    and then define an equivalent discrete version that can be used in practice on real data.
-    In the beginning we are going to restrict our analysis to 1D functions, then we will generalize it to
-    multiple dimensions.
+    The convolution operation is a well-known building block of deep neural networks. We are going to prove some properties of the discrete convolution. We focus our attention on the monodimensional convolution, but all theorems generalize to multiple dimensions.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $f$, $g$ be two real function then the <strong>convolution</strong> of $f$ and $g$ is
+    Let $f$, $g$ be two real signals then the <strong>discrete convolution</strong> of $f$ and $g$ is
     $$
-    (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt.
+    (f * g)[n] = \sum_{k=-\infty}^{+\infty}f[k]g[n-k].
     $$
   </p>
   <p>
-    The integral in the convolution definition is not always defined but
-    recalling Holder's inequality we can find
-    a sufficient condition to establish its existence.
+    The meaning of such a formula is not immediately understandable. It is easier to understand it through $\overline{g}[n] = g[-n]$, the flipped version of $g$.
+    When $g$ has finte support in $\{0, ..., m-1\}$, we can visualize the convolution as the scalar product of $\overline{g}$ with every window of $m$ elements of the signal $f$.
+    <small>
+      The support of a function $f: D \longrightarrow \mathbb{R}$ is the subset of the domain $D$ containing those elements which are not mapped to zero: </br>
+      $\text{supp}(f) = \{x \in D | f(x) \neq 0\}$.
+    </small>
   </p>
-  <!-- Add or cite linearity!! -->
+  <p>
+    In general, the summation in the convolution definition is not always finite.
+    Recalling Holder's inequality, we can find a sufficient condition to establish whether the convolution is well-defined for every element.
+  </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Let $f \in L^{p}(\mathbb{R})$ and $g \in L^{q}(\mathbb{R})$ be functions
+    Let $f \in \ell^{p}(\mathbb{R})$ and $g \in \ell^{q}(\mathbb{R})$ be signals
     with $p, q \in [1, \infty]$ such that
     $$
     \frac{1}{p} + \frac{1}{q} = 1 \quad \text{or} \quad \{p, q\} = \{1, \infty\},
     $$
     then $f * g$ is bounded.
     <small>
-        $L^{\infty}(\mathbb{R})$ is the space of functions essentially bounded, i.e.
-        $f \in L^{\infty}(\mathbb{R})$ if and only if $\exists \:M \in \mathbb{R}$
-        such that $\mu(\{x \in \mathbb{R}, |f(x)| \geq M\}) = 0$.
-        $$
+      For every $p > 1$, $\ell^{p}(\mathbb{R})$ is the space of $p$-summable sequences,
+      i.e. $f \in \ell^{p}(\mathbb{R})$ if and only if $\sum_{k=-\infty}^{\infty} f[k]^p < +\infty$.</br>
+      $\ell^{\infty}(\mathbb{R})$ is the space of bounded sequences.
     </small>
   </p>
   <h3>Proof</h3>
@@ -102,6 +106,7 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
     \end{aligned}
     $$
   </p>
+  <!-- Add or cite linearity!! -->
   <p>
       Another remarkable property of the convolution is the commutativity.
   </p>
