@@ -261,41 +261,40 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
 <section>
     <h1 id="cnn">Convolutional Neural Networks</h1>
     <p>
-        The convolution operation has become a fundamental operation in the context
-        of neural networks, in particolar in the field of computer vision.
-        In fact, Convolutional Neural Networks (CNN) are a sequence of 3D convolutions followed
-        by pooling operations.
+      The convolution operation has become a fundamental operation in the context of deep learning, in particular in the field of computer vision.
+      A Convolutional Neural Network (CNN) is a sequence of 3D convolutions and pooling operations. Pooling operations are non-linear, and this allows the network to learn non-linear relationships between the input and the output. The most common ones are max-pooling and average-pooling.
     </p>
     <p>
-        The most common pooling operations are max-pooling and average-pooling.
-        In both cases a 2D sliding window, usually of size $2 \times 2$ is passed over the output of the convolution.
-        As we have noticed after the defintion of shift-invariance, operations over a sliding windows
-        are shift-invariant only if the stride of the sliding window is 1.
+      Images are a canonical example of a signal that necessitates shift-invariant operators, so it is interesting to know if CNNs are shift-invariant.
     </p>
     <p>
-        Currently most successful CNN rely on pooling operation with stride 2.
-        So they do not describe shift-invariant operations!
-        This fact has been noticed by some researchers that have proposed alternative pooling layers
-        as replacement to correct this flaw.
-        The correction of this defect gives CNNs more robust to noise and less prone to adversarial attacks.
+      Both convolutions and pooling operations perform the same computation on all equally-sized small portions of the input signal. Such calculations are independent of the absolute location of the values, and thus, shift-invariant, at one condition. The stride of the rolling window, the difference between two consecutive positions of the window, has to be 1. A convolution with stride greater than 1 is equivalent to a classic convolution followed by a sub-sampling. The sampling picks only a specific subset of the processed signal, and this selection depends on the absolute location of values. For example, if the stride is 2, values in even or odd positions are chosen.
     </p>
-    <!-- strided convolutions loses this propoerty, while dilated convolution do not lose it-->
+    <p>
+      Currently, most successful CNNs relies on pooling operations with stride 2. Therefore they do not represent a shift-invariant operation!
+      A researcher has noticed this flaw, and he has proposed alternative pooling operations as a replacement in the paper "<a href=https://arxiv.org/abs/1904.11486>Making Convolutional Networks Shift-Invariant Again</a>".
+    </p>
 </section>
 <section>
     <h1 id="conclusions">Conclusions</h1>
     <p>
-        The convolution operation doesn't come out-of-the-blue.
-        It can be deduced from simple principles and assumptions on the data under exam.
-        The knowledge of these assumptions is fundamental to drive machine learning
-        researchers and practitioners in adapting state-of-the-art algorithms to different data and problems.
+      The convolution operation in machine learning does not come out-of-the-blue. It emerges naturally from simple principles and assumptions on data. Machine learning often seems to progress only through empirical experiments and chance, but many foundational components have a solid theory behind. We have clarified the reason behind the extensive utilization of convolutions in many applications.
     </p>
 </section>
-<footer>
+<footer style="font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif; text-align: left">
   <section>
     <h1>References</h1>
+    <ol>
+      <li id="ref-1">
+        Mallat, Stéphane. <em>A wavelet tour of signal processing</em>. Elsevier, 1999.
+      </li>
+      <li id="ref-2">
+        Zhang, Richard. <em>Making convolutional networks shift-invariant again</em>. arXiv preprint arXiv:1904.11486 (2019).
+      </li>
+    </ol>
   </section>
   <section>
     <h1>Updates and Corrections</h1>
-    <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/nextbitlabs/Rapido/issues">open an issue on GitHub</a>.</p>
+    <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/lucagrementieri/lucagrementieri.github.io">open an issue on GitHub</a>.</p>
   </section>
 </footer>
