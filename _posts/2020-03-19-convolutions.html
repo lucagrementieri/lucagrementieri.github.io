@@ -145,11 +145,10 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
 <section>
     <h1 id="operators">Operators</h1>
     <p>
-        A signal can be analyzed and manipulated by operators.
-        For example we can use an operator to remove or reduce noise.
-        A resampling or an approximation are other examples of manipulations that are associated
-        to an operator. The same can be told for the discrete differentiation and integration.
-        Every operation applied to a signal is associated to an operator.
+        To extract information from a stream of data, we have to process it.
+        Every operation applied to a signal is associated with an operator.
+        For example, we can use operators to reduce noise, to recognize features,
+        to detect peaks or discontinuities.
     </p>
     <p style="background-color:#d8deea; padding:10px;">
       <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
@@ -162,45 +161,31 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
       $$L(f[n-p]) = L(f)[n-p].$$
     </p>
     <p>
-        The shift invariance assures that if the signal is shifted even the result of the operator
-        is shifted. Finite differences are examples of shift-invariant operators.
-        On the other hand, operations executed on a sliding window over the signal can be shift-invariant
-        or not. It depends on the stride of the sliding window, i.e. the difference between
-        two consecutive positions of the window.
-        If the stride is 1, then the operator is shift-invariant, otherwise it is not.
+      When shift-invariance holds, a shift of the signal causes a corresponding displacement of the result of the operator. For example, element-wise operations are trivially shift-invariant.
+      The consequence is that the result of a shift-invariant operator does not depend on the absolute position of elements in a signal, just the relative position of values matters.
     </p>
     <p>
-        Another interpretation of shift-invariance is that the result of the operation doesn't depend
-        on the absolute position of elements in a signal, but just on their relative position.
-        This new perspective on this property explains why it is of paramount importance.
-        Many analysis on data should not depend on the absolute position of the values in the signal,
-        in fact in most situations this position cannot be carefully chosen.
-        For example when we analyze an image we do not want to rely on the absolute position of
-        pixels because those positions change as soon as the image is cut or resized.
+      This new perspective shades some light about why this property is of paramount importance. Most processing operations should not depend on the absolute position of the values in the data because, in most situations, this position is arbitrary. For example, when we analyze an image, we do not want to rely on the absolute location of pixels because those positions change as soon as the image is cut or resized. The same applies to sound waves or time series.
     </p>
 </section>
 <section>
     <h1 id="operators-convolution">Operators and convolution</h1>
     <p>
-        There is a tight relationship between linear shift-invariant operators and convolution.
-        In order to show this relationship we need to recall the discrete Dirac.
-        In particular we can notice that translating the discrete Dirac by $p$ we obtain
-        $$
-        \delta[n - p] =
-        \begin{cases}
-        1 & n = p \\
-        0 & n \neq p
-        \end{cases}.
-        $$
-    </p>
-    <p>
-        Using this formulation we can express every signal as a linear combination of Dirac signals
-        $$
-        f[n] = \sum_{p = -\infty}^{+\infty} f[p] \cdot \delta[n - p].
-        $$
-    </p>
-    <p>
-        With this fact in mind we can enunciate and prove the main theorem of this post.
+      There is a tight relationship between linear shift-invariant operators and convolution.
+      To reveal this connection, we need to recall the discrete Dirac.
+      Translating the discrete Dirac by $p$, we obtain
+      $$
+      \delta[n - p] =
+      \begin{cases}
+      1 & n = p \\
+      0 & n \neq p
+      \end{cases}.
+      $$
+      Using this expression, we can represent every signal as a linear combination of Dirac signals
+      $$
+      f[n] = \sum_{p = -\infty}^{+\infty} f[p] \cdot \delta[n - p].
+      $$
+      Now we have all the elements necessary to prove the main theorem of the article.
     </p>
     <p style="background-color:#d8deea; padding:10px;">
       <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
@@ -212,8 +197,8 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
     </p>
     <h3>Proof</h3>
     <p>
-        If $L$ is linear and shift-invariant we set $h[n] = L(\delta)[n]$.
-        Thus
+        If $L$ is linear and shift-invariant, we have to prove the existence of $h[n]$.
+        Setting $h[n] = L(\delta)[n]$, we have
         $$
         \begin{aligned}
         L(f)[n] & = L\left(\sum_{p = -\infty}^{+\infty} f[p] \cdot \delta[n - p]\right) & \\
@@ -222,30 +207,25 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
         & = \sum_{p = -\infty}^{+\infty} f[p] \cdot h[n - p] = (f * h)[n]. &
         \end{aligned}
         $$
-        To prove the inverse implication we have to show that $L(f) = f * h$ is a linear shift-invariant operator.
-        The linearity comes from the linearity of the convolution proved above.
-        We show here that the resulting operation is also shift invariant.
+        To prove the inverse implication, we have to show that for every signal $h[n]$,
+        $L(f) = f * h$ is a linear shift-invariant operator.
+        The linearity comes from the linearity of the convolution.
+        Now, we show that the resulting operation is also shift-invariant.
         $$
         \begin{aligned}
             L(f[n-p]) & = \sum_{k = -\infty}^{+\infty} f[k - p] \cdot h[n - k]) & \\
             & = \sum_{k' = -\infty}^{+\infty} f[k'] \cdot h[n - p - k']) & \qquad {\footnotesize k' = k - p} \\
-            & = L(f)[n - p]
+            & = L(f)[n - p].
         \end{aligned}
         $$
     </p>
     <p>
-        The theorem proved shows that convolution are used in many applications because there is
-        no alternative to express linear shift-invariant operations.
-        We have already discussed why the shift-invariance is often a required property, the linearity is often
-        requested because it simplifies a lot the operation and most basic operators are linear.
+      The theorem demonstrated exhibits that convolutions are used in many applications because there is no alternative to express linear shift-invariant operations.
+      We have already examined why shift-invariance is frequently an essential property. While theoretical considerations implied the importance of shift-invariance, linear operators are prevalent for practical reasons.
+      Most of the fundamental operators, like the ones associated with integration and differentiation, are linear. Furthermore, they are simple to express and very efficient on machines.
     </p>
     <p>
-        Sometimes the linearity is required by properties of the data too.
-        <!-- add reference -->
-        For example sound waves satisfy the superposition property, i.e. the result of the superposition
-        of two waves can be obtained summing up the single waves.
-        In such cases it's natural to use linear operators because the linearity assures the
-        validity of the superposition principle also for the resulting waves.
+      Sometimes even the linearity is desired by the characteristics of the data. Sound waves are such a type of data because they satisfy the superposition property. That means that the result of the superposition of two waves is equivalent to the sum of the single waves. In such a case, it is natural to use linear operators because the linearity assures the validity of the superposition principle for the precessed waves too.
     </p>
 </section>
 <section>
@@ -355,6 +335,7 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
         as replacement to correct this flaw.
         The correction of this defect gives CNNs more robust to noise and less prone to adversarial attacks.
     </p>
+    <!-- strided convolutions loses this propoerty, while dilated convolution do not lose it-->
 </section>
 <section>
     <h1 id="conclusions">Conclusions</h1>
