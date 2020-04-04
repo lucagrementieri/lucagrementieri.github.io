@@ -13,7 +13,7 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
 <section>
   <h1 id="signals">Signals</h1>
   <p>
-    There are many kinds of data: images, sounds, text, time series are very well-known examples. All these data are discrete. In some cases, this property is intrinsic: for example, written text is naturally a sequence of characters and words. In most cases, when data are the result of a measurement, analogic signals are digitized during the acquisition process.
+    There are many kinds of data: images, sounds, text, time series are very well-known examples. All these data are discrete. In some cases, this property is intrinsic: for example, written text is naturally a sequence of characters and words. In most cases, when data are the result of a measurement, analog signals are digitized during the acquisition process.
   </p>
   <p>
     The devices that perform the measurements are called sensors. Sensors produce discrete signals by <em>sampling</em> or <em>aggregating</em> information from the analog world around us.
@@ -28,7 +28,7 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
     $f: \mathbb{Z} \longrightarrow \mathbb{R}$.</br>
     We denote the $n$-th value of the function as $f[n]$.
     <small>
-      The definition provided is very similar to the one of a sequence. We will use this parallelism to derive some theorems and properties of signals.
+      The definition provided is very similar to the one of a sequence. We will use this parallelism to derive some theorems and properties of signals. In particular, we will use $\ell^{p}(\mathbb{R})$ spaces.
     </small>
   </p>
   <p>
@@ -43,7 +43,6 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
     0 & \text{if } n \neq 0
     \end{cases}$.
   </p>
-  <!--Draw similarity with sequences and speakc about l^p -->
 </section>
 <section>
   <h1 id="discrete-convolution">Discrete convolution</h1>
@@ -52,9 +51,9 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $f$, $g$ be two real signals then the <strong>discrete convolution</strong> of $f$ and $g$ is
+    Let $f$, $g$ be two real signals, the <strong>discrete convolution</strong> of $f$ and $g$ is
     $$
-    (f * g)[n] = \sum_{k=-\infty}^{+\infty}f[k]g[n-k].
+    (f * g)[n] = \sum_{k=-\infty}^{+\infty}f[k]g[n-k] \quad \forall\: n \in \mathbb{Z}.
     $$
   </p>
   <p>
@@ -231,87 +230,32 @@ intro: "Modern deep learning architectures often include convolutions. Surely, c
 <section>
   <h1 id="generalizations">Generalizations</h1>
   <p>
-    In mathematics the convolution operation is usually introduced as an operation of two functions.
-    On the other hand, in deep learning convolution is an operation of discrete signals.
-    To understand the properties of this operation we are going to study the operation in the continuous world
-    and then define an equivalent discrete version that can be used in practice on real data.
-    In the beginning we are going to restrict our analysis to 1D functions, then we will generalize it to
-    multiple dimensions.
+    In mathematics, a convolution is an operation defined between functions of a real variable. This continuous form is a generalization of the discrete convolution presented.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $f$, $g$ be two real function then the <strong>convolution</strong> of $f$ and $g$ is
+    Let $f$, $g$ be two real function, the <strong>convolution</strong> of $f$ and $g$ is
     $$
-    (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt.
+    (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt  \quad \forall\: x \in \mathbb{R}.
     $$
   </p>
   <p>
-    The integral in the convolution definition is not always defined but
-    recalling Holder's inequality we can find
-    a sufficient condition to establish its existence.
-  </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Let $f \in L^{p}(\mathbb{R})$ and $g \in L^{q}(\mathbb{R})$ be functions
-    with $p, q \in [1, \infty]$ such that
-    $$
-    \frac{1}{p} + \frac{1}{q} = 1 \quad \text{or} \quad \{p, q\} = \{1, \infty\},
-    $$
-    then $f * g$ is bounded.
+    All the theorems we have proved hold for the continuous case too, replacing the summation symbol with the integral sign and signals with functions or tempered distributions.
     <small>
-        $L^{\infty}(\mathbb{R})$ is the space of functions essentially bounded, i.e.
-        $f \in L^{\infty}(\mathbb{R})$ if and only if $\exists \:M \in \mathbb{R}$
-        such that $\mu(\{x \in \mathbb{R}, |f(x)| \geq M\}) = 0$.
-        $$
+      Tempered distributions are a generalization of functions. The Dirac delta is characterized by the property $\int_{-\infty}^{+\infty} f(x) \delta(x) dx = f(0)$. No function can satisfy this property, but a tempered distribution can.
     </small>
   </p>
-  <h3>Proof</h3>
   <p>
-    $f * g$ is a bounded function if $\exist \:M \in \mathbb{R}$ such that
-    $$
-    |(f*g)(x)| \leq M \quad \forall\:x \in \mathbb{R}.
-    $$
-    Using Hölder's inequality and with a simple change of variable we conclude the proof
-    <small>
-    Hölder's inequality states that $||fg||_{1} \leq ||f||_{p}||g||_{q}$
-    if $p$, $q$ satisfies the condition of the theorem.
-    The special case $p=q=2$ gives the Cauchy–Schwarz inequality.
-    </small>
-    $$
-    \begin{aligned}
-        |(f*g)(x)| & \leq \int_{-\infty}^{+\infty}|f(t)g(x-t)| dt \\
-        & \leq \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
-        \left[\int_{-\infty}^{+\infty}|g(x-t)|^{q}dt\right]^{\frac{1}{q}} \\
-        & = \left[\int_{-\infty}^{+\infty}|f(t)|^{p}dt\right]^{\frac{1}{p}}
-        \left[\int_{-\infty}^{+\infty}|g(t)|^{q}dt\right]^{\frac{1}{q}} \\
-        & = ||f||_{p}||g||_{q}.
-    \end{aligned}
-    $$
-  </p>
-  <p>
-      Another remarkable property of the convolution is the commutativity.
+    Data and signals can have many dimensions: a sound wave is monodimensional; a grayscale image has two dimensions; a color image has several channels that compose the third dimension.
+    We can define the discrete convolution for signals of arbitrary dimension and prove all the results following the same steps. This generalization extends the main theorem to all kinds of data, in particular to images where convolutions have gained their fame. We report here the definition of convolution for the general case.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Let $f, g$ two real functions such that its convolution is well-defined, then
+    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+    Let $f$, $g: \mathbb{Z}^{d} \longrightarrow \mathbb{R}$ be two $d$-dimensional signals,
+    the <strong>convolution</strong> of $f$ and $g$ is
     $$
-    (f * g)(x) = (g * f)(x) \quad \forall\: x \in \mathbb{R}.
+    (f * g)[n] = \sum_{k \in \mathbb{Z}^{d}}f[k]g[n-k]  \quad \forall\: n \in \mathbb{Z}^{d}.
     $$
-  </p>
-  <h3>Proof</h3>
-  <p>
-    For any fixed $x \in \mathbb{R}$, let $v = x-t$. Then $t = x- v$ and
-    $$
-    \begin{aligned}
-    (f * g)(x) & = \int_{-\infty}^{+\infty}f(t)g(x-t) dt \\
-    & = \int_{+\infty}^{-\infty}-f(x-v)g(v) dv \\
-    & = \int_{-\infty}^{+\infty}g(v)f(x-v) dv = (g * f)(x).
-    \end{aligned}
-    $$
-  </p>
-  <p>
-    These properties are sufficient to explain why convolutions are a fundamental component
-    of every processing system.
   </p>
 </section>
 <section>
