@@ -22,7 +22,7 @@ title: Luca Grementieri
 email: luca.grementieri@ens-paris-saclay.fr
 author: Luca Grementieri
 description: >- # this means to ignore newlines until "baseurl:"
-  Scientific blog about maths and machine learning.
+  Scientific blog about maths and machine learning
 # baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://lucagrementieri.github.io"
 github_username: lucagrementieri
