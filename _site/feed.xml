@@ -275,7 +275,7 @@
       The convolution operation in machine learning does not come out-of-the-blue. It emerges naturally from simple principles and assumptions on data. Machine learning often seems to progress only through empirical experiments and chance, but many foundational components have a solid theory behind. We have clarified the reason behind the extensive utilization of convolutions in many applications.
     &lt;/p&gt;
 &lt;/section&gt;
-&lt;footer style=&quot;font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif; text-align: left&quot;&gt;
+&lt;footer style=&quot;text-align: left&quot;&gt;
   &lt;section&gt;
     &lt;h1&gt;References&lt;/h1&gt;
     &lt;ol&gt;
