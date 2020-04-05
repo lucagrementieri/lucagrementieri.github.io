@@ -78,7 +78,7 @@
 				<header>
   <h1>Why convolutions are everywhere</h1>
   <p>
-    Modern deep learning architectures often include convolutions. Convolutions are optimized and parameter efficient operations, but the reason why they are so widespread is much more profound. We are going to show that convolutions arise from simple assumptions on data.
+    Modern deep learning architectures often include convolutions. Convolutions are optimized and efficient operations, but the reason why they are so widespread is much more profound. We are going to show that convolutions arise from simple assumptions on data.
   </p>
 </header>
 <section>
@@ -91,7 +91,7 @@
     For example, a sound recorder <em>samples</em> audio waves to register a discretized version of them. On the other hand, a camera collects photons in every pixel <em>aggregating</em> the light coming from all directions in a short amount of time.
   </p>
   <p>
-    From the mathematical point of view, a signal is any function defined on a discrete set. This definition is very general, and it includes all the examples above.
+    From a mathematical point of view, a signal is any function defined on a discrete set. This definition is very general, and it includes all the examples above.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
@@ -173,12 +173,14 @@
         \left[\sum_{k=-\infty}^{+\infty}|g[n-k]|^{q}\right]^{\frac{1}{q}} & \textit{\footnotesize Hölder's ineq.} \\
         & = \left[\sum_{k=-\infty}^{+\infty}|f[k]|^{p}\right]^{\frac{1}{p}}
         \left[\sum_{k'=-\infty}^{+\infty}|g[k']|^{q}\right]^{\frac{1}{q}} & {\footnotesize k' = n - k } \\
-        & = ||f||_{p}||g||_{q}.
+        & = ||f||_{p}||g||_{q}. & \square
     \end{aligned}
     $$
   </p>
   <p>
     Two remarkable properties of the convolution are commutativity and linearity.
+    These two properties are sufficient to explain why convolutions are a fundamental component
+    of many processing systems.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
@@ -194,7 +196,7 @@
     $$
     \begin{aligned}
     (f * g)[n] & = \sum_{k=-\infty}^{+\infty}f[k]g[n-k] \\
-    & = \sum_{j=-\infty}^{+\infty}g[j]f[n-j] = (g * f)[n].
+    & = \sum_{j=-\infty}^{+\infty}g[j]f[n-j] = (g * f)[n]. & \hspace*{6em} \square
     \end{aligned}
     $$
   </p>
@@ -206,10 +208,6 @@
     ((af + bg) * h)[n] = a(f * h)[n] + b(g * h)[n] \quad \forall\: n \in \mathbb{Z}.
     $$
     Thus the convolution is a <strong>linear</strong> operation.
-  </p>
-  <p>
-    These two properties are sufficient to explain why convolutions are a fundamental component
-    of many processing systems.
   </p>
 </section>
 <section>
@@ -232,10 +230,10 @@
     </p>
     <p>
       When shift-invariance holds, a shift of the signal causes a corresponding displacement of the result of the operator. For example, element-wise operations are trivially shift-invariant.
-      The consequence is that the result of a shift-invariant operator does not depend on the absolute position of elements in a signal, just the relative position of values matters.
+      The consequence is that the result of a shift-invariant operator does not depend on the absolute position of elements in a signal, only the relative position of values matters.
     </p>
     <p>
-      This new perspective shades some light about why this property is of paramount importance. Most processing operations should not depend on the absolute position of the values in the data because, in most situations, this position is arbitrary. For example, when we analyze an image, we do not want to rely on the absolute location of pixels because those positions change as soon as the image is cut or resized. The same applies to sound waves or time series.
+      This new perspective shades some light on why this property is of paramount importance. Most processing operations should not depend on the absolute position of the values in the data because, in most situations, this position is arbitrary. For example, when we analyze an image, we do not want to rely on the absolute location of pixels because those positions change as soon as the image is cut or resized. The same applies to sound waves or time series.
     </p>
 </section>
 <section>
@@ -285,17 +283,17 @@
         \begin{aligned}
             L(f[n-p]) & = \sum_{k = -\infty}^{+\infty} f[k - p] \cdot h[n - k]) & \\
             & = \sum_{k' = -\infty}^{+\infty} f[k'] \cdot h[n - p - k']) & \qquad {\footnotesize k' = k - p} \\
-            & = L(f)[n - p].
+            & = L(f)[n - p]. & \square
         \end{aligned}
         $$
     </p>
     <p>
-      The theorem demonstrated exhibits that convolutions are used in many applications because there is no alternative to express linear shift-invariant operations.
+      This theorem shows that convolutions are used in many applications because there is no alternative to express linear shift-invariant operations.
       We have already examined why shift-invariance is frequently an essential property. While theoretical considerations implied the importance of shift-invariance, linear operators are prevalent for practical reasons.
       Most of the fundamental operators, like the ones associated with integration and differentiation, are linear. Furthermore, they are simple to express and very efficient on machines.
     </p>
     <p>
-      Sometimes even the linearity is desired by the characteristics of the data. Sound waves are such a type of data because they satisfy the superposition property. That means that the result of the superposition of two waves is equivalent to the sum of the single waves. In such a case, it is natural to use linear operators because the linearity assures the validity of the superposition principle for the precessed waves too.
+      Sometimes even linearity is desired because of some characteristics of the data. Sound waves are such a type of data because they satisfy the superposition property. That means that the result of the superposition of two waves is equivalent to the sum of the single waves. In such a case, it is natural to use linear operators because linearity assures the validity of the superposition principle for the processed waves too.
     </p>
 </section>
 <section>
@@ -333,7 +331,7 @@
     <h1 id="cnn">Convolutional Neural Networks</h1>
     <p>
       The convolution operation has become a fundamental operation in the context of deep learning, in particular in the field of computer vision.
-      A Convolutional Neural Network (CNN) is a sequence of 3D convolutions and pooling operations. Pooling operations are non-linear, and this allows the network to learn non-linear relationships between the input and the output. The most common ones are max-pooling and average-pooling.
+      A Convolutional Neural Network (CNN) is a sequence of 3D convolutions and pooling operations. Pooling operations are non-linear, and this allows the network to learn non-linear relationships between input and output. The most common ones are max-pooling and average-pooling.
     </p>
     <p>
       Images are a canonical example of a signal that necessitates shift-invariant operators, so it is interesting to know if CNNs are shift-invariant.
@@ -349,7 +347,7 @@
 <section>
     <h1 id="conclusions">Conclusions</h1>
     <p>
-      The convolution operation in machine learning does not come out-of-the-blue. It emerges naturally from simple principles and assumptions on data. Machine learning often seems to progress only through empirical experiments and chance, but many foundational components have a solid theory behind. We have clarified the reason behind the extensive utilization of convolutions in many applications.
+      The convolution operation in machine learning does not come out-of-the-blue. It emerges naturally from simple principles and assumptions on data: linearity and shift-invariance. Machine learning often seems to progress only through empirical experiments and chance, but many foundational components have a solid theory behind. We have clarified the reason behind the extensive utilization of convolutions in many applications.
     </p>
 </section>
 <footer style="text-align: left">
@@ -374,7 +372,7 @@
 		</main>
 		<footer>
   <span>
-    &copy; <time datetime="2020-04-05 19:07:43 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
+    &copy; <time datetime="2020-04-05 23:32:49 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
     <a href="https://github.com/nextbitlabs/Rapido">Rapido</a>.
   </span>
 </footer>
