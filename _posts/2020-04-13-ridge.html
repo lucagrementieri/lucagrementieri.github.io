@@ -1,118 +1,70 @@
-<!DOCTYPE html>
-<html>
-	<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes">
-
-  <title>Why convolutions are everywhere</title>
-  <meta name="description" content="Mathematical foundations of signal processing and convolutions">
-  <meta name="keywords" content="Luca Grementieri, Artificial Intelligence, Machine Learning, Mathematics"/>
-  <meta name="robots" content="index,follow">
-
-  <meta property="og:url" content="https://lucagrementieri.github.io/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Luca Grementieri">
-  <meta property="og:description" content="Scientific blog about maths and machine learning.">
-  <meta property="og:site_name" content="lucagrementieri.github.io">
-  <meta property="og:locale" content="en_US">
-
-  <meta name="twitter:card" content="Scientific blog about maths and machine learning.">
-  <meta name="twitter:url" content="https://lucagrementieri.github.io/">
-  <meta name="twitter:title" content="Luca Grementieri">
-  <meta name="twitter:description" content="Scientific blog about maths and machine learning.">
-
-  <meta itemprop="name" content="Luca Grementieri">
-  <meta itemprop="description" content="Scientific blog about maths and machine learning.">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/assets/main.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-  <!-- The loading of KaTeX is deferred to speed up page rendering -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-  <!-- To automatically render math in text elements, include the auto-render extension: -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-  onload="renderMathInElement(document.body,{delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
-  <link href="https://unpkg.com/@nextbitlabs/rapido@^3/rapido.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-
-  <!-- RSS -->
-  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Luca Grementieri" />
-
-  <!-- Google Analytics-->
-  
-
-  <style>
-  footer {
-    font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif
-  }
-  </style>
-</head>
-
-	<body>
-		<nav class="nav">
-  <div class="nav-container">
-    <a href="/">
-      <h2 class="nav-title">Luca Grementieri</h2>
-    </a>
-    <ul>
-      <li><a href="/about">About</a></li>
-      <li><a href="/">Posts</a></li>
-      <li style="padding:0;"><a href="https://github.com/lucagrementieri/">
-        <img style="margin: 0; max-height:20px;" alt="GitHub" src="/assets/icons/github.png"></a></li>
-      <li style="padding:0;"><a href="https://www.linkedin.com/in/luca-grementieri/">
-        <img style="margin: 0; max-height:20px;" alt="LinkedIn" src="/assets/icons/linkedin.png"></a></li>
-      <li style="padding:0;"><a href="/feed.xml">
-        <img style="margin: 0; max-height:20px;" alt="RSS" src="/assets/icons/rss.png"></a></li>
-    </ul>
-  </div>
-</nav>
-
-		<main>
-			<article class="rapido" style="padding:0px;">
-        <header>
-          <h1>Why convolutions are everywhere</h1>
-          <p>
-            Modern deep learning architectures often include convolutions. Convolutions are optimized and efficient operations, but the reason why they are so widespread is much more profound. We are going to show that convolutions arise from simple assumptions on data.
-          </p>
-        </header>
-				<section>
-  <h1 id="signals">Signals</h1>
+---
+layout: post
+title: Artificial neurons as ridge functions
+description: Approximation theory of ridge functions
+intro: Artificial neurons are a special case of ridge functions, so linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. The approximation theory of ridge functions is an important gateway to the study of approximation capabilities of neural networks.
+---
+<!-- improve intro -->
+<section>
+  <h1 id="mlp">Multilayer perceptron</h1>
   <p>
-    There are many kinds of data: images, sounds, text, time series are very well-known examples. All these data are discrete. In some cases, this property is intrinsic: for example, written text is naturally a sequence of characters and words. In most cases, when data are the result of a measurement, analog signals are digitized during the acquisition process.
-  </p>
-  <p>
-    The devices that perform the measurements are called sensors. Sensors produce discrete signals by <em>sampling</em> or <em>aggregating</em> information from the analog world around us.
-    For example, a sound recorder <em>samples</em> audio waves to register a discretized version of them. On the other hand, a camera collects photons in every pixel <em>aggregating</em> the light coming from all directions in a short amount of time.
-  </p>
-  <p>
-    From a mathematical point of view, a signal is any function defined on a discrete set. This definition is very general, and it includes all the examples above.
-  </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    A discrete <strong>signal</strong> is a function whose domain is $\mathbb{Z}$,
-    $f: \mathbb{Z} \longrightarrow \mathbb{R}$.</br>
-    We denote the $n$-th value of the function as $f[n]$.
+    The multilayer perceptron (MLP) is a fundamental neural network model consisting of a sequence of <em>layers</em>.
+    Every layer is composed by <em>neurons</em>, the fundamental processing unit of the network.
+    Every artificial neuron in the intermediate <em>hidden layers</em> processes the outputs of the previous layer $\bold{x}$ with a non-linear function $N: \mathbb{R}^{n} \longrightarrow \mathbb{R}$ such that
+    $$
+    N(\bold{x}) = \sigma\left(\sum_{j=1}^{n} w_j x_j - \theta \right) =
+    \sigma(\bold{w} \cdot \bold{x} - \theta),
+    $$
+    where $\bold{w}$ and $\theta$ are parameters that change for every neuron.
+    The non-linearity of $N$ comes from the <em>activation function</em> $\sigma$, a non-linear function
+    that is the same for every neuron in the network.
     <small>
-      The definition provided is very similar to the one of a sequence. We will use this parallelism to derive some theorems and properties of signals. In particular, we will use $\ell^{p}(\mathbb{R})$ spaces.
+      In the neural network literature, the values $w_{i}$ are called <em>weights</em> and they model the strength of the synapse linking the $i$-th neuron of the previous layer with the current neuron. $\theta$ is called <em>bias</em> and it recalls the threshold potential involved in the firing of biologic neurons.
     </small>
   </p>
   <p>
-      A very particular signal is the discrete Dirac delta.
+    In the final layer, said the <em>output layer</em>, neurons operates differently. They just perform a linear combination of their inputs. Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
+    $$
+    y = \sum_{i=1}^{r} c_i N_i(\bold{x}) = \sum_{i=1}^{r} c_i \sigma\left(\bold{w}^{i} \cdot \bold{x} - \theta_i\right).
+    $$
+    It is possible to stack more hidden layers of various sizes to obtain a deeper network.
+    We will focus on this model because it can already approximate a very large class of functions.
+  </p>
+</section>
+<section>
+  <h1 id="ridge">Ridge functions</h1>
+  <p>
+    The function $N(\bold{x})$ has a particular form: it is the composition of a univariate function $\sigma$ with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    The discrete <strong>Dirac delta</strong> is the signal
-    $\delta[n] =
-    \begin{cases}
-    1 & \text{if } n = 0 \\
-    0 & \text{if } n \neq 0
-    \end{cases}$.
+    A <strong>ridge function</strong> is a function $F: \mathbb{R}^{n} \longrightarrow \mathbb{R}$
+    of the form
+    $$
+    F(\bold{x}) = f(a_1 x_1 + \mathellipsis + a_n x_n) = f(\bold{a} \cdot \bold{x}),
+    $$
+    where $f: \mathbb{R} \longrightarrow \mathbb{R}$ is a univariate function and
+    $\bold{a} = (a_1, \mathellipsis, a_n) \in \mathbb{R}^{n} - \{\bold{0}\}$ is a fixed vector.
+  </p>
+  <p>
+    The vector $\bold{a}$ is called the <em>direction</em> because a ridge function is a multivariate function constant on the parallel hyperplanes orthogonal to $\bold{a}$. In fact, these hyperplanes are defined by the equation $\bold{a} \cdot \bold{x} = c$, with $c \in \mathbb{R}$.
+  </p>
+  <p>
+    For a given direction $\bold{a}$, we denote the set of ridge functions with direction $\bold{a}$ $$\mathcal{M}(\bold{a}) = \{f(\bold{a} \cdot \bold{x}) f: \mathbb{R} \longrightarrow \mathbb{R}\}.$$
+    Since the function $f$ can be arbitrarily scaled, it follows that if $\bold{a} = \lambda \bold{b}$ for some $\lambda \in \mathbb{R} - \{0\}$, then $\mathcal{M}(\bold{a}) = \mathcal{M}(\bold{b})$.
+  </p>
+  <p>
+    For a set $\Omega \subseteq \mathbb{R}^{n}$, we define
+    $$
+    \mathcal{M}(\Omega) = \text{span}\{f(\bold{a} \cdot \bold{x}) f: \mathbb{R} \longrightarrow \mathbb{R}, \bold{a} \in \Omega\}.
+    $$
+    A <em>span</em> of a set $S$ is the set of linear combinations of elements of $S$, then
+    every $F \in \mathcal{M}(\Omega)$ has the form
+    $$
+    F(\bold{x}) = \sum_{i=1}^{r} c_i f_i(\bold{a}^{i} \cdot \bold{x}).
+    $$
+    We can notice that $\mathcal{M}(\mathbb{R}^{n})$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
+    We are interested in the theory of approximation of sets $\mathcal{M}(\Omega)$ to better characterize the class of functions defined by MLPs.
   </p>
 </section>
 <section>
@@ -367,15 +319,3 @@
     <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/lucagrementieri/lucagrementieri.github.io">open an issue on GitHub</a>.</p>
   </section>
 </footer>
-
-			</article>
-		</main>
-		<footer>
-  <span>
-    &copy; <time datetime="2020-04-13 12:11:53 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
-    <a href="https://github.com/nextbitlabs/Rapido">Rapido</a>.
-  </span>
-</footer>
-
-	</body>
-</html>
