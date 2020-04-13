@@ -2,20 +2,29 @@
 layout: post
 title: Artificial neurons as ridge functions
 description: Approximation theory of ridge functions
-intro: Artificial neurons are a special case of ridge functions, so linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. The approximation theory of ridge functions is an important gateway to the study of approximation capabilities of neural networks.
+intro: Artificial neurons are a special case of ridge functions and linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. The approximation theory of ridge functions is an important gateway to the study of approximation capabilities of neural networks.
 ---
 <!-- improve intro -->
+$
+\gdef\x{\bold{x}}
+\gdef\w{\bold{w}}
+\gdef\a{\bold{a}}
+
+\gdef\R{\mathbb{R}}
+\gdef\Rn{\mathbb{R}^{n}}
+\gdef\M{\mathcal{M}}
+$
 <section>
   <h1 id="mlp">Multilayer perceptron</h1>
   <p>
     The multilayer perceptron (MLP) is a fundamental neural network model consisting of a sequence of <em>layers</em>.
     Every layer is composed by <em>neurons</em>, the fundamental processing unit of the network.
-    Every artificial neuron in the intermediate <em>hidden layers</em> processes the outputs of the previous layer $\bold{x}$ with a non-linear function $N: \mathbb{R}^{n} \longrightarrow \mathbb{R}$ such that
+    Every artificial neuron in the intermediate <em>hidden layers</em> processes the outputs of the previous layer $\x$ with a non-linear function $N: \Rn \longrightarrow \R$ such that
     $$
-    N(\bold{x}) = \sigma\left(\sum_{j=1}^{n} w_j x_j - \theta \right) =
-    \sigma(\bold{w} \cdot \bold{x} - \theta),
+    N(\x) = \sigma\left(\sum_{j=1}^{n} w_j x_j - \theta \right) =
+    \sigma(\w \cdot \x - \theta),
     $$
-    where $\bold{w}$ and $\theta$ are parameters that change for every neuron.
+    where $\w$ and $\theta$ are parameters that change for every neuron.
     The non-linearity of $N$ comes from the <em>activation function</em> $\sigma$, a non-linear function
     that is the same for every neuron in the network.
     <small>
@@ -25,7 +34,7 @@ intro: Artificial neurons are a special case of ridge functions, so linear combi
   <p>
     In the final layer, said the <em>output layer</em>, neurons operates differently. They just perform a linear combination of their inputs. Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
     $$
-    y = \sum_{i=1}^{r} c_i N_i(\bold{x}) = \sum_{i=1}^{r} c_i \sigma\left(\bold{w}^{i} \cdot \bold{x} - \theta_i\right).
+    y = \sum_{i=1}^{r} c_i N_i(\x) = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right).
     $$
     It is possible to stack more hidden layers of various sizes to obtain a deeper network.
     We will focus on this model because it can already approximate a very large class of functions.
@@ -34,37 +43,38 @@ intro: Artificial neurons are a special case of ridge functions, so linear combi
 <section>
   <h1 id="ridge">Ridge functions</h1>
   <p>
-    The function $N(\bold{x})$ has a particular form: it is the composition of a univariate function $\sigma$ with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
+    The function $N(\x)$ has a particular form: it is the composition of a univariate function $\sigma$ with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    A <strong>ridge function</strong> is a function $F: \mathbb{R}^{n} \longrightarrow \mathbb{R}$
+    A <strong>ridge function</strong> is a function $F: \Rn \longrightarrow \R$
     of the form
     $$
-    F(\bold{x}) = f(a_1 x_1 + \mathellipsis + a_n x_n) = f(\bold{a} \cdot \bold{x}),
+    F(\x) = f(a_1 x_1 + \mathellipsis + a_n x_n) = f(\a \cdot \x),
     $$
-    where $f: \mathbb{R} \longrightarrow \mathbb{R}$ is a univariate function and
-    $\bold{a} = (a_1, \mathellipsis, a_n) \in \mathbb{R}^{n} - \{\bold{0}\}$ is a fixed vector.
+    where $f: \R \longrightarrow \R$ is a univariate function and
+    $\a = (a_1, \mathellipsis, a_n) \in \Rn - \{\bold{0}\}$ is a fixed vector.
   </p>
   <p>
-    The vector $\bold{a}$ is called the <em>direction</em> because a ridge function is a multivariate function constant on the parallel hyperplanes orthogonal to $\bold{a}$. In fact, these hyperplanes are defined by the equation $\bold{a} \cdot \bold{x} = c$, with $c \in \mathbb{R}$.
+    The vector $\a$ is called the <em>direction</em> because a ridge function is a multivariate function constant on the parallel hyperplanes orthogonal to $\a$. In fact, these hyperplanes are defined by the equation $\a \cdot \x = c$, with $c \in \R$.
   </p>
   <p>
-    For a given direction $\bold{a}$, we denote the set of ridge functions with direction $\bold{a}$ $$\mathcal{M}(\bold{a}) = \{f(\bold{a} \cdot \bold{x}) f: \mathbb{R} \longrightarrow \mathbb{R}\}.$$
-    Since the function $f$ can be arbitrarily scaled, it follows that if $\bold{a} = \lambda \bold{b}$ for some $\lambda \in \mathbb{R} - \{0\}$, then $\mathcal{M}(\bold{a}) = \mathcal{M}(\bold{b})$.
+    For a given direction $\a$, we denote the set of ridge functions with direction $\a$
+    $$\M(\a) = \{f(\a \cdot \x) f: \R \longrightarrow \R\}.$$
+    Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\M(\a) = \M(\bold{b})$.
   </p>
   <p>
-    For a set $\Omega \subseteq \mathbb{R}^{n}$, we define
+    For a set $\Omega \subseteq \Rn$, we define
     $$
-    \mathcal{M}(\Omega) = \text{span}\{f(\bold{a} \cdot \bold{x}) f: \mathbb{R} \longrightarrow \mathbb{R}, \bold{a} \in \Omega\}.
+    \M(\Omega) = \text{span}\{f(\a \cdot \x) f: \R \longrightarrow \R, \a \in \Omega\}.
     $$
     A <em>span</em> of a set $S$ is the set of linear combinations of elements of $S$, then
-    every $F \in \mathcal{M}(\Omega)$ has the form
+    every $F \in \M(\Omega)$ has the form
     $$
-    F(\bold{x}) = \sum_{i=1}^{r} c_i f_i(\bold{a}^{i} \cdot \bold{x}).
+    F(\x) = \sum_{i=1}^{r} c_i f_i(\a^i \cdot \x).
     $$
-    We can notice that $\mathcal{M}(\mathbb{R}^{n})$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
-    We are interested in the theory of approximation of sets $\mathcal{M}(\Omega)$ to better characterize the class of functions defined by MLPs.
+    We can notice that $\M(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
+    We are interested in the theory of approximation of sets $\M(\Omega)$ to better characterize the class of functions defined by MLPs.
   </p>
 </section>
 <section>
