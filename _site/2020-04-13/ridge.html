@@ -90,7 +90,55 @@ $
 \gdef\R{\mathbb{R}}
 \gdef\Rn{\mathbb{R}^{n}}
 \gdef\M{\mathcal{M}}
+
+\gdef\argmin#1{\underset{#1}{\text{arg\,min}}}
 $
+<section>
+  <h1 id="approximation-theory">Approximation theory</h1>
+  <p>
+    Approximation theory is the branch of mathematics that studies how to approximate a class of functions
+    with a set of simpler functions. It allows to discover set of functions described by finite or countable
+    parameters that can faithfully represent an uncountable class of functions.
+    This subject has great practical interest because it allows to solve optimization problems on functions without making strong assumptions on the searched function.
+  </p>
+  <p>
+    Given a functional $\ell: \mathcal{F} \longrightarrow \R$,
+    an optimization problem takes the form
+    $$
+    f^{*} = \argmin{f \in \mathcal{F}}\ \ell(f),
+    $$
+    where $\mathcal{F}$ is the search space of functions determined by the assumptions on $f^{*}$.
+    For example, if we know that the solution $f^{*}$ is a continuous univariate function, then $\mathcal{F} = C(\R)$.
+  </p>
+  <p>
+    In practice we cannot solve the optimization problem on a function space with an infinite number of dimensions,
+    because machines can work only with a finite number of parameters. So we need to restrict $\mathcal{F}$ to a more
+    manageable subset $\mathcal{G} \subset \mathcal{F}$.
+    This restriction adds more assumptions on $f^{*}$, assumptions not dictated by the problem itself but by
+    computational requirements. For example, in many cases, the search space is restricted to linear functions.
+  </p>
+  <p>
+    Approximation theory looks for a countable or uncountable $\mathcal{G}$ dense in $\mathcal{F}$.
+    The density property assures that the effective search space is not reduced because $f^{*}$ can be described
+    by functions in $\mathcal{G}$ with arbitrary precision.
+    Let us recall the definition of density.
+  </p>
+  <p style="background-color:#d8deea; padding:10px;">
+    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+    Let $(X, d)$ be a metric space and let $S \subseteq X$. $S$ is <strong>dense</strong> in $X$
+    if for every $x \in X$ and every $\epsilon > 0$, there exist $s \in S$ such that $d(x, s) < \epsilon$.
+    Equivalently, $S$ is dense in $X$ if the closure of $S$ is $X$: $\overline{S} = X$.
+  </p>
+  <p>
+    The most known result of approximation theory is Weierstrass Approximation Theorem.
+  </p>
+  <p style="background-color:#d8deea; padding:10px;">
+    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+    Let $f$ be a continuous real-valued function defined on the interval $[a, b]$.
+    For every $\epsilon > 0$, there exists a polynomial $p$ such that $\forall\, x \in [a, b]$, we have
+    $|f(x) − p(x)| < \epsilon$, or equivalently, the supremum norm $||f−p|| < \epsilon$.
+  </p>
+</section>
 <section>
   <h1 id="mlp">Multilayer perceptron</h1>
   <p>
@@ -115,6 +163,7 @@ $
     $$
     It is possible to stack more hidden layers of various sizes to obtain a deeper network.
     We will focus on this model because it can already approximate a very large class of functions.
+    <!-- add small to explain that we are dealing with regression but classification is shaped as a regression too-->
   </p>
 </section>
 <section>
@@ -137,13 +186,13 @@ $
   </p>
   <p>
     For a given direction $\a$, we denote the set of ridge functions with direction $\a$
-    $$\M(\a) = \{f(\a \cdot \x) f: \R \longrightarrow \R\}.$$
+    $$\M(\a) = \{f(\a \cdot \x), f: \R \longrightarrow \R\}.$$
     Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\M(\a) = \M(\bold{b})$.
   </p>
   <p>
     For a set $\Omega \subseteq \Rn$, we define
     $$
-    \M(\Omega) = \text{span}\{f(\a \cdot \x) f: \R \longrightarrow \R, \a \in \Omega\}.
+    \M(\Omega) = \text{span}\{f(\a \cdot \x), f: \R \longrightarrow \R, \a \in \Omega\}.
     $$
     A <em>span</em> of a set $S$ is the set of linear combinations of elements of $S$, then
     every $F \in \M(\Omega)$ has the form
@@ -152,101 +201,6 @@ $
     $$
     We can notice that $\M(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
     We are interested in the theory of approximation of sets $\M(\Omega)$ to better characterize the class of functions defined by MLPs.
-  </p>
-</section>
-<section>
-  <h1 id="discrete-convolution">Discrete convolution</h1>
-  <p>
-    The convolution operation is a well-known building block of deep neural networks. We are going to prove some properties of the discrete convolution. We focus our attention on the monodimensional convolution, but all theorems generalize to multiple dimensions.
-  </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $f$, $g$ be two real signals, the <strong>discrete convolution</strong> of $f$ and $g$ is
-    $$
-    (f * g)[n] = \sum_{k=-\infty}^{+\infty}f[k]g[n-k] \quad \forall\: n \in \mathbb{Z}.
-    $$
-  </p>
-  <p>
-    The meaning of such a formula is not immediately understandable. It is easier to understand it through $\overline{g}[n] = g[-n]$, the flipped version of $g$.
-    When $g$ has finite support in $\{0, ..., m-1\}$, we can visualize the convolution as the scalar product of $\overline{g}$ with every window of $m$ elements of the signal $f$.
-    <small>
-      The support of a function $f: D \longrightarrow \mathbb{R}$ is the subset of the domain $D$ containing those elements which are not mapped to zero: </br>
-      $\text{supp}(f) = \{x \in D | f(x) \neq 0\}$.
-    </small>
-  </p>
-  <p>
-    In general, the summation in the convolution definition is not always finite.
-    Recalling Holder's inequality, we can find a sufficient condition to establish whether the convolution is well-defined for every element.
-  </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Let $f \in \ell^{p}(\mathbb{R})$ and $g \in \ell^{q}(\mathbb{R})$ be signals
-    with $p, q \in [1, \infty]$ such that
-    $$
-    \frac{1}{p} + \frac{1}{q} = 1 \quad \text{or} \quad \{p, q\} = \{1, \infty\},
-    $$
-    then $f * g$ is bounded.
-    <small>
-      For every $p > 1$, $\ell^{p}(\mathbb{R})$ is the space of $p$-summable sequences,
-      i.e. $f \in \ell^{p}(\mathbb{R})$ if and only if
-      $\left(\sum_{k=-\infty}^{\infty} f[k]^p\right)^{\frac{1}{p}} = ||f||_{p}< +\infty$.</br>
-      $\ell^{\infty}(\mathbb{R})$ is the space of bounded sequences.
-    </small>
-  </p>
-  <h3>Proof</h3>
-  <p>
-    $f * g$ is a bounded signal if $\exist \:M \in \mathbb{R}$ such that
-    $$
-    |(f*g)[n]| \leq M \quad \forall\:n \in \mathbb{Z}.
-    $$
-    Using Hölder's inequality and with a simple change of variable, we prove the theorem:
-    <small>
-    Hölder's inequality states that $||fg||_{1} \leq ||f||_{p}||g||_{q}$
-    if $p$ and $q$ satisfy the condition of the theorem.
-    The special case $p=q=2$ gives the Cauchy–Schwarz inequality.
-    </small>
-    $$
-    \begin{aligned}
-        |(f*g)[n]| & \leq \sum_{k=-\infty}^{+\infty}|f[k]g[n-k]| \\
-        & \leq \left[\sum_{k=-\infty}^{+\infty}|f[k]|^{p}\right]^{\frac{1}{p}}
-        \left[\sum_{k=-\infty}^{+\infty}|g[n-k]|^{q}\right]^{\frac{1}{q}} & \textit{\footnotesize Hölder's ineq.} \\
-        & = \left[\sum_{k=-\infty}^{+\infty}|f[k]|^{p}\right]^{\frac{1}{p}}
-        \left[\sum_{k'=-\infty}^{+\infty}|g[k']|^{q}\right]^{\frac{1}{q}} & {\footnotesize k' = n - k } \\
-        & = ||f||_{p}||g||_{q}. & \square
-    \end{aligned}
-    $$
-  </p>
-  <p>
-    Two remarkable properties of the convolution are commutativity and linearity.
-    These two properties are sufficient to explain why convolutions are a fundamental component
-    of many processing systems.
-  </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Let $f, g$ be two real signals such that its convolution is well-defined, then
-    $$
-    (f * g)[n] = (g * f)[n] \quad \forall\: n \in \mathbb{Z}.
-    $$
-    That means that the convolution is a <strong>commutative</strong> operation.
-  </p>
-  <h3>Proof</h3>
-  <p>
-    For any fixed $n \in \mathbb{Z}$, let $j = n-k$, then $k = n-j$.
-    $$
-    \begin{aligned}
-    (f * g)[n] & = \sum_{k=-\infty}^{+\infty}f[k]g[n-k] \\
-    & = \sum_{j=-\infty}^{+\infty}g[j]f[n-j] = (g * f)[n]. & \hspace*{6em} \square
-    \end{aligned}
-    $$
-  </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Let $f, g, h$ be real signals and $a, b \in \mathbb{R}$. If the convolutions below
-    are all well-defined, then we have
-    $$
-    ((af + bg) * h)[n] = a(f * h)[n] + b(g * h)[n] \quad \forall\: n \in \mathbb{Z}.
-    $$
-    Thus the convolution is a <strong>linear</strong> operation.
   </p>
 </section>
 <section>
@@ -411,7 +365,7 @@ $
 		</main>
 		<footer>
   <span>
-    &copy; <time datetime="2020-04-13 12:29:40 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
+    &copy; <time datetime="2020-04-19 11:47:38 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
     <a href="https://github.com/nextbitlabs/Rapido">Rapido</a>.
   </span>
 </footer>
