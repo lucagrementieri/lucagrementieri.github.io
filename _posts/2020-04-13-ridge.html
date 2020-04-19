@@ -11,10 +11,12 @@ $
 \gdef\a{\bold{a}}
 
 \gdef\R{\mathbb{R}}
+\gdef\RR{\mathcal{R}}
 \gdef\Rn{\mathbb{R}^{n}}
 \gdef\M{\mathcal{M}}
 
 \gdef\argmin#1{\underset{#1}{\text{arg\,min}}}
+\gdef\max#1{\underset{#1}{\text{max}}}
 $
 <section>
   <h1 id="approximation-theory">Approximation theory</h1>
@@ -48,18 +50,20 @@ $
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $(X, d)$ be a metric space and let $S \subseteq X$. $S$ is <strong>dense</strong> in $X$
-    if for every $x \in X$ and every $\epsilon > 0$, there exist $s \in S$ such that $d(x, s) < \epsilon$.
-    Equivalently, $S$ is dense in $X$ if the closure of $S$ is $X$: $\overline{S} = X$.
+    Let $X$ be a topological space and let $A \subseteq X$. $A$ is <strong>dense</strong> in $X$
+    if for every $x \in X$, any neighborhood of $x$ contains at least one point from $A$.
+    Equivalently, $A$ is dense in $X$ if the closure of $A$ is $X$: $\overline{A} = X$.
+    <!-- add note about neighborhood and balls-->
   </p>
   <p>
-    The most known result of approximation theory is Weierstrass Approximation Theorem.
+    The most known result of approximation theory is <strong>Weierstrass Approximation Theorem</strong>.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
     Let $f$ be a continuous real-valued function defined on the interval $[a, b]$.
     For every $\epsilon > 0$, there exists a polynomial $p$ such that $\forall\, x \in [a, b]$, we have
-    $|f(x) − p(x)| < \epsilon$, or equivalently, the supremum norm $||f−p|| < \epsilon$.
+    $|f(x) − p(x)| < \epsilon$, or equivalently, $||f−p||_{\infty} < \epsilon$.
+    <!-- add note about supremum norm-->
   </p>
 </section>
 <section>
@@ -109,48 +113,85 @@ $
   </p>
   <p>
     For a given direction $\a$, we denote the set of ridge functions with direction $\a$
-    $$\M(\a) = \{f(\a \cdot \x), f: \R \longrightarrow \R\}.$$
-    Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\M(\a) = \M(\bold{b})$.
+    $$\RR(\a) = \{f(\a \cdot \x), f: \R \longrightarrow \R\}.$$
+    Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\RR(\a) = \RR(\bold{b})$.
   </p>
   <p>
     For a set $\Omega \subseteq \Rn$, we define
     $$
-    \M(\Omega) = \text{span}\{f(\a \cdot \x), f: \R \longrightarrow \R, \a \in \Omega\}.
+    \RR(\Omega) = \text{span}\{f(\a \cdot \x), f: \R \longrightarrow \R, \a \in \Omega\}.
     $$
     A <em>span</em> of a set $S$ is the set of linear combinations of elements of $S$, then
-    every $F \in \M(\Omega)$ has the form
+    every $F \in \RR(\Omega)$ has the form
     $$
     F(\x) = \sum_{i=1}^{r} c_i f_i(\a^i \cdot \x).
     $$
-    We can notice that $\M(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
+    We can notice that $\RR(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
+  </p>
+  <p>
+    If we require the continuity of the activation function $\sigma$ in a MLP, the functions defined by a MLP
+    belong to the smaller set of linear combinations of continuous ridge functions
+    $$
+    \M(\Omega) = \text{span}\{f(\a \cdot \x), f \in C(\R), \a \in \Omega\}
+    $$
+    with $\Omega = \Rn$.
     We are interested in the theory of approximation of sets $\M(\Omega)$ to better characterize the class of functions defined by MLPs.
   </p>
 </section>
 <section>
-    <h1 id="operators">Operators</h1>
-    <p>
-        To extract information from a stream of data, we have to process it.
-        Every operation applied to a signal is associated with an operator.
-        For example, we can use operators to reduce noise, to recognize features,
-        to detect peaks or discontinuities.
-    </p>
-    <p style="background-color:#d8deea; padding:10px;">
-      <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-      A discrete operator $L$ is <strong>linear</strong> if $\forall\: a, b \in \mathbb{R}$
-      $$L(a \cdot f + b \cdot g)[n] = a \cdot L(f)[n] + b \cdot L(g)[n].$$
-    </p>
-    <p style="background-color:#d8deea; padding:10px;">
-      <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-      A discrete operator is <strong>shift-invariant</strong> if $\forall\: p \in \mathbb{Z}$
-      $$L(f[n-p]) = L(f)[n-p].$$
-    </p>
-    <p>
-      When shift-invariance holds, a shift of the signal causes a corresponding displacement of the result of the operator. For example, element-wise operations are trivially shift-invariant.
-      The consequence is that the result of a shift-invariant operator does not depend on the absolute position of elements in a signal, only the relative position of values matters.
-    </p>
-    <p>
-      This new perspective shades some light on why this property is of paramount importance. Most processing operations should not depend on the absolute position of the values in the data because, in most situations, this position is arbitrary. For example, when we analyze an image, we do not want to rely on the absolute location of pixels because those positions change as soon as the image is cut or resized. The same applies to sound waves or time series.
-    </p>
+  <h1 id="compact-convergence">Uniform convergence on compact sets</h1>
+  <p>
+    $\M(\Omega)$ is a large class of continuous functions. We are going to find the conditions
+    on $\Omega$ that assure that it is dense in the set of continuous functions $C(\Rn)$.
+    Since density is a property of a topological space, we have to define a topology
+    on $C(\Rn)$ to clarify the meaning of this statement.
+    Approximation theory of continuous functions commonly use the topology of uniform
+    converge on compact subsets.
+    <!-- note on compact sets -->
+  </p>
+  <p style="background-color:#d8deea; padding:10px;">
+    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+    A sequence of functions $f_{m} \in C(\Rn), m \in \mathbb{N}$ is said to
+    <strong>converge uniformly on compact sets</strong> as $m \to \infty$ to some function
+    $f \in C(\Rn)$ if, for every compact set $K \subset \Rn$ and every $\epsilon > 0$,
+    there exist $\overline{m}$ such that $\forall\, m \geq \overline{m}$
+    $$
+    ||f_{m} - f||_{K} = \max{x \in K}\ | f_{m}(x) - f(x)| < \epsilon.
+    $$
+    <small>
+      If we can prove density in this topology, then we also obtain density in many other topologies.
+      For example, density will hold in $L^{p}(K)$, where $K$ is any compact subset of $\Rn$ and $p \in [1,\infty[$.
+    </small>
+  </p>
+  <p>
+    A very powerful tool to prove results with this topology is the <strong>Stone-Weierstrass Theorem</strong>.
+  </p>
+  <p style="background-color:#d8deea; padding:10px;">
+    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+    Suppose $X$ is a compact Hausdorff space and $A$ is a subalgebra of $C(X, \R)$ which contains a non-zero constant function. Then $A$ is dense in $C(X, \R)$ if and only if it separates points.
+    <small>
+      This theorem implies Weierstrass Approximation Theorem since the polynomials on $[a, b]$ form a subalgebra of $C([a, b])$ which contains the constants and separates points.
+    </small>
+  </p>
+  <!-- definition of sub-algebra -->
+</section>
+<section>
+  <h1 id="compact-convergence">Density of continuous ridge functions</h1>
+  <p>
+    We now have all the ingredient to state a density theorem about $\M(\Rn)$ in $C(\Rn)$.
+    In reality the theorem is stronger because it proves that $M(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
+  </p>
+  <p style="background-color:#d8deea; padding:10px;">
+    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+    $\M(\Rn)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets.
+  </p>
+  <h3>Proof</h3>
+  <p>
+    It is sufficient to prove that linear combinations of the functions $e^{\bold{n} \cdot \x}$,
+    where $\bold{n} \in \mathbb{Z}^{n}$ are dense in $C(\Rn)$, in the topology of uniform convergence on compact subsets. This fact is an immediate consequence of the Stone-Weierstrass Theorem.
+    When shift-invariance holds, a shift of the signal causes a corresponding displacement of the result of the operator. For example, element-wise operations are trivially shift-invariant.
+    The consequence is that the result of a shift-invariant operator does not depend on the absolute position of elements in a signal, only the relative position of values matters.
+  </p>
 </section>
 <section>
     <h1 id="operators-convolution">Operators and convolution</h1>
