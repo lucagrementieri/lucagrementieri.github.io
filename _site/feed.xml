@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-23T22:23:38+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning</subtitle><author><name>Luca Grementieri</name></author><entry><title type="html">Artificial neurons as ridge functions</title><link href="http://localhost:4000/2020-04-13/ridge-functions" rel="alternate" type="text/html" title="Artificial neurons as ridge functions" /><published>2020-04-13T00:00:00+02:00</published><updated>2020-04-13T00:00:00+02:00</updated><id>http://localhost:4000/2020-04-13/ridge-functions</id><content type="html" xml:base="http://localhost:4000/2020-04-13/ridge-functions">$
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-23T22:50:40+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning</subtitle><author><name>Luca Grementieri</name></author><entry><title type="html">Artificial neurons as ridge functions</title><link href="http://localhost:4000/2020-04-13/ridge-functions" rel="alternate" type="text/html" title="Artificial neurons as ridge functions" /><published>2020-04-13T00:00:00+02:00</published><updated>2020-04-13T00:00:00+02:00</updated><id>http://localhost:4000/2020-04-13/ridge-functions</id><content type="html" xml:base="http://localhost:4000/2020-04-13/ridge-functions">$
 \gdef\x{\bold{x}}
 \gdef\w{\bold{w}}
 \gdef\a{\bold{a}}
@@ -245,6 +245,16 @@ $
     is dense in $C(K)$ with respect to the uniform norm. That is equivalent to say that $\mathcal{E} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}\}$ is dense in $C(\Rn)$ in the topology of
     uniform convergence on compact subsets.
     &lt;span style=&quot;float:right&quot;&gt;$\square$&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    The density of $\M(\Omega)$ in $C(\Rn)$ tells us that for every continuous functions $f$ it exists a sequence
+    of functions in $\M(\Omega)$ whose limit is $f$ in the chosen topology.
+    Thus, any continuous function can be approximated by functions in $\M(\Omega)$ with an arbitrary small
+    approximation error.
+    &lt;small&gt;
+      The uniform convergence on compact sets is not equivalent to uniform convergence.
+      In practice, it does not matter because we always approximate functions whose domain can be included in a compact set; in fact, the function to be approximated is often known only on a finite set of points.      
+    &lt;/small&gt;
   &lt;/p&gt;
   &lt;p&gt;
     Since $\M(\Omega)$ only depends on the set of normalized directions in $\Omega$, the
