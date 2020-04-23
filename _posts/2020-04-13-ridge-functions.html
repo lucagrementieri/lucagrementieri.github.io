@@ -2,9 +2,8 @@
 layout: post
 title: Artificial neurons as ridge functions
 description: Approximation theory of ridge functions
-intro: Artificial neurons are a special case of ridge functions and linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. The approximation theory of ridge functions is an important gateway to the study of approximation capabilities of neural networks.
+intro: Artificial neurons are a special case of ridge functions and linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. The approximation theory of ridge functions provides an upper bound on the approximation capabilities of neural networks.
 ---
-<!-- improve intro -->
 $
 \gdef\x{\bold{x}}
 \gdef\w{\bold{w}}
@@ -44,16 +43,21 @@ $
   </p>
   <p>
     Approximation theory looks for a countable or uncountable $\mathcal{G}$ dense in $\mathcal{F}$.
-    The density property assures that the effective search space is not reduced because $f^{*}$ can be described
+    The density assures that the effective search space is not reduced because $f^{*}$ can be described
     by functions in $\mathcal{G}$ with arbitrary precision.
-    Let us recall the definition of density.
+    Let us recall the definition of a dense set.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
     Let $X$ be a topological space and let $A \subseteq X$. $A$ is <strong>dense</strong> in $X$
     if for every $x \in X$, any neighborhood of $x$ contains at least one point from $A$.
     Equivalently, $A$ is dense in $X$ if the closure of $A$ is $X$: $\overline{A} = X$.
-    <!-- add note about neighborhood and balls-->
+    <small>
+      The definitions of neighborhood and closure comes from general topology.
+      A neighborhood of a point $x$ is a set that includes an open subset that contains $x$.
+      The closure of a set $S$ is the smallest closed set including $S$; it is the union of $S$
+      and its limit points.
+    </small>
   </p>
   <p>
     The most known result of approximation theory is <strong>Weierstrass Approximation Theorem</strong>.
@@ -63,7 +67,11 @@ $
     Let $f$ be a continuous real-valued function defined on the interval $[a, b]$.
     For every $\epsilon > 0$, there exists a polynomial $p$ such that $\forall\, x \in [a, b]$, we have
     $|f(x) − p(x)| < \epsilon$, or equivalently, $||f−p||_{\infty} < \epsilon$.
-    <!-- add note about supremum norm-->
+    <small>
+      The notation $||\cdot||_{\infty}$ indicates the uniform or supremum norm.
+      The norm assigns to a bounded function $f$ on the interval $[a, b]$ the value
+      $||f||_{\infty} = \text{sup}\{|f(x)|, x \in [a, b]\}$.
+    </small>
   </p>
 </section>
 <section>
@@ -90,7 +98,12 @@ $
     $$
     It is possible to stack more hidden layers of various sizes to obtain a deeper network.
     We will focus on this model because it can already approximate a very large class of functions.
-    <!-- add small to explain that we are dealing with regression but classification is shaped as a regression too-->
+    <small>
+      The MLPs model under consideration outputs a single real number.
+      The analysis can be generalized to outputs in $\R^{m}$ by repeating it on every component.
+      This allows to tackle regression problems with multiple outputs and in particular classification tasks.
+      In fact, classification tasks are framed as regression tasks having class probabilities as targets.
+    </small>
   </p>
 </section>
 <section>
@@ -135,7 +148,13 @@ $
     \M(\Omega) = \text{span}\{f(\a \cdot \x), f \in C(\R), \a \in \Omega\}
     $$
     with $\Omega = \Rn$.
-    We are interested in the theory of approximation of sets $\M(\Omega)$ to better characterize the class of functions defined by MLPs.
+  </p>
+  <p>
+    We are interested in the theory of approximation of sets $\M(\Omega)$
+    to better characterize the class of functions defined by a MLP.
+    Functions well approximated by a MLPs are a subset of the functions
+    approximated by $\M(\Rn)$, therefore $\M(\Rn)$ gives us an upper bound on
+    the approximation capabilities of a MLP.
   </p>
 </section>
 <section>
@@ -147,7 +166,11 @@ $
     on $C(\Rn)$ to clarify the meaning of this statement.
     Approximation theory of continuous functions commonly use the topology of uniform
     converge on compact subsets.
-    <!-- note on compact sets -->
+    <small>
+      The general topological definition of a compact set involve covers and subcover.
+      The Heine-Borel theorem gives a much simpler characterization of compactness in an euclidean space:
+      in $\Rn$ a set is compact if and only if it is closed and bounded.
+    </small>
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
@@ -159,8 +182,9 @@ $
     ||f_{m} - f||_{K} = \max{x \in K}\ | f_{m}(x) - f(x)| < \epsilon.
     $$
     <small>
-      If we can prove density in this topology, then we also obtain density in many other topologies.
+      If we can prove density in this topology, then the subset is also dense in many other topologies.
       For example, density will hold in $L^{p}(K)$, where $K$ is any compact subset of $\Rn$ and $p \in [1,\infty[$.
+      Indeed $||f||_{p,K} \leq ||f||_{K} < +\infty$.
     </small>
   </p>
   <p>
@@ -168,18 +192,36 @@ $
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Suppose $X$ is a compact Hausdorff space and $A$ is a subalgebra of $C(X, \R)$ which contains a non-zero constant function. Then $A$ is dense in $C(X, \R)$ if and only if it separates points.
+    Suppose $X$ is a compact Hausdorff space and $A$ is a subalgebra of $C(X)$, the space of continuous real-valued functions over $X$, which contains a non-zero constant function. Then $A$ is dense in $C(X)$ if and only if it separates points.
     <small>
       This theorem implies Weierstrass Approximation Theorem since the polynomials on $[a, b]$ form a subalgebra of $C([a, b])$ which contains the constants and separates points.
     </small>
   </p>
-  <!-- definition of sub-algebra -->
+  <p>
+    Let us recall the definition of algebra and subalgebra.
+  </p>
+  <p style="background-color:#d8deea; padding:10px;">
+    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+    Let $A$ be a vector space over $\R$ equipped with a binary operation (a product) from $\cdot: A \times A \to A$. Then $A$ is an <strong>algebra</strong> if the following identities hold for all elements $x$, $y$, and $z$ of $A$, and all scalars $a$ and $b$ of $\R$:
+    $$
+    \begin{aligned}
+    (x + y) \cdot z &= x \cdot z + y \cdot z; & \qquad \textit{\footnotesize right distributivity}\\
+    z \cdot (x + y) &= z \cdot x + z \cdot y; & \qquad \textit{\footnotesize left distributivity}\\
+    (ax) \cdot (by) &= (ab) (x \cdot y). & \qquad \textit{\footnotesize compatibility with scalars}
+    \end{aligned}
+    $$
+  </p>
+  <p style="background-color:#d8deea; padding:10px;">
+    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+    A <strong>subalgebra</strong> is a subset of an algebra, closed under addition, multiplication by scalar and
+    product.
+  </p>
 </section>
 <section>
   <h1 id="compact-convergence">Density of continuous ridge functions</h1>
   <p>
     We now have all the ingredient to state a density theorem about $\M(\Rn)$ in $C(\Rn)$.
-    In reality the theorem is stronger because it proves that $M(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
+    In reality the theorem is stronger because it proves that $\M(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
@@ -188,123 +230,56 @@ $
   <h3>Proof</h3>
   <p>
     It is sufficient to prove that linear combinations of the functions $e^{\bold{n} \cdot \x}$,
-    where $\bold{n} \in \mathbb{Z}^{n}$ are dense in $C(\Rn)$, in the topology of uniform convergence on compact subsets. This fact is an immediate consequence of the Stone-Weierstrass Theorem.
-    When shift-invariance holds, a shift of the signal causes a corresponding displacement of the result of the operator. For example, element-wise operations are trivially shift-invariant.
-    The consequence is that the result of a shift-invariant operator does not depend on the absolute position of elements in a signal, only the relative position of values matters.
+    where $\bold{n} \in \mathbb{Z}^{n}$ are dense in $C(\Rn)$, in the topology of uniform convergence on compact subsets. This fact is a consequence of the Stone-Weierstrass Theorem.
   </p>
-</section>
-<section>
-    <h1 id="operators-convolution">Operators and convolution</h1>
-    <p>
-      There is a tight relationship between linear shift-invariant operators and convolution.
-      To reveal this connection, we need to recall the discrete Dirac.
-      Translating the discrete Dirac by $p$, we obtain
-      $$
-      \delta[n - p] =
-      \begin{cases}
-      1 & n = p \\
-      0 & n \neq p
-      \end{cases}.
-      $$
-      Using this expression, we can represent every signal as a linear combination of Dirac signals
-      $$
-      f[n] = \sum_{p = -\infty}^{+\infty} f[p] \cdot \delta[n - p].
-      $$
-      Now we have all the elements necessary to prove the main theorem of the article.
-    </p>
-    <p style="background-color:#d8deea; padding:10px;">
-      <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-      A discrete operator $L$ is linear and shift-invariant if and only if it exists a discrete
-      signal $h[n]$ such that for every signal $f[n]$
-      $$
-      L(f)[n] = (f * h)[n].
-      $$
-    </p>
-    <h3>Proof</h3>
-    <p>
-        If $L$ is linear and shift-invariant, we have to prove the existence of $h[n]$.
-        Setting $h[n] = L(\delta)[n]$, we have
-        $$
-        \begin{aligned}
-        L(f)[n] & = L\left(\sum_{p = -\infty}^{+\infty} f[p] \cdot \delta[n - p]\right) & \\
-        & = \sum_{p = -\infty}^{+\infty} f[p] \cdot L(\delta[n - p]) & \textit{\footnotesize linearity} \\
-        & = \sum_{p = -\infty}^{+\infty} f[p] \cdot L(\delta)[n - p] & \textit{\footnotesize shift-invariance}\\
-        & = \sum_{p = -\infty}^{+\infty} f[p] \cdot h[n - p] = (f * h)[n]. &
-        \end{aligned}
-        $$
-        To prove the inverse implication, we have to show that for every signal $h[n]$,
-        $L(f) = f * h$ is a linear shift-invariant operator.
-        The linearity comes from the linearity of the convolution.
-        Now, we show that the resulting operation is also shift-invariant.
-        $$
-        \begin{aligned}
-            L(f[n-p]) & = \sum_{k = -\infty}^{+\infty} f[k - p] \cdot h[n - k]) & \\
-            & = \sum_{k' = -\infty}^{+\infty} f[k'] \cdot h[n - p - k']) & \qquad {\footnotesize k' = k - p} \\
-            & = L(f)[n - p]. & \square
-        \end{aligned}
-        $$
-    </p>
-    <p>
-      This theorem shows that convolutions are used in many applications because there is no alternative to express linear shift-invariant operations.
-      We have already examined why shift-invariance is frequently an essential property. While theoretical considerations implied the importance of shift-invariance, linear operators are prevalent for practical reasons.
-      Most of the fundamental operators, like the ones associated with integration and differentiation, are linear. Furthermore, they are simple to express and very efficient on machines.
-    </p>
-    <p>
-      Sometimes even linearity is desired because of some characteristics of the data. Sound waves are such a type of data because they satisfy the superposition property. That means that the result of the superposition of two waves is equivalent to the sum of the single waves. In such a case, it is natural to use linear operators because linearity assures the validity of the superposition principle for the processed waves too.
-    </p>
-</section>
-<section>
-  <h1 id="generalizations">Generalizations</h1>
   <p>
-    In mathematics, a convolution is an operation defined between functions of a real variable. This continuous form is a generalization of the discrete convolution presented.
+    For every compact set $K \subset \Rn$, $C(K)$ is an algebra: it is a vector space and the product between functions satisfies all the properties
+    listed in the definition of algebra.
+    The set $\mathcal{E}_{K} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}, x \in K \}$ is a linear subspace of $C(K)$, therefore it is closed under addition and multiplication by a scalar.
+    Thanks to the properties of the exponential function, the product of two elements $f, g, \in \mathcal{E}_{K}$ is still included in $\mathcal{E}_{K}$:
+    $$
+    f = \sum_{i=1}^s e^{\bold{n}_i \cdot \x} \quad g = \sum_{j=1}^t e^{\bold{m}_j \cdot \x} \Rightarrow f \cdot g = \sum_{i=1}^s \sum_{j=1}^t e^{(\bold{n}_i + \bold{m}_j) \cdot x}.
+    $$
+    Thus, $\mathcal{E}_{K}$ is a subalgebra of $C(K)$. Putting $\bold{n} = \bold{0}$, we obtain
+    the non-zero constant function $e^{\bold{0} \cdot \x} = 1$.
+    Moreover $\mathcal{E}_{K}$ separates points. Let $\bold{y} \neq \bold{z} \in \Rn$, then
+    there exists a coordinate $h \in \{1, \mathellipsis, n\}$ such that $y_h \neq z_h$.
+    The function $e^{\bold{e}_h \cdot \x}$, where $\bold{e}_h = (0, \mathellipsis, 0, 1, 0, \mathellipsis, 0)$
+    is $h$-th vector of the canonical basis, separates $\bold{y}$ from $\bold{z}$ since
+    $$e^{\bold{e}_h \cdot y} = e^{y_h} \neq e^{z_h} = e^{\bold{e}_h \cdot z}.$$
+    All the hypotheses of Stone-Weierstrass theorem are satisfied, so for every compact $K$, $\mathcal{E}_{K}$
+    is dense in $C(K)$ with respect to the uniform norm. That is equivalent to say that $\mathcal{E} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}\}$ is dense in $C(\Rn)$ in the topology of
+    uniform convergence on compact subsets.
+    <span style="float:right">$\square$</span>
+  </p>
+  <p>
+    Since $\M(\Omega)$ only depends on the set of normalized directions in $\Omega$, the
+    theorem also implies that $\M([-M, M]^n)$ is dense in $C(\Rn)$ for an arbitrary constant $M$.
+    In general, we can safely reduce the space of directions of ridge functions,
+    for example limiting their norm, without losing expressive power.
+  </p>
+  <p>
+    A more general theorem by Vostrecov and Kreines states a necessary and sufficient condition
+    for the density of $\M(\Omega)$ in $C(\Rn)$.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $f$, $g$ be two real function, the <strong>convolution</strong> of $f$ and $g$ is
-    $$
-    (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt  \quad \forall\: x \in \mathbb{R}.
-    $$
+    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+    $\M(\Omega)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets,
+    if and only if there is no homogeneous polynomial $p \neq 0$ such that $p(\x) = 0 \ \forall\, \x \in \Omega$.
   </p>
-  <p>
-    All the theorems we have proved hold for the continuous case too, replacing the summation symbol with the integral sign and signals with functions or tempered distributions.
-    <small>
-      Tempered distributions are a generalization of functions. The Dirac delta is characterized by the property $\int_{-\infty}^{+\infty} f(x) \delta(x) dx = f(0)$. No function can satisfy this property, but a tempered distribution can.
-    </small>
-  </p>
-  <p>
-    Data and signals can have many dimensions: a sound wave is monodimensional; a grayscale image has two dimensions; a color image has several channels that compose the third dimension.
-    We can define the discrete convolution for signals of arbitrary dimension and prove all the results following the same steps. This generalization extends the main theorem to all kinds of data, in particular to images where convolutions have gained their fame. We report here the definition of convolution for the general case.
-  </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $f$, $g: \mathbb{Z}^{d} \longrightarrow \mathbb{R}$ be two $d$-dimensional signals,
-    the <strong>convolution</strong> of $f$ and $g$ is
-    $$
-    (f * g)[n] = \sum_{k \in \mathbb{Z}^{d}}f[k]g[n-k]  \quad \forall\: n \in \mathbb{Z}^{d}.
-    $$
-  </p>
-</section>
-<section>
-    <h1 id="cnn">Convolutional Neural Networks</h1>
-    <p>
-      The convolution operation has become a fundamental operation in the context of deep learning, in particular in the field of computer vision.
-      A Convolutional Neural Network (CNN) is a sequence of 3D convolutions and pooling operations. Pooling operations are non-linear, and this allows the network to learn non-linear relationships between input and output. The most common ones are max-pooling and average-pooling.
-    </p>
-    <p>
-      Images are a canonical example of a signal that necessitates shift-invariant operators, so it is interesting to know if CNNs are shift-invariant.
-    </p>
-    <p>
-      Both convolutions and pooling operations perform the same computation on all equally-sized small portions of the input signal. Such calculations are independent of the absolute location of the values, and thus, shift-invariant, at one condition. The stride of the rolling window, the difference between two consecutive positions of the window, has to be 1. A convolution with stride greater than 1 is equivalent to a classic convolution followed by a sub-sampling. The sampling picks only a specific subset of the processed signal, and this selection depends on the absolute location of values. For example, if the stride is 2, values in even or odd positions are chosen.
-    </p>
-    <p>
-      Currently, most successful CNNs relies on pooling operations with stride 2. Therefore they do not represent a shift-invariant operation!
-      A researcher has noticed this flaw, and he has proposed alternative pooling operations as a replacement in the paper "<a href=https://arxiv.org/abs/1904.11486>Making Convolutional Networks Shift-Invariant Again</a>".
-    </p>
 </section>
 <section>
     <h1 id="conclusions">Conclusions</h1>
     <p>
-      The convolution operation in machine learning does not come out-of-the-blue. It emerges naturally from simple principles and assumptions on data: linearity and shift-invariance. Machine learning often seems to progress only through empirical experiments and chance, but many foundational components have a solid theory behind. We have clarified the reason behind the extensive utilization of convolutions in many applications.
+      Single hidden layer MLPs are a special case of a linear combination of ridge functions.
+      We have proved that the class of functions spanned by continuous ridge function can approximate
+      every continuous function with arbitrary precision.
+      This fact is relevant in applications because it allows to design parametric models without imposing
+      compelling constraints.
+    </p>
+    <p>
+      This density result does not imply that the same property holds true for MLPs, but
+      we can hope that functions represented by a MLP have the same approximation capability (indeed they have).
     </p>
 </section>
 <footer style="text-align: left">
@@ -312,10 +287,13 @@ $
     <h1>References</h1>
     <ol>
       <li id="ref-1">
-        Mallat, Stéphane. <em>A wavelet tour of signal processing</em>. Elsevier, 1999.
+        Pinkus, Allan. <em>Ridge functions.</em> Vol. 205. Cambridge University Press, 2015.
       </li>
       <li id="ref-2">
-        Zhang, Richard. <em>Making convolutional networks shift-invariant again</em>. arXiv preprint arXiv:1904.11486 (2019).
+        Pinkus, Allan. <em>Approximation theory of the MLP model in neural networks.</em> Acta numerica 8 (1999): 143-195.
+      </li>
+      <li id="ref-3">
+        Vostrecov, B. A., and M. A. Kreines. <em>Approximation of continuous functions by superpositions of plane waves.</em> Dokl. Akad. Nauk SSSR. Vol. 140. 1961.
       </li>
     </ol>
   </section>
