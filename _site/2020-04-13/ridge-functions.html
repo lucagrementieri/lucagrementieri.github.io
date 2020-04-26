@@ -89,7 +89,6 @@
 \gdef\R{\mathbb{R}}
 \gdef\RR{\mathcal{R}}
 \gdef\Rn{\mathbb{R}^{n}}
-\gdef\M{\mathcal{M}}
 
 \gdef\argmin#1{\underset{#1}{\text{arg\,min}}}
 \gdef\max#1{\underset{#1}{\text{max}}}
@@ -185,7 +184,7 @@ $
 <section>
   <h1 id="ridge">Ridge functions</h1>
   <p>
-    The function $N(\x)$ has a particular form: it is the composition of a univariate function $\sigma$ with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
+    The function $N(\x)$ has a particular structure: it is the composition of a univariate function sigma with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
@@ -198,45 +197,44 @@ $
     $\a = (a_1, \mathellipsis, a_n) \in \Rn - \{\bold{0}\}$ is a fixed vector.
   </p>
   <p>
-    The vector $\a$ is called the <em>direction</em> because a ridge function is a multivariate function constant on the parallel hyperplanes orthogonal to $\a$. In fact, these hyperplanes are defined by the equation $\a \cdot \x = c$, with $c \in \R$.
+    The vector $\a$ is called <em>direction</em> because a ridge function is constant on the parallel hyperplanes orthogonal to $\a$. These hyperplanes are defined by the equation $\a \cdot \x = c$, with $c \in \R$.
   </p>
   <p>
-    For a given direction $\a$, we denote the set of ridge functions with direction $\a$
-    $$\RR(\a) = \{f(\a \cdot \x), f: \R \longrightarrow \R\}.$$
-    Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\RR(\a) = \RR(\bold{b})$.
+    We denote the set of ridge functions with direction $\a$
+    $$\overline{\RR}(\a) = \{f(\a \cdot \x), f: \R \longrightarrow \R\}.$$
+    Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\overline{\RR}(\a) = \overline{\RR}(\bold{b})$.
   </p>
   <p>
     For a set $\Omega \subseteq \Rn$, we define
     $$
-    \RR(\Omega) = \text{span}\{f(\a \cdot \x), f: \R \longrightarrow \R, \a \in \Omega\}.
+    \overline{\RR}(\Omega) = \text{span}\{f(\a \cdot \x), f: \R \longrightarrow \R, \a \in \Omega\}.
     $$
-    A <em>span</em> of a set $S$ is the set of linear combinations of elements of $S$, then
-    every $F \in \RR(\Omega)$ has the form
+    A <em>span</em> of a set $S$ is the set of linear combinations of elements in $S$, then
+    every $F \in \overline{\RR}(\Omega)$ has the form
     $$
     F(\x) = \sum_{i=1}^{r} c_i f_i(\a^i \cdot \x).
     $$
-    We can notice that $\RR(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
+    We can notice that $\overline{\RR}(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
   </p>
   <p>
     If we require the continuity of the activation function $\sigma$ in a MLP, the functions defined by a MLP
     belong to the smaller set of linear combinations of continuous ridge functions
     $$
-    \M(\Omega) = \text{span}\{f(\a \cdot \x), f \in C(\R), \a \in \Omega\}
+    \RR(\Omega) = \text{span}\{f(\a \cdot \x), f \in C(\R), \a \in \Omega\}
     $$
     with $\Omega = \Rn$.
   </p>
   <p>
-    We are interested in the theory of approximation of sets $\M(\Omega)$
-    to better characterize the class of functions defined by a MLP.
-    Functions well approximated by a MLPs are a subset of the functions
-    approximated by $\M(\Rn)$, therefore $\M(\Rn)$ gives us an upper bound on
-    the approximation capabilities of a MLP.
+    We are interested in the approximation theory of the functional vector spaces $\RR(\Omega)$ to characterize the class of functions defined by MLPs.
+    If a MLP is capable of approximating a function, the same holds for $\RR(\Rn)$, a larger family of functions.
+    Conversely, if $\RR(\Rn)$ cannot approximate a function, then neither MLPs could.
+    Therefore $\RR(\Rn)$ gives us an upper bound on the approximation capabilities of MLPs.
   </p>
 </section>
 <section>
   <h1 id="compact-convergence">Uniform convergence on compact sets</h1>
   <p>
-    $\M(\Omega)$ is a large class of continuous functions. We are going to find the conditions
+    $\RR(\Omega)$ is a large class of continuous functions. We are going to find the conditions
     on $\Omega$ that assure that it is dense in the set of continuous functions $C(\Rn)$.
     Since density is a property of a topological space, we have to define a topology
     on $C(\Rn)$ to clarify the meaning of this statement.
@@ -296,12 +294,12 @@ $
 <section>
   <h1 id="compact-convergence">Density of continuous ridge functions</h1>
   <p>
-    We now have all the ingredient to state a density theorem about $\M(\Rn)$ in $C(\Rn)$.
-    In reality the theorem is stronger because it proves that $\M(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
+    We now have all the ingredient to state a density theorem about $\RR(\Rn)$ in $C(\Rn)$.
+    In reality the theorem is stronger because it proves that $\RR(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    $\M(\Rn)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets.
+    $\RR(\Rn)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets.
   </p>
   <h3>Proof</h3>
   <p>
@@ -329,9 +327,9 @@ $
     <span style="float:right">$\square$</span>
   </p>
   <p>
-    The density of $\M(\Omega)$ in $C(\Rn)$ tells us that for every continuous functions $f$ it exists a sequence
-    of functions in $\M(\Omega)$ whose limit is $f$ in the chosen topology.
-    Thus, any continuous function can be approximated by functions in $\M(\Omega)$ with an arbitrary small
+    The density of $\RR(\Omega)$ in $C(\Rn)$ tells us that for every continuous functions $f$ it exists a sequence
+    of functions in $\RR(\Omega)$ whose limit is $f$ in the chosen topology.
+    Thus, any continuous function can be approximated by functions in $\RR(\Omega)$ with an arbitrary small
     approximation error.
     <small>
       The uniform convergence on compact sets is not equivalent to uniform convergence.
@@ -339,18 +337,18 @@ $
     </small>
   </p>
   <p>
-    Since $\M(\Omega)$ only depends on the set of normalized directions in $\Omega$, the
-    theorem also implies that $\M([-M, M]^n)$ is dense in $C(\Rn)$ for an arbitrary constant $M$.
+    Since $\RR(\Omega)$ only depends on the set of normalized directions in $\Omega$, the
+    theorem also implies that $\RR([-M, M]^n)$ is dense in $C(\Rn)$ for an arbitrary constant $M$.
     In general, we can safely reduce the space of directions of ridge functions,
     for example limiting their norm, without losing expressive power.
   </p>
   <p>
     A more general theorem by Vostrecov and Kreines states a necessary and sufficient condition
-    for the density of $\M(\Omega)$ in $C(\Rn)$.
+    for the density of $\RR(\Omega)$ in $C(\Rn)$.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    $\M(\Omega)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets,
+    $\RR(\Omega)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets,
     if and only if there is no homogeneous polynomial $p \neq 0$ such that $p(\x) = 0 \ \forall\, \x \in \Omega$.
   </p>
 </section>
@@ -393,7 +391,7 @@ $
 		</main>
 		<footer>
   <span>
-    &copy; <time datetime="2020-04-26 12:04:41 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
+    &copy; <time datetime="2020-04-26 15:07:00 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
     <a href="https://github.com/nextbitlabs/Rapido">Rapido</a>.
   </span>
 </footer>
