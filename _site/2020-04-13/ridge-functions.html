@@ -234,16 +234,20 @@ $
 <section>
   <h1 id="compact-convergence">Uniform convergence on compact sets</h1>
   <p>
-    $\RR(\Omega)$ is a large class of continuous functions. We are going to find the conditions
-    on $\Omega$ that assure that it is dense in the set of continuous functions $C(\Rn)$.
+    The breadth of the class of continuous functions $\RR(\Omega)$ depends on $\Omega$.
+    For instance, we have already seen that, $\RR(\{\a\})$ represents a limited family of functions constant on parallel hyperplanes.
+    Thus, not every $\RR(\Omega)$ is a dense subspace of $C(\Rn)$.
+    We will present the conditions on $\Omega$ that ensure that this property holds.
+  </p>
+  <p>
     Since density is a property of a topological space, we have to define a topology
-    on $C(\Rn)$ to clarify the meaning of this statement.
-    Approximation theory of continuous functions commonly use the topology of uniform
-    converge on compact subsets.
+    on $C(\Rn)$ to clarify the meaning of this concept.
+    In the approximation theory of continuous functions, the topology of uniform
+    convergence on compact subsets is the most common.
     <small>
-      The general topological definition of a compact set involve covers and subcover.
-      The Heine-Borel theorem gives a much simpler characterization of compactness in an euclidean space:
-      in $\Rn$ a set is compact if and only if it is closed and bounded.
+      The general topological definition of a compact involves covers and subcovers.
+      The Heine-Borel theorem gives a much simpler characterization of compactness in a euclidean space: in $\Rn$,
+      a set is compact if and only if it is closed and bounded.
     </small>
   </p>
   <p style="background-color:#d8deea; padding:10px;">
@@ -257,7 +261,7 @@ $
     $$
     <small>
       If we can prove density in this topology, then the subset is also dense in many other topologies.
-      For example, density will hold in $L^{p}(K)$, where $K$ is any compact subset of $\Rn$ and $p \in [1,\infty[$.
+      For example, density would hold in $L^{p}(K)$, where $K$ is any compact subset of $\Rn$ and $p \in [1,\infty[$.
       Indeed $||f||_{p,K} \leq ||f||_{K} < +\infty$.
     </small>
   </p>
@@ -266,12 +270,15 @@ $
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Suppose $X$ is a compact Hausdorff space and $A$ is a subalgebra of $C(X)$, the space of continuous real-valued functions over $X$, which contains a non-zero constant function. Then $A$ is dense in $C(X)$ if and only if it separates points.
+    Suppose $X$ is a compact Hausdorff space and $C(X)$ is the space of continuous real-valued functions over $X$.
+    A subalgebra $A$ of $C(X)$ containing a non-zero constant function, is dense in $C(X)$ if and only if it separates points.
     <small>
-      This theorem implies Weierstrass Approximation Theorem since the polynomials on $[a, b]$ form a subalgebra of $C([a, b])$ which contains the constants and separates points.
+      A set of real-valued functions $S$ separates points if for any pair $x, y \in \R$, there exists a function
+      $f \in S$ such that $f(x) \neq f(y)$.
     </small>
   </p>
   <p>
+    This theorem implies Weierstrass Approximation Theorem: indeed,  polynomials on $[a, b]$ form a subalgebra of $C([a, b])$, which contains constant functions and separates points.
     Let us recall the definition of algebra and subalgebra.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
@@ -292,10 +299,10 @@ $
   </p>
 </section>
 <section>
-  <h1 id="compact-convergence">Density of continuous ridge functions</h1>
+  <h1 id="density">Density of continuous ridge functions</h1>
   <p>
-    We now have all the ingredient to state a density theorem about $\RR(\Rn)$ in $C(\Rn)$.
-    In reality the theorem is stronger because it proves that $\RR(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
+    We now have all the ingredients to state a density theorem about $\RR(\Rn)$ in $C(\Rn)$.
+    Actually, the theorem is even stronger because the proof shows that $\RR(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
@@ -304,43 +311,48 @@ $
   <h3>Proof</h3>
   <p>
     It is sufficient to prove that linear combinations of the functions $e^{\bold{n} \cdot \x}$,
-    where $\bold{n} \in \mathbb{Z}^{n}$ are dense in $C(\Rn)$, in the topology of uniform convergence on compact subsets. This fact is a consequence of the Stone-Weierstrass Theorem.
+    where $\bold{n} \in \mathbb{Z}^{n}$, are dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets. This fact is a consequence of the Stone-Weierstrass Theorem.
   </p>
   <p>
-    For every compact set $K \subset \Rn$, $C(K)$ is an algebra: it is a vector space and the product between functions satisfies all the properties
-    listed in the definition of algebra.
+    For every compact set $K \subset \Rn$, $C(K)$ is an algebra: it is a vector space, and the product between functions satisfies all the properties listed in the definition of algebra.
     The set $\mathcal{E}_{K} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}, x \in K \}$ is a linear subspace of $C(K)$, therefore it is closed under addition and multiplication by a scalar.
     Thanks to the properties of the exponential function, the product of two elements $f, g, \in \mathcal{E}_{K}$ is still included in $\mathcal{E}_{K}$:
     $$
     f = \sum_{i=1}^s e^{\bold{n}_i \cdot \x} \quad g = \sum_{j=1}^t e^{\bold{m}_j \cdot \x} \Rightarrow f \cdot g = \sum_{i=1}^s \sum_{j=1}^t e^{(\bold{n}_i + \bold{m}_j) \cdot x}.
     $$
-    Thus, $\mathcal{E}_{K}$ is a subalgebra of $C(K)$. Putting $\bold{n} = \bold{0}$, we obtain
+    Thus, $\mathcal{E}_{K}$ is a subalgebra of $C(K)$.
+  </p>
+  <p>
+    Putting $\bold{n} = \bold{0}$, we obtain
     the non-zero constant function $e^{\bold{0} \cdot \x} = 1$.
     Moreover $\mathcal{E}_{K}$ separates points. Let $\bold{y} \neq \bold{z} \in \Rn$, then
     there exists a coordinate $h \in \{1, \mathellipsis, n\}$ such that $y_h \neq z_h$.
     The function $e^{\bold{e}_h \cdot \x}$, where $\bold{e}_h = (0, \mathellipsis, 0, 1, 0, \mathellipsis, 0)$
-    is $h$-th vector of the canonical basis, separates $\bold{y}$ from $\bold{z}$ since
+    is $h$-th vector of the canonical basis, separates $\bold{y}$ from $\bold{z}$
     $$e^{\bold{e}_h \cdot y} = e^{y_h} \neq e^{z_h} = e^{\bold{e}_h \cdot z}.$$
-    All the hypotheses of Stone-Weierstrass theorem are satisfied, so for every compact $K$, $\mathcal{E}_{K}$
+  </p>
+  <p>
+    All the hypotheses of Stone-Weierstrass theorem are satisfied. Thus, for every compact $K$, $\mathcal{E}_{K}$
     is dense in $C(K)$ with respect to the uniform norm. That is equivalent to say that $\mathcal{E} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}\}$ is dense in $C(\Rn)$ in the topology of
     uniform convergence on compact subsets.
     <span style="float:right">$\square$</span>
   </p>
   <p>
-    The density of $\RR(\Omega)$ in $C(\Rn)$ tells us that for every continuous functions $f$ it exists a sequence
-    of functions in $\RR(\Omega)$ whose limit is $f$ in the chosen topology.
-    Thus, any continuous function can be approximated by functions in $\RR(\Omega)$ with an arbitrary small
-    approximation error.
+    The density of $\RR(\Rn)$ in $C(\Rn)$ tells us that for every continuous functions $f$ it exists a sequence
+    of functions in $\RR(\Rn)$ whose limit is $f$ in the chosen topology.
+    Thus, any continuous function can be approximated by functions in $\RR(\Rn)$ with an arbitrary small
+    approximation error on every compact of $\Rn$.
     <small>
       The uniform convergence on compact sets is not equivalent to uniform convergence.
-      In practice, it does not matter because we always approximate functions whose domain can be included in a compact set; in fact, the function to be approximated is often known only on a finite set of points.
+      In practice, that difference is irrelevant as we always approximate functions whose domain can be included in a compact set. Most of the time, the approximated function is known only on a finite set of points.
     </small>
   </p>
   <p>
-    Since $\RR(\Omega)$ only depends on the set of normalized directions in $\Omega$, the
-    theorem also implies that $\RR([-M, M]^n)$ is dense in $C(\Rn)$ for an arbitrary constant $M$.
-    In general, we can safely reduce the space of directions of ridge functions,
-    for example limiting their norm, without losing expressive power.
+    We have already observed that every $\RR(\Omega)$ only depends on the set of normalized directions in $\Omega$. By consequence, the theorem implies that $\RR([-M, M]^n)$ is dense in $C(\Rn)$ for an arbitrary constant $M$.
+    In general, we can bound the norm of ridge function directions without any loss in expressive power.
+  </p>
+  <p>
+    The theorem implies nothing about MLPs. A negative result would have been valid for any subset of $\RR(\Rn)$, while such a positive result only give us an idea of what kind of approximation the MLPs could attain and under which conditions.
   </p>
   <p>
     A more general theorem by Vostrecov and Kreines states a necessary and sufficient condition
@@ -351,19 +363,21 @@ $
     $\RR(\Omega)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets,
     if and only if there is no homogeneous polynomial $p \neq 0$ such that $p(\x) = 0 \ \forall\, \x \in \Omega$.
   </p>
+  <p>
+    This final theorem provides the complete characterization of the density of linear combination of ridge functions. We have not discussed if all these properties are preserved by MLPs, but this is a solid starting point to deepen the subject.
+  </p>
 </section>
 <section>
     <h1 id="conclusions">Conclusions</h1>
     <p>
-      Single hidden layer MLPs are a special case of a linear combination of ridge functions.
-      We have proved that the class of functions spanned by continuous ridge function can approximate
-      every continuous function with arbitrary precision.
-      This fact is relevant in applications because it allows to design parametric models without imposing
-      compelling constraints.
+      Single hidden layer MLPs are a particular linear combination of ridge functions.
+      We have proved that the class of functions spanned by continuous ridge functions approximates every continuous function with arbitrary precision.
+      This fact is relevant in applications because it allows designing parametric models without imposing compelling constraints.
     </p>
     <p>
-      This density result does not imply that the same property holds true for MLPs, but
-      we can hope that functions represented by a MLP have the same approximation capability (indeed they have).
+      The density of $\RR(\Omega)$ in $C(\Rn)$ does not imply that the same property holds for MLPs, but we can hope that functions represented by MLPs have the same approximation capability.
+      Actually, like the linear combinations of ridge functions, MLPs are universal approximators.
+      That will be the topic of a follow-up article.
     </p>
 </section>
 <footer style="text-align: left">
@@ -391,7 +405,7 @@ $
 		</main>
 		<footer>
   <span>
-    &copy; <time datetime="2020-04-26 15:07:00 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
+    &copy; <time datetime="2020-04-26 16:25:41 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
     <a href="https://github.com/nextbitlabs/Rapido">Rapido</a>.
   </span>
 </footer>
