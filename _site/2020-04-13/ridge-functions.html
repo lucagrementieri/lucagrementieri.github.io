@@ -78,7 +78,7 @@
         <header>
           <h1>Artificial neurons as ridge functions</h1>
           <p>
-            Artificial neurons are a special case of ridge functions and linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. The approximation theory of ridge functions provides an upper bound on the approximation capabilities of neural networks.
+            Artificial neurons are a particular case of ridge functions. Thus, linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. Approximation theory of ridge functions provides an upper bound on the approximation capabilities of neural networks.
           </p>
         </header>
 				$
@@ -97,12 +97,11 @@ $
 <section>
   <h1 id="approximation-theory">Approximation theory</h1>
   <p>
-    Approximation theory is the branch of mathematics that studies how to approximate a class of functions
-    with a set of simpler functions. It allows to discover set of functions described by finite or countable
-    parameters that can faithfully represent an uncountable class of functions.
-    This subject has great practical interest because it allows to solve optimization problems on functions without making strong assumptions on the searched function.
+    Approximation theory is the branch of mathematics that studies how to approximate a large class of functions combining simpler ones.
+    It looks for sets of functions described by a finite or countable number of parameters that can faithfully reproduce functional classes with an uncountable number of dimensions. Continuous mappings are the most studied example of such a large family.
   </p>
   <p>
+    This topic has a great practical interest in solving optimization problems on functions without making strong hypotheses on the optimal solution.
     Given a functional $\ell: \mathcal{F} \longrightarrow \R$,
     an optimization problem takes the form
     $$
@@ -112,17 +111,17 @@ $
     For example, if we know that the solution $f^{*}$ is a continuous univariate function, then $\mathcal{F} = C(\R)$.
   </p>
   <p>
-    In practice we cannot solve the optimization problem on a function space with an infinite number of dimensions,
-    because machines can work only with a finite number of parameters. So we need to restrict $\mathcal{F}$ to a more
+    In practice, we cannot solve the optimization problem on a function space with an infinite number of dimensions, because machines can work only with a finite number of parameters. So we need to restrict $\mathcal{F}$ to a more
     manageable subset $\mathcal{G} \subset \mathcal{F}$.
-    This restriction adds more assumptions on $f^{*}$, assumptions not dictated by the problem itself but by
-    computational requirements. For example, in many cases, the search space is restricted to linear functions.
+    This restriction adds more assumptions on f. Computational requirements dictates these assumptions, not the problem itself. For instance, in many cases, the search space is restricted to linear functions because of their simplicity and interpretability.
   </p>
   <p>
-    Approximation theory looks for a countable or uncountable $\mathcal{G}$ dense in $\mathcal{F}$.
-    The density assures that the effective search space is not reduced because $f^{*}$ can be described
-    by functions in $\mathcal{G}$ with arbitrary precision.
-    Let us recall the definition of a dense set.
+    Representing uncountable dimensions with a countable amount of them seems impossible. The density property makes it possible. We use this same property in every calculation on a computer.
+    Since $\mathbb{Q}$ is dense in $\R$, we can represent real numbers on machines with a precision that is only limited by the available memory.
+  </p>
+  <p>
+    Similarly, the approximation theory of functions looks for a countable set $\mathcal{G}$ dense in $\mathcal{F}$.
+    Density assures that the actual search space is not reduced because functions in $\mathcal{G}$ can reproduce $f^{*}$ with arbitrary precision. Let us recall the definition of a dense set.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
@@ -130,10 +129,7 @@ $
     if for every $x \in X$, any neighborhood of $x$ contains at least one point from $A$.
     Equivalently, $A$ is dense in $X$ if the closure of $A$ is $X$: $\overline{A} = X$.
     <small>
-      The definitions of neighborhood and closure comes from general topology.
-      A neighborhood of a point $x$ is a set that includes an open subset that contains $x$.
-      The closure of a set $S$ is the smallest closed set including $S$; it is the union of $S$
-      and its limit points.
+      The definitions of neighborhood and closure come from general topology. A neighborhood of a point $x$ is a set that includes an open subset containing $x$. The closure of a set $S$ is the smallest closed set that covers $S$. It is the union of $S$ and its limit points.
     </small>
   </p>
   <p>
@@ -154,8 +150,11 @@ $
 <section>
   <h1 id="mlp">Multilayer perceptron</h1>
   <p>
+    Neural networks encode a subset of continuous functions. To examine the approximation capabilities of this class, we introduce the multiplayer perceptron and one of its generalization.
+  </p>
+  <p>
     The multilayer perceptron (MLP) is a fundamental neural network model consisting of a sequence of <em>layers</em>.
-    Every layer is composed by <em>neurons</em>, the fundamental processing unit of the network.
+    Every layer is composed by <em>neurons</em>, the elementary processing units of the network.
     Every artificial neuron in the intermediate <em>hidden layers</em> processes the outputs of the previous layer $\x$ with a non-linear function $N: \Rn \longrightarrow \R$ such that
     $$
     N(\x) = \sigma\left(\sum_{j=1}^{n} w_j x_j - \theta \right) =
@@ -165,21 +164,21 @@ $
     The non-linearity of $N$ comes from the <em>activation function</em> $\sigma$, a non-linear function
     that is the same for every neuron in the network.
     <small>
-      In the neural network literature, the values $w_{i}$ are called <em>weights</em> and they model the strength of the synapse linking the $i$-th neuron of the previous layer with the current neuron. $\theta$ is called <em>bias</em> and it recalls the threshold potential involved in the firing of biologic neurons.
+      In scientific literature about neural networks, the values $w_{i}$ are called <em>weights</em>. They model the strength of the synapse linking the $i$-th neuron of the previous layer with the current neuron.
+      $\theta$, called <em>bias</em>, recalls the threshold potential involved in the firing of biologic neurons.
     </small>
   </p>
   <p>
-    In the final layer, said the <em>output layer</em>, neurons operates differently. They just perform a linear combination of their inputs. Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
+    In the final layer, said the <em>output layer</em>, neurons operate differently. They perform a linear combination of their inputs. Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
     $$
     y = \sum_{i=1}^{r} c_i N_i(\x) = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right).
     $$
     It is possible to stack more hidden layers of various sizes to obtain a deeper network.
-    We will focus on this model because it can already approximate a very large class of functions.
+    We will focus on this shallow model because it can already approximate a large class of functions.
     <small>
-      The MLPs model under consideration outputs a single real number.
+      The considered MLP model outputs a single real number.
       The analysis can be generalized to outputs in $\R^{m}$ by repeating it on every component.
-      This allows to tackle regression problems with multiple outputs and in particular classification tasks.
-      In fact, classification tasks are framed as regression tasks having class probabilities as targets.
+      A model whose output is multi-dimensional can be used for both regression and classification tasks. Indeed, classification problems are framed as a regression of class probabilities.
     </small>
   </p>
 </section>
@@ -336,7 +335,7 @@ $
     approximation error.
     <small>
       The uniform convergence on compact sets is not equivalent to uniform convergence.
-      In practice, it does not matter because we always approximate functions whose domain can be included in a compact set; in fact, the function to be approximated is often known only on a finite set of points.      
+      In practice, it does not matter because we always approximate functions whose domain can be included in a compact set; in fact, the function to be approximated is often known only on a finite set of points.
     </small>
   </p>
   <p>
@@ -394,7 +393,7 @@ $
 		</main>
 		<footer>
   <span>
-    &copy; <time datetime="2020-04-23 22:50:40 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
+    &copy; <time datetime="2020-04-26 12:04:41 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
     <a href="https://github.com/nextbitlabs/Rapido">Rapido</a>.
   </span>
 </footer>
