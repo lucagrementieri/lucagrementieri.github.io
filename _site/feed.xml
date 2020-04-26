@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-26T16:25:41+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning</subtitle><author><name>Luca Grementieri</name></author><entry><title type="html">Artificial neurons as ridge functions</title><link href="http://localhost:4000/2020-04-13/ridge-functions" rel="alternate" type="text/html" title="Artificial neurons as ridge functions" /><published>2020-04-13T00:00:00+02:00</published><updated>2020-04-13T00:00:00+02:00</updated><id>http://localhost:4000/2020-04-13/ridge-functions</id><content type="html" xml:base="http://localhost:4000/2020-04-13/ridge-functions">$
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-27T00:33:48+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning</subtitle><author><name>Luca Grementieri</name></author><entry><title type="html">Artificial neurons as ridge functions</title><link href="http://localhost:4000/2020-04-26/ridge-functions" rel="alternate" type="text/html" title="Artificial neurons as ridge functions" /><published>2020-04-26T00:00:00+02:00</published><updated>2020-04-26T00:00:00+02:00</updated><id>http://localhost:4000/2020-04-26/ridge-functions</id><content type="html" xml:base="http://localhost:4000/2020-04-26/ridge-functions">$
 \gdef\x{\bold{x}}
 \gdef\w{\bold{w}}
 \gdef\a{\bold{a}}
@@ -29,7 +29,7 @@ $
   &lt;p&gt;
     In practice, we cannot solve the optimization problem on a function space with an infinite number of dimensions, because machines can work only with a finite number of parameters. So we need to restrict $\mathcal{F}$ to a more
     manageable subset $\mathcal{G} \subset \mathcal{F}$.
-    This restriction adds more assumptions on f. Computational requirements dictates these assumptions, not the problem itself. For instance, in many cases, the search space is restricted to linear functions because of their simplicity and interpretability.
+    This restriction adds more assumptions on $f^{*}$. Computational requirements dictates these assumptions, not the problem itself. For instance, in many cases, the search space is restricted to linear functions because of their simplicity and interpretability.
   &lt;/p&gt;
   &lt;p&gt;
     Representing uncountable dimensions with a countable amount of them seems impossible. The density property makes it possible. We use this same property in every calculation on a computer.
@@ -213,6 +213,9 @@ $
     &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
     A &lt;strong&gt;subalgebra&lt;/strong&gt; is a subset of an algebra, closed under addition, multiplication by scalar and
     product.
+    &lt;small&gt;
+      A set is closed under an operation if the result of the operation between elements of the set is still included in the set itself.
+    &lt;/small&gt;
   &lt;/p&gt;
 &lt;/section&gt;
 &lt;section&gt;
