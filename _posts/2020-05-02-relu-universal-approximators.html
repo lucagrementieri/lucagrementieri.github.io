@@ -1,149 +1,66 @@
-<!DOCTYPE html>
-<html>
-	<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes">
-
-  <title>Artificial neurons as ridge functions</title>
-  <meta name="description" content="Approximation theory of ridge functions">
-  <meta name="keywords" content="Luca Grementieri, Artificial Intelligence, Machine Learning, Mathematics"/>
-  <meta name="robots" content="index,follow">
-
-  <meta property="og:url" content="https://lucagrementieri.github.io/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Luca Grementieri">
-  <meta property="og:description" content="Scientific blog about maths and machine learning.">
-  <meta property="og:site_name" content="lucagrementieri.github.io">
-  <meta property="og:locale" content="en_US">
-
-  <meta name="twitter:card" content="Scientific blog about maths and machine learning.">
-  <meta name="twitter:url" content="https://lucagrementieri.github.io/">
-  <meta name="twitter:title" content="Luca Grementieri">
-  <meta name="twitter:description" content="Scientific blog about maths and machine learning.">
-
-  <meta itemprop="name" content="Luca Grementieri">
-  <meta itemprop="description" content="Scientific blog about maths and machine learning.">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/assets/main.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-  <!-- The loading of KaTeX is deferred to speed up page rendering -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-  <!-- To automatically render math in text elements, include the auto-render extension: -->
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
-  onload="renderMathInElement(document.body,{delimiters: [{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
-  <link href="https://unpkg.com/@nextbitlabs/rapido@^3/rapido.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-
-  <!-- RSS -->
-  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Luca Grementieri" />
-
-  <!-- Google Analytics-->
-  
-
-  <style>
-  footer {
-    font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif
-  }
-  </style>
-</head>
-
-	<body>
-		<nav class="nav">
-  <div class="nav-container">
-    <a href="/">
-      <h2 class="nav-title">Luca Grementieri</h2>
-    </a>
-    <ul>
-      <li><a href="/about">About</a></li>
-      <li><a href="/">Posts</a></li>
-      <li style="padding:0;"><a href="https://github.com/lucagrementieri/">
-        <img style="margin: 0; max-height:20px;" alt="GitHub" src="/assets/icons/github.png"></a></li>
-      <li style="padding:0;"><a href="https://www.linkedin.com/in/luca-grementieri/">
-        <img style="margin: 0; max-height:20px;" alt="LinkedIn" src="/assets/icons/linkedin.png"></a></li>
-      <li style="padding:0;"><a href="/feed.xml">
-        <img style="margin: 0; max-height:20px;" alt="RSS" src="/assets/icons/rss.png"></a></li>
-    </ul>
-  </div>
-</nav>
-
-		<main>
-			<article class="rapido" style="padding:0px;">
-        <header>
-          <h1>Artificial neurons as ridge functions</h1>
-          <p>
-            Artificial neurons are a particular case of ridge functions. Thus, linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. Approximation theory of ridge functions provides an upper bound on the approximation capabilities of neural networks.
-          </p>
-        </header>
-				$
+---
+layout: post
+title: ReLU networks are universal approximators
+description: The universal approximation theorem holds for many activation functions including ReLU
+intro: "It is widely known that neural networks are universal approximators, but the most cited proof is about neural networks with sigmoid activation function. This property is much more general: it holds for every continuous non-polynomial activation function."
+---
+$
 \gdef\x{\bold{x}}
 \gdef\w{\bold{w}}
-\gdef\a{\bold{a}}
 
 \gdef\R{\mathbb{R}}
-\gdef\RR{\mathcal{R}}
 \gdef\Rn{\mathbb{R}^{n}}
+\gdef\M{\mathcal{M}}
 
 \gdef\argmin#1{\underset{#1}{\text{arg\,min}}}
 \gdef\max#1{\underset{#1}{\text{max}}}
 $
 <section>
-  <h1 id="approximation-theory">Approximation theory</h1>
+  <h1 id="universal-approximation-theorem">Universal approximation theorem</h1>
   <p>
-    Approximation theory is the branch of mathematics that studies how to approximate a large class of functions combining simpler ones.
-    It looks for sets of functions described by a finite or countable number of parameters that can faithfully reproduce functional classes with an uncountable number of dimensions. Continuous mappings are the most studied example of such a large family.
+    The most known theoretic result about neural networks is that they are universal approximators.
+    This statement is quite vague since it does not specify which types of neural networks models are considered and the precise distance used to measure the quality of the approximation.
+    We are going to clarify those terms and prove the theorem in its most general form.
   </p>
   <p>
-    This topic has a great practical interest in solving optimization problems on functions without making strong hypotheses on the optimal solution.
-    Given a functional $\ell: \mathcal{F} \longrightarrow \R$,
-    an optimization problem takes the form
+    The considered neural network model is a multilayer perceptron (MLP) with a single hidden layer,
+    $n$-dimensional input $\x$ and real output $y$.
+    The details of such a model can be found in a <a href="../2020-04-26/ridge-functions.html">previous article</a>.
+    The mathematical form of functions expressed by this model is
     $$
-    f^{*} = \argmin{f \in \mathcal{F}}\ \ell(f),
+    y = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right),
     $$
-    where $\mathcal{F}$ is the search space of functions determined by the assumptions on $f^{*}$.
-    For example, if we know that the solution $f^{*}$ is a continuous univariate function, then $\mathcal{F} = C(\R)$.
+    where $\x \in \Rn$ is the input vectors and $\w^i \in \Rn$, $\theta_i, c_i \in \R$ are parameters and $\sigma$ is a univariate continuous function said <em>activation function</em>.
   </p>
   <p>
-    In practice, we cannot solve the optimization problem on a function space with an infinite number of dimensions, because machines can work only with a finite number of parameters. So we need to restrict $\mathcal{F}$ to a more
-    manageable subset $\mathcal{G} \subset \mathcal{F}$.
-    This restriction adds more assumptions on $f^{*}$. Computational requirements dictates these assumptions, not the problem itself. For instance, in many cases, the search space is restricted to linear functions because of their simplicity and interpretability.
+    The parameter $r$ represents the number of units in the hidden layer. It controls the number of functions $\sigma(\w^i \cdot \x)$ that are linearly combined to obtain $y$.
+    If we consider the class of functions described by all MLPs, with any number of hidden units, we obtain
+    the linear vector space of functions
+    $$
+    \M(\sigma) = \text{span}\{\sigma(\w \cdot \x - \theta), \theta \in \R, \w \in \Rn\}.
+    $$
+    The universal approximation theorem establishes the approximation properties of $\M(\sigma)$.
   </p>
   <p>
-    Representing uncountable dimensions with a countable amount of them seems impossible. The density property makes it possible. We use this same property in every calculation on a computer.
-    Since $\mathbb{Q}$ is dense in $\R$, we can represent real numbers on machines with a precision that is only limited by the available memory.
-  </p>
-  <p>
-    Similarly, the approximation theory of functions looks for a countable set $\mathcal{G}$ dense in $\mathcal{F}$.
-    Density assures that the actual search space is not reduced because functions in $\mathcal{G}$ can reproduce $f^{*}$ with arbitrary precision. Let us recall the definition of a dense set.
+    Now that the neural network model is specified, the only missing piece is a sound definition of a universal approximator.
+    The definition involves many topological concepts (like compactness, uniform convergence and density) that we have already introduced in a <a href="../2020-04-26/ridge-functions.html">previous article</a>, so we take them for granted.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
-    Let $X$ be a topological space and let $A \subseteq X$. $A$ is <strong>dense</strong> in $X$
-    if for every $x \in X$, any neighborhood of $x$ contains at least one point from $A$.
-    Equivalently, $A$ is dense in $X$ if the closure of $A$ is $X$: $\overline{A} = X$.
-    <small>
-      The definitions of neighborhood and closure come from general topology. A neighborhood of a point $x$ is a set that includes an open subset containing $x$. The closure of a set $S$ is the smallest closed set that covers $S$. It is the union of $S$ and its limit points.
-    </small>
+    A class of functions is a <strong>universal approximator</strong> if it is dense in $C(\Rn)$
+    in the topology of uniform convergence on compact subsets.
   </p>
   <p>
-    The most known result of approximation theory is <strong>Weierstrass Approximation Theorem</strong>.
+    We have all the ingredients to state the universal approximation theorem.
   </p>
   <p style="background-color:#d8deea; padding:10px;">
     <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
-    Let $f$ be a continuous real-valued function defined on the interval $[a, b]$.
-    For every $\epsilon > 0$, there exists a polynomial $p$ such that $\forall\, x \in [a, b]$, we have
-    $|f(x) − p(x)| < \epsilon$, or equivalently, $||f−p||_{\infty} < \epsilon$.
-    <small>
-      The notation $||\cdot||_{\infty}$ indicates the uniform or supremum norm.
-      The norm assigns to a bounded function $f$ on the interval $[a, b]$ the value
-      $||f||_{\infty} = \text{sup}\{|f(x)|, x \in [a, b]\}$.
-    </small>
+    The class of multilayer perceptrons with a single hidden layer and continuous activation function $\sigma$ is
+    a universal approximator if and only if $\sigma$ is not a polynomial.
+  </p>
+  <p>
+    This form of the theorem is the most general one and it is due to Pinkus et al.
+    Many weaker forms are known, in particular Cybenko first proved the property for sigmoidal activation functions.
   </p>
 </section>
 <section>
@@ -403,15 +320,3 @@ $
     <p>If you see mistakes or want to suggest changes, please <a href="https://github.com/lucagrementieri/lucagrementieri.github.io">open an issue on GitHub</a>.</p>
   </section>
 </footer>
-
-			</article>
-		</main>
-		<footer>
-  <span>
-    &copy; <time datetime="2020-05-02 17:54:10 +0200">2020</time> Luca Grementieri. Made with Jekyll using the <a href="https://github.com/chesterhow/tale/">Tale</a> theme and
-    <a href="https://github.com/nextbitlabs/Rapido">Rapido</a>.
-  </span>
-</footer>
-
-	</body>
-</html>

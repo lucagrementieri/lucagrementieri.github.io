@@ -1,4 +1,319 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-04-27T00:33:48+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning</subtitle><author><name>Luca Grementieri</name></author><entry><title type="html">Artificial neurons as ridge functions</title><link href="http://localhost:4000/2020-04-26/ridge-functions" rel="alternate" type="text/html" title="Artificial neurons as ridge functions" /><published>2020-04-26T00:00:00+02:00</published><updated>2020-04-26T00:00:00+02:00</updated><id>http://localhost:4000/2020-04-26/ridge-functions</id><content type="html" xml:base="http://localhost:4000/2020-04-26/ridge-functions">$
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-05-02T17:54:10+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Luca Grementieri</title><subtitle>Scientific blog about maths and machine learning</subtitle><author><name>Luca Grementieri</name></author><entry><title type="html">ReLU networks are universal approximators</title><link href="http://localhost:4000/2020-05-02/relu-universal-approximators" rel="alternate" type="text/html" title="ReLU networks are universal approximators" /><published>2020-05-02T00:00:00+02:00</published><updated>2020-05-02T00:00:00+02:00</updated><id>http://localhost:4000/2020-05-02/relu-universal-approximators</id><content type="html" xml:base="http://localhost:4000/2020-05-02/relu-universal-approximators">$
+\gdef\x{\bold{x}}
+\gdef\w{\bold{w}}
+
+\gdef\R{\mathbb{R}}
+\gdef\Rn{\mathbb{R}^{n}}
+\gdef\M{\mathcal{M}}
+
+\gdef\argmin#1{\underset{#1}{\text{arg\,min}}}
+\gdef\max#1{\underset{#1}{\text{max}}}
+$
+&lt;section&gt;
+  &lt;h1 id=&quot;universal-approximation-theorem&quot;&gt;Universal approximation theorem&lt;/h1&gt;
+  &lt;p&gt;
+    The most known theoretic result about neural networks is that they are universal approximators.
+    This statement is quite vague since it does not specify which types of neural networks models are considered and the precise distance used to measure the quality of the approximation.
+    We are going to clarify those terms and prove the theorem in its most general form.
+  &lt;/p&gt;
+  &lt;p&gt;
+    The considered neural network model is a multilayer perceptron (MLP) with a single hidden layer,
+    $n$-dimensional input $\x$ and real output $y$.
+    The details of such a model can be found in a &lt;a href=&quot;../2020-04-26/ridge-functions.html&quot;&gt;previous article&lt;/a&gt;.
+    The mathematical form of functions expressed by this model is
+    $$
+    y = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right),
+    $$
+    where $\x \in \Rn$ is the input vectors and $\w^i \in \Rn$, $\theta_i, c_i \in \R$ are parameters and $\sigma$ is a univariate continuous function said &lt;em&gt;activation function&lt;/em&gt;.
+  &lt;/p&gt;
+  &lt;p&gt;
+    The parameter $r$ represents the number of units in the hidden layer. It controls the number of functions $\sigma(\w^i \cdot \x)$ that are linearly combined to obtain $y$.
+    If we consider the class of functions described by all MLPs, with any number of hidden units, we obtain
+    the linear vector space of functions
+    $$
+    \M(\sigma) = \text{span}\{\sigma(\w \cdot \x - \theta), \theta \in \R, \w \in \Rn\}.
+    $$
+    The universal approximation theorem establishes the approximation properties of $\M(\sigma)$.
+  &lt;/p&gt;
+  &lt;p&gt;
+    Now that the neural network model is specified, the only missing piece is a sound definition of a universal approximator.
+    The definition involves many topological concepts (like compactness, uniform convergence and density) that we have already introduced in a &lt;a href=&quot;../2020-04-26/ridge-functions.html&quot;&gt;previous article&lt;/a&gt;, so we take them for granted.
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+    A class of functions is a &lt;strong&gt;universal approximator&lt;/strong&gt; if it is dense in $C(\Rn)$
+    in the topology of uniform convergence on compact subsets.
+  &lt;/p&gt;
+  &lt;p&gt;
+    We have all the ingredients to state the universal approximation theorem.
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+    The class of multilayer perceptrons with a single hidden layer and continuous activation function $\sigma$ is
+    a universal approximator if and only if $\sigma$ is not a polynomial.
+  &lt;/p&gt;
+  &lt;p&gt;
+    This form of the theorem is the most general one and it is due to Pinkus et al.
+    Many weaker forms are known, in particular Cybenko first proved the property for sigmoidal activation functions.
+  &lt;/p&gt;
+&lt;/section&gt;
+&lt;section&gt;
+  &lt;h1 id=&quot;mlp&quot;&gt;Multilayer perceptron&lt;/h1&gt;
+  &lt;p&gt;
+    Neural networks encode a subset of continuous functions. To examine the approximation capabilities of this class, we introduce the multiplayer perceptron and one of its generalization.
+  &lt;/p&gt;
+  &lt;p&gt;
+    The multilayer perceptron (MLP) is a fundamental neural network model consisting of a sequence of &lt;em&gt;layers&lt;/em&gt;.
+    Every layer is composed by &lt;em&gt;neurons&lt;/em&gt;, the elementary processing units of the network.
+    Every artificial neuron in the intermediate &lt;em&gt;hidden layers&lt;/em&gt; processes the outputs of the previous layer $\x$ with a non-linear function $N: \Rn \longrightarrow \R$ such that
+    $$
+    N(\x) = \sigma\left(\sum_{j=1}^{n} w_j x_j - \theta \right) =
+    \sigma(\w \cdot \x - \theta),
+    $$
+    where $\w$ and $\theta$ are parameters that change for every neuron.
+    The non-linearity of $N$ comes from the &lt;em&gt;activation function&lt;/em&gt; $\sigma$, a non-linear function
+    that is the same for every neuron in the network.
+    &lt;small&gt;
+      In scientific literature about neural networks, the values $w_{i}$ are called &lt;em&gt;weights&lt;/em&gt;. They model the strength of the synapse linking the $i$-th neuron of the previous layer with the current neuron.
+      $\theta$, called &lt;em&gt;bias&lt;/em&gt;, recalls the threshold potential involved in the firing of biologic neurons.
+    &lt;/small&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    In the final layer, said the &lt;em&gt;output layer&lt;/em&gt;, neurons operate differently. They perform a linear combination of their inputs. Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
+    $$
+    y = \sum_{i=1}^{r} c_i N_i(\x) = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right).
+    $$
+    It is possible to stack more hidden layers of various sizes to obtain a deeper network.
+    We will focus on this shallow model because it can already approximate a large class of functions.
+    &lt;small&gt;
+      The considered MLP model outputs a single real number.
+      The analysis can be generalized to outputs in $\R^{m}$ by repeating it on every component.
+      A model whose output is multi-dimensional can be used for both regression and classification tasks. Indeed, classification problems are framed as a regression of class probabilities.
+    &lt;/small&gt;
+  &lt;/p&gt;
+&lt;/section&gt;
+&lt;section&gt;
+  &lt;h1 id=&quot;ridge&quot;&gt;Ridge functions&lt;/h1&gt;
+  &lt;p&gt;
+    The function $N(\x)$ has a particular structure: it is the composition of a univariate function sigma with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+    A &lt;strong&gt;ridge function&lt;/strong&gt; is a function $F: \Rn \longrightarrow \R$
+    of the form
+    $$
+    F(\x) = f(a_1 x_1 + \mathellipsis + a_n x_n) = f(\a \cdot \x),
+    $$
+    where $f: \R \longrightarrow \R$ is a univariate function and
+    $\a = (a_1, \mathellipsis, a_n) \in \Rn - \{\bold{0}\}$ is a fixed vector.
+  &lt;/p&gt;
+  &lt;p&gt;
+    The vector $\a$ is called &lt;em&gt;direction&lt;/em&gt; because a ridge function is constant on the parallel hyperplanes orthogonal to $\a$. These hyperplanes are defined by the equation $\a \cdot \x = c$, with $c \in \R$.
+  &lt;/p&gt;
+  &lt;p&gt;
+    We denote the set of ridge functions with direction $\a$
+    $$\overline{\RR}(\a) = \{f(\a \cdot \x), f: \R \longrightarrow \R\}.$$
+    Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\overline{\RR}(\a) = \overline{\RR}(\bold{b})$.
+  &lt;/p&gt;
+  &lt;p&gt;
+    For a set $\Omega \subseteq \Rn$, we define
+    $$
+    \overline{\RR}(\Omega) = \text{span}\{f(\a \cdot \x), f: \R \longrightarrow \R, \a \in \Omega\}.
+    $$
+    A &lt;em&gt;span&lt;/em&gt; of a set $S$ is the set of linear combinations of elements in $S$, then
+    every $F \in \overline{\RR}(\Omega)$ has the form
+    $$
+    F(\x) = \sum_{i=1}^{r} c_i f_i(\a^i \cdot \x).
+    $$
+    We can notice that $\overline{\RR}(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
+  &lt;/p&gt;
+  &lt;p&gt;
+    If we require the continuity of the activation function $\sigma$ in a MLP, the functions defined by a MLP
+    belong to the smaller set of linear combinations of continuous ridge functions
+    $$
+    \RR(\Omega) = \text{span}\{f(\a \cdot \x), f \in C(\R), \a \in \Omega\}
+    $$
+    with $\Omega = \Rn$.
+  &lt;/p&gt;
+  &lt;p&gt;
+    We are interested in the approximation theory of the functional vector spaces $\RR(\Omega)$ to characterize the class of functions defined by MLPs.
+    If a MLP is capable of approximating a function, the same holds for $\RR(\Rn)$, a larger family of functions.
+    Conversely, if $\RR(\Rn)$ cannot approximate a function, then neither MLPs could.
+    Therefore $\RR(\Rn)$ gives us an upper bound on the approximation capabilities of MLPs.
+  &lt;/p&gt;
+&lt;/section&gt;
+&lt;section&gt;
+  &lt;h1 id=&quot;compact-convergence&quot;&gt;Uniform convergence on compact sets&lt;/h1&gt;
+  &lt;p&gt;
+    The breadth of the class of continuous functions $\RR(\Omega)$ depends on $\Omega$.
+    For instance, we have already seen that, $\RR(\{\a\})$ represents a limited family of functions constant on parallel hyperplanes.
+    Thus, not every $\RR(\Omega)$ is a dense subspace of $C(\Rn)$.
+    We will present the conditions on $\Omega$ that ensure that this property holds.
+  &lt;/p&gt;
+  &lt;p&gt;
+    Since density is a property of a topological space, we have to define a topology
+    on $C(\Rn)$ to clarify the meaning of this concept.
+    In the approximation theory of continuous functions, the topology of uniform
+    convergence on compact subsets is the most common.
+    &lt;small&gt;
+      The general topological definition of a compact involves covers and subcovers.
+      The Heine-Borel theorem gives a much simpler characterization of compactness in a euclidean space: in $\Rn$,
+      a set is compact if and only if it is closed and bounded.
+    &lt;/small&gt;
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+    A sequence of functions $f_{m} \in C(\Rn), m \in \mathbb{N}$ is said to
+    &lt;strong&gt;converge uniformly on compact sets&lt;/strong&gt; as $m \to \infty$ to some function
+    $f \in C(\Rn)$ if, for every compact set $K \subset \Rn$ and every $\epsilon &gt; 0$,
+    there exist $\overline{m}$ such that $\forall\, m \geq \overline{m}$
+    $$
+    ||f_{m} - f||_{K} = \max{x \in K}\ | f_{m}(x) - f(x)| &lt; \epsilon.
+    $$
+    &lt;small&gt;
+      If we can prove density in this topology, then the subset is also dense in many other topologies.
+      For example, density would hold in $L^{p}(K)$, where $K$ is any compact subset of $\Rn$ and $p \in [1,\infty[$.
+      Indeed $||f||_{p,K} \leq ||f||_{K} &lt; +\infty$.
+    &lt;/small&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    A very powerful tool to prove results with this topology is the &lt;strong&gt;Stone-Weierstrass Theorem&lt;/strong&gt;.
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+    Suppose $X$ is a compact Hausdorff space and $C(X)$ is the space of continuous real-valued functions over $X$.
+    A subalgebra $A$ of $C(X)$ containing a non-zero constant function, is dense in $C(X)$ if and only if it separates points.
+    &lt;small&gt;
+      A set of real-valued functions $S$ separates points if for any pair $x, y \in \R$, there exists a function
+      $f \in S$ such that $f(x) \neq f(y)$.
+    &lt;/small&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    This theorem implies Weierstrass Approximation Theorem: indeed,  polynomials on $[a, b]$ form a subalgebra of $C([a, b])$, which contains constant functions and separates points.
+    Let us recall the definition of algebra and subalgebra.
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+    Let $A$ be a vector space over $\R$ equipped with a binary operation (a product) from $\cdot: A \times A \to A$. Then $A$ is an &lt;strong&gt;algebra&lt;/strong&gt; if the following identities hold for all elements $x$, $y$, and $z$ of $A$, and all scalars $a$ and $b$ of $\R$:
+    $$
+    \begin{aligned}
+    (x + y) \cdot z &amp;= x \cdot z + y \cdot z; &amp; \qquad \textit{\footnotesize right distributivity}\\
+    z \cdot (x + y) &amp;= z \cdot x + z \cdot y; &amp; \qquad \textit{\footnotesize left distributivity}\\
+    (ax) \cdot (by) &amp;= (ab) (x \cdot y). &amp; \qquad \textit{\footnotesize compatibility with scalars}
+    \end{aligned}
+    $$
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;DEFINITION&lt;/strong&gt;&lt;/br&gt;
+    A &lt;strong&gt;subalgebra&lt;/strong&gt; is a subset of an algebra, closed under addition, multiplication by scalar and
+    product.
+    &lt;small&gt;
+      A set is closed under an operation if the result of the operation between elements of the set is still included in the set itself.
+    &lt;/small&gt;
+  &lt;/p&gt;
+&lt;/section&gt;
+&lt;section&gt;
+  &lt;h1 id=&quot;density&quot;&gt;Density of continuous ridge functions&lt;/h1&gt;
+  &lt;p&gt;
+    We now have all the ingredients to state a density theorem about $\RR(\Rn)$ in $C(\Rn)$.
+    Actually, the theorem is even stronger because the proof shows that $\RR(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+    $\RR(\Rn)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets.
+  &lt;/p&gt;
+  &lt;h3&gt;Proof&lt;/h3&gt;
+  &lt;p&gt;
+    It is sufficient to prove that linear combinations of the functions $e^{\bold{n} \cdot \x}$,
+    where $\bold{n} \in \mathbb{Z}^{n}$, are dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets. This fact is a consequence of the Stone-Weierstrass Theorem.
+  &lt;/p&gt;
+  &lt;p&gt;
+    For every compact set $K \subset \Rn$, $C(K)$ is an algebra: it is a vector space, and the product between functions satisfies all the properties listed in the definition of algebra.
+    The set $\mathcal{E}_{K} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}, x \in K \}$ is a linear subspace of $C(K)$, therefore it is closed under addition and multiplication by a scalar.
+    Thanks to the properties of the exponential function, the product of two elements $f, g, \in \mathcal{E}_{K}$ is still included in $\mathcal{E}_{K}$:
+    $$
+    f = \sum_{i=1}^s e^{\bold{n}_i \cdot \x} \quad g = \sum_{j=1}^t e^{\bold{m}_j \cdot \x} \Rightarrow f \cdot g = \sum_{i=1}^s \sum_{j=1}^t e^{(\bold{n}_i + \bold{m}_j) \cdot x}.
+    $$
+    Thus, $\mathcal{E}_{K}$ is a subalgebra of $C(K)$.
+  &lt;/p&gt;
+  &lt;p&gt;
+    Putting $\bold{n} = \bold{0}$, we obtain
+    the non-zero constant function $e^{\bold{0} \cdot \x} = 1$.
+    Moreover $\mathcal{E}_{K}$ separates points. Let $\bold{y} \neq \bold{z} \in \Rn$, then
+    there exists a coordinate $h \in \{1, \mathellipsis, n\}$ such that $y_h \neq z_h$.
+    The function $e^{\bold{e}_h \cdot \x}$, where $\bold{e}_h = (0, \mathellipsis, 0, 1, 0, \mathellipsis, 0)$
+    is $h$-th vector of the canonical basis, separates $\bold{y}$ from $\bold{z}$
+    $$e^{\bold{e}_h \cdot y} = e^{y_h} \neq e^{z_h} = e^{\bold{e}_h \cdot z}.$$
+  &lt;/p&gt;
+  &lt;p&gt;
+    All the hypotheses of Stone-Weierstrass theorem are satisfied. Thus, for every compact $K$, $\mathcal{E}_{K}$
+    is dense in $C(K)$ with respect to the uniform norm. That is equivalent to say that $\mathcal{E} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}\}$ is dense in $C(\Rn)$ in the topology of
+    uniform convergence on compact subsets.
+    &lt;span style=&quot;float:right&quot;&gt;$\square$&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    The density of $\RR(\Rn)$ in $C(\Rn)$ tells us that for every continuous functions $f$ it exists a sequence
+    of functions in $\RR(\Rn)$ whose limit is $f$ in the chosen topology.
+    Thus, any continuous function can be approximated by functions in $\RR(\Rn)$ with an arbitrary small
+    approximation error on every compact of $\Rn$.
+    &lt;small&gt;
+      The uniform convergence on compact sets is not equivalent to uniform convergence.
+      In practice, that difference is irrelevant as we always approximate functions whose domain can be included in a compact set. Most of the time, the approximated function is known only on a finite set of points.
+    &lt;/small&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    We have already observed that every $\RR(\Omega)$ only depends on the set of normalized directions in $\Omega$. By consequence, the theorem implies that $\RR([-M, M]^n)$ is dense in $C(\Rn)$ for an arbitrary constant $M$.
+    In general, we can bound the norm of ridge function directions without any loss in expressive power.
+  &lt;/p&gt;
+  &lt;p&gt;
+    The theorem implies nothing about MLPs. A negative result would have been valid for any subset of $\RR(\Rn)$, while such a positive result only give us an idea of what kind of approximation the MLPs could attain and under which conditions.
+  &lt;/p&gt;
+  &lt;p&gt;
+    A more general theorem by Vostrecov and Kreines states a necessary and sufficient condition
+    for the density of $\RR(\Omega)$ in $C(\Rn)$.
+  &lt;/p&gt;
+  &lt;p style=&quot;background-color:#d8deea; padding:10px;&quot;&gt;
+    &lt;strong style=&quot;color:#434498; padding-bottom:10px&quot;&gt;THEOREM&lt;/strong&gt;&lt;/br&gt;
+    $\RR(\Omega)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets,
+    if and only if there is no homogeneous polynomial $p \neq 0$ such that $p(\x) = 0 \ \forall\, \x \in \Omega$.
+  &lt;/p&gt;
+  &lt;p&gt;
+    This final theorem provides the complete characterization of the density of linear combination of ridge functions. We have not discussed if all these properties are preserved by MLPs, but this is a solid starting point to deepen the subject.
+  &lt;/p&gt;
+&lt;/section&gt;
+&lt;section&gt;
+    &lt;h1 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h1&gt;
+    &lt;p&gt;
+      Single hidden layer MLPs are a particular linear combination of ridge functions.
+      We have proved that the class of functions spanned by continuous ridge functions approximates every continuous function with arbitrary precision.
+      This fact is relevant in applications because it allows designing parametric models without imposing compelling constraints.
+    &lt;/p&gt;
+    &lt;p&gt;
+      The density of $\RR(\Omega)$ in $C(\Rn)$ does not imply that the same property holds for MLPs, but we can hope that functions represented by MLPs have the same approximation capability.
+      Actually, like the linear combinations of ridge functions, MLPs are universal approximators.
+      That will be the topic of a follow-up article.
+    &lt;/p&gt;
+&lt;/section&gt;
+&lt;footer style=&quot;text-align: left&quot;&gt;
+  &lt;section&gt;
+    &lt;h1&gt;References&lt;/h1&gt;
+    &lt;ol&gt;
+      &lt;li id=&quot;ref-1&quot;&gt;
+        Pinkus, Allan. &lt;em&gt;Ridge functions.&lt;/em&gt; Vol. 205. Cambridge University Press, 2015.
+      &lt;/li&gt;
+      &lt;li id=&quot;ref-2&quot;&gt;
+        Pinkus, Allan. &lt;em&gt;Approximation theory of the MLP model in neural networks.&lt;/em&gt; Acta numerica 8 (1999): 143-195.
+      &lt;/li&gt;
+      &lt;li id=&quot;ref-3&quot;&gt;
+        Vostrecov, B. A., and M. A. Kreines. &lt;em&gt;Approximation of continuous functions by superpositions of plane waves.&lt;/em&gt; Dokl. Akad. Nauk SSSR. Vol. 140. 1961.
+      &lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h1&gt;Updates and Corrections&lt;/h1&gt;
+    &lt;p&gt;If you see mistakes or want to suggest changes, please &lt;a href=&quot;https://github.com/lucagrementieri/lucagrementieri.github.io&quot;&gt;open an issue on GitHub&lt;/a&gt;.&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/footer&gt;</content><author><name>Luca Grementieri</name></author><summary type="html">$ \gdef\x{\bold{x}} \gdef\w{\bold{w}}</summary></entry><entry><title type="html">Artificial neurons as ridge functions</title><link href="http://localhost:4000/2020-04-26/ridge-functions" rel="alternate" type="text/html" title="Artificial neurons as ridge functions" /><published>2020-04-26T00:00:00+02:00</published><updated>2020-04-26T00:00:00+02:00</updated><id>http://localhost:4000/2020-04-26/ridge-functions</id><content type="html" xml:base="http://localhost:4000/2020-04-26/ridge-functions">$
 \gdef\x{\bold{x}}
 \gdef\w{\bold{w}}
 \gdef\a{\bold{a}}
