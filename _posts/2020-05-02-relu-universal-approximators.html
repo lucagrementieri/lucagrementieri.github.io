@@ -31,6 +31,7 @@ $
     y = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right),
     $$
     where $\x \in \Rn$ is the input vectors and $\w^i \in \Rn$, $\theta_i, c_i \in \R$ are parameters and $\sigma$ is a univariate continuous function said <em>activation function</em>.
+    <!-- add comment about the generality of the setting-->
   </p>
   <p>
     The parameter $r$ represents the number of units in the hidden layer. It controls the number of functions $\sigma(\w^i \cdot \x)$ that are linearly combined to obtain $y$.
@@ -40,6 +41,7 @@ $
     \M(\sigma) = \text{span}\{\sigma(\w \cdot \x - \theta), \theta \in \R, \w \in \Rn\}.
     $$
     The universal approximation theorem establishes the approximation properties of $\M(\sigma)$.
+    <!-- add comment about span definition -->
   </p>
   <p>
     Now that the neural network model is specified, the only missing piece is a sound definition of a universal approximator.
@@ -61,6 +63,7 @@ $
   <p>
     This form of the theorem is the most general one and it is due to Pinkus et al.
     Many weaker forms are known, in particular Cybenko first proved the property for sigmoidal activation functions.
+  <!-- add comment about sigmoidal functions -->
   </p>
 </section>
 <section>
