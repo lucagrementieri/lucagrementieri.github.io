@@ -31,13 +31,12 @@ github_username: lucagrementieri
 google_analytics: UA-10400747-8
 
 # Build settings
-remote_theme: chesterhow/tale
 permalink:  /:year-:month-:day/:title
 paginate:   5
 plugins:
   - jekyll-feed
   - jekyll-paginate
-  - jekyll-remote-theme
+  - jekyll-seo-tag
 
 # Exclude from processing.
 # The following items will not be processed, by default.
