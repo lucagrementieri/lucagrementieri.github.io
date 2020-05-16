@@ -15,7 +15,6 @@ $box-title: #434498;
 $serif-primary: 'Libre Baskerville', 'Times New Roman', Times, serif;
 $serif-secondary: Palatino, 'Palatino LT STD', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif;
 $sans-serif: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
-$monospaced: Menlo, Monaco, monospace;
 
 @mixin box-sizing($type: border-box) {
   -webkit-box-sizing: $type;
