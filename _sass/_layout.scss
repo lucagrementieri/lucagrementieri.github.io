@@ -99,3 +99,15 @@ footer {
 article > footer {
   text-align: left;
 }
+
+article section p.box{
+  background-color: $box-color;
+  padding: 10px;
+}
+
+.box-title {
+  font-weight: bold;
+  color: $box-title;
+  padding-bottom: 10px;
+  display: block;
+}

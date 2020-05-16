@@ -35,7 +35,7 @@ $
   <p>
     In practice, we cannot solve the optimization problem on a function space with an infinite number of dimensions, because machines can work only with a finite number of parameters. So we need to restrict $\mathcal{F}$ to a more
     manageable subset $\mathcal{G} \subset \mathcal{F}$.
-    This restriction adds more assumptions on $f^{*}$. Computational requirements dictates these assumptions, not the problem itself. For instance, in many cases, the search space is restricted to linear functions because of their simplicity and interpretability.
+    This restriction adds more assumptions on $f^{*}$. Computational requirements dictate these assumptions, not the problem itself. For instance, in many cases, the search space is restricted to linear functions because of their simplicity and interpretability.
   </p>
   <p>
     Representing uncountable dimensions with a countable amount of them seems impossible. The density property makes it possible. We use this same property in every calculation on a computer.
@@ -45,8 +45,8 @@ $
     Similarly, the approximation theory of functions looks for a countable set $\mathcal{G}$ dense in $\mathcal{F}$.
     Density assures that the actual search space is not reduced because functions in $\mathcal{G}$ can reproduce $f^{*}$ with arbitrary precision. Let us recall the definition of a dense set.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     Let $X$ be a topological space and let $A \subseteq X$. $A$ is <strong>dense</strong> in $X$
     if for every $x \in X$, any neighborhood of $x$ contains at least one point from $A$.
     Equivalently, $A$ is dense in $X$ if the closure of $A$ is $X$: $\overline{A} = X$.
@@ -57,8 +57,8 @@ $
   <p>
     The most known result of approximation theory is <strong>Weierstrass Approximation Theorem</strong>.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+  <p class="box">
+    <span class="box-title">THEOREM</span>
     Let $f$ be a continuous real-valued function defined on the interval $[a, b]$.
     For every $\epsilon > 0$, there exists a polynomial $p$ such that $\forall\, x \in [a, b]$, we have
     $|f(x) − p(x)| < \epsilon$, or equivalently, $||f−p||_{\infty} < \epsilon$.
@@ -109,8 +109,8 @@ $
   <p>
     The function $N(\x)$ has a particular structure: it is the composition of a univariate function sigma with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     A <strong>ridge function</strong> is a function $F: \Rn \longrightarrow \R$
     of the form
     $$
@@ -140,7 +140,7 @@ $
     We can notice that $\overline{\RR}(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
   </p>
   <p>
-    If we require the continuity of the activation function $\sigma$ in a MLP, the functions defined by a MLP
+    If we require the continuity of the activation function $\sigma$ in an MLP, the functions defined by an MLP
     belong to the smaller set of linear combinations of continuous ridge functions
     $$
     \RR(\Omega) = \text{span}\{f(\a \cdot \x), f \in C(\R), \a \in \Omega\}
@@ -149,7 +149,7 @@ $
   </p>
   <p>
     We are interested in the approximation theory of the functional vector spaces $\RR(\Omega)$ to characterize the class of functions defined by MLPs.
-    If a MLP is capable of approximating a function, the same holds for $\RR(\Rn)$, a larger family of functions.
+    If an MLP is capable of approximating a function, the same holds for $\RR(\Rn)$, a larger family of functions.
     Conversely, if $\RR(\Rn)$ cannot approximate a function, then neither MLPs could.
     Therefore $\RR(\Rn)$ gives us an upper bound on the approximation capabilities of MLPs.
   </p>
@@ -173,8 +173,8 @@ $
       a set is compact if and only if it is closed and bounded.
     </small>
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     A sequence of functions $f_{m} \in C(\Rn), m \in \mathbb{N}$ is said to
     <strong>converge uniformly on compact sets</strong> as $m \to \infty$ to some function
     $f \in C(\Rn)$ if, for every compact set $K \subset \Rn$ and every $\epsilon > 0$,
@@ -191,8 +191,8 @@ $
   <p>
     A very powerful tool to prove results with this topology is the <strong>Stone-Weierstrass Theorem</strong>.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+  <p class="box">
+    <span class="box-title">THEOREM</span>
     Suppose $X$ is a compact Hausdorff space and $C(X)$ is the space of continuous real-valued functions over $X$.
     A subalgebra $A$ of $C(X)$ containing a non-zero constant function, is dense in $C(X)$ if and only if it separates points.
     <small>
@@ -204,8 +204,8 @@ $
     This theorem implies Weierstrass Approximation Theorem: indeed,  polynomials on $[a, b]$ form a subalgebra of $C([a, b])$, which contains constant functions and separates points.
     Let us recall the definition of algebra and subalgebra.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     Let $A$ be a vector space over $\R$ equipped with a binary operation (a product) from $\cdot: A \times A \to A$. Then $A$ is an <strong>algebra</strong> if the following identities hold for all elements $x$, $y$, and $z$ of $A$, and all scalars $a$ and $b$ of $\R$:
     $$
     \begin{aligned}
@@ -215,8 +215,8 @@ $
     \end{aligned}
     $$
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     A <strong>subalgebra</strong> is a subset of an algebra, closed under addition, multiplication by scalar and
     product.
     <small>
@@ -230,8 +230,8 @@ $
     We now have all the ingredients to state a density theorem about $\RR(\Rn)$ in $C(\Rn)$.
     Actually, the theorem is even stronger because the proof shows that $\RR(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+  <p class="box">
+    <span class="box-title">THEOREM</span>
     $\RR(\Rn)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets.
   </p>
   <h3>Proof</h3>
