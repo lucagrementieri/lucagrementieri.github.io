@@ -16,8 +16,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
   <p>
     From a mathematical point of view, a signal is any function defined on a discrete set. This definition is very general, and it includes all the examples above.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     A discrete <strong>signal</strong> is a function whose domain is $\mathbb{Z}$,
     $f: \mathbb{Z} \longrightarrow \mathbb{R}$.</br>
     We denote the $n$-th value of the function as $f[n]$.
@@ -28,8 +28,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
   <p>
       A very particular signal is the discrete Dirac delta.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     The discrete <strong>Dirac delta</strong> is the signal
     $\delta[n] =
     \begin{cases}
@@ -43,8 +43,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
   <p>
     The convolution operation is a well-known building block of deep neural networks. We are going to prove some properties of the discrete convolution. We focus our attention on the monodimensional convolution, but all theorems generalize to multiple dimensions.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     Let $f$, $g$ be two real signals, the <strong>discrete convolution</strong> of $f$ and $g$ is
     $$
     (f * g)[n] = \sum_{k=-\infty}^{+\infty}f[k]g[n-k] \quad \forall\: n \in \mathbb{Z}.
@@ -62,8 +62,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
     In general, the summation in the convolution definition is not always finite.
     Recalling Holder's inequality, we can find a sufficient condition to establish whether the convolution is well-defined for every element.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+  <p class="box">
+    <span class="box-title">THEOREM</span>
     Let $f \in \ell^{p}(\mathbb{R})$ and $g \in \ell^{q}(\mathbb{R})$ be signals
     with $p, q \in [1, \infty]$ such that
     $$
@@ -105,8 +105,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
     These two properties are sufficient to explain why convolutions are a fundamental component
     of many processing systems.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+  <p class="box">
+    <span class="box-title">THEOREM</span>
     Let $f, g$ be two real signals such that its convolution is well-defined, then
     $$
     (f * g)[n] = (g * f)[n] \quad \forall\: n \in \mathbb{Z}.
@@ -123,8 +123,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
     \end{aligned}
     $$
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+  <p class="box">
+    <span class="box-title">THEOREM</span>
     Let $f, g, h$ be real signals and $a, b \in \mathbb{R}$. If the convolutions below
     are all well-defined, then we have
     $$
@@ -141,13 +141,13 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
         For example, we can use operators to reduce noise, to recognize features,
         to detect peaks or discontinuities.
     </p>
-    <p style="background-color:#d8deea; padding:10px;">
-      <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+    <p class="box">
+      <span class="box-title">DEFINITION</span>
       A discrete operator $L$ is <strong>linear</strong> if $\forall\: a, b \in \mathbb{R}$
       $$L(a \cdot f + b \cdot g)[n] = a \cdot L(f)[n] + b \cdot L(g)[n].$$
     </p>
-    <p style="background-color:#d8deea; padding:10px;">
-      <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+    <p class="box">
+      <span class="box-title">DEFINITION</span>
       A discrete operator is <strong>shift-invariant</strong> if $\forall\: p \in \mathbb{Z}$
       $$L(f[n-p]) = L(f)[n-p].$$
     </p>
@@ -178,8 +178,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
       $$
       Now we have all the elements necessary to prove the main theorem of the article.
     </p>
-    <p style="background-color:#d8deea; padding:10px;">
-      <strong style="color:#434498; padding-bottom:10px">THEOREM</strong></br>
+    <p class="box">
+      <span class="box-title">THEOREM</span>
       A discrete operator $L$ is linear and shift-invariant if and only if it exists a discrete
       signal $h[n]$ such that for every signal $f[n]$
       $$
@@ -224,8 +224,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
   <p>
     In mathematics, a convolution is an operation defined between functions of a real variable. This continuous form is a generalization of the discrete convolution presented.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     Let $f$, $g$ be two real function, the <strong>convolution</strong> of $f$ and $g$ is
     $$
     (f * g)(x) = \int_{-\infty}^{+\infty}f(t)g(x-t) dt  \quad \forall\: x \in \mathbb{R}.
@@ -241,8 +241,8 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
     Data and signals can have many dimensions: a sound wave is monodimensional; a grayscale image has two dimensions; a color image has several channels that compose the third dimension.
     We can define the discrete convolution for signals of arbitrary dimension and prove all the results following the same steps. This generalization extends the main theorem to all kinds of data, in particular to images where convolutions have gained their fame. We report here the definition of convolution for the general case.
   </p>
-  <p style="background-color:#d8deea; padding:10px;">
-    <strong style="color:#434498; padding-bottom:10px">DEFINITION</strong></br>
+  <p class="box">
+    <span class="box-title">DEFINITION</span>
     Let $f$, $g: \mathbb{Z}^{d} \longrightarrow \mathbb{R}$ be two $d$-dimensional signals,
     the <strong>convolution</strong> of $f$ and $g$ is
     $$
@@ -273,7 +273,7 @@ intro: Modern deep learning architectures often include convolutions. Convolutio
       The convolution operation in machine learning does not come out-of-the-blue. It emerges naturally from simple principles and assumptions on data: linearity and shift-invariance. Machine learning often seems to progress only through empirical experiments and chance, but many foundational components have a solid theory behind. We have clarified the reason behind the extensive utilization of convolutions in many applications.
     </p>
 </section>
-<footer style="text-align: left">
+<footer>
   <section>
     <h1>References</h1>
     <ol>
