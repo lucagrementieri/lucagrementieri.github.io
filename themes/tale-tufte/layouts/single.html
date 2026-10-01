@@ -13,6 +13,12 @@
       {{- end }}
     </header>
 
+    {{- with .Resources.GetMatch "portrait.*" }}
+    {{- $portrait := .Process "resize 480x webp q85" }}
+    <img class="post-portrait" src="{{ $portrait.RelPermalink }}" width="{{ $portrait.Width }}"
+      height="{{ $portrait.Height }}" alt="Cubist portrait of {{ site.Params.author.name }}" loading="lazy">
+    {{- end }}
+
     <div class="post-content">
       {{ partial "align-notes.html" .Content }}
     </div>

@@ -37,6 +37,16 @@
     }
   }
 
+  &-portrait {
+    border-radius: 50%;
+    margin: 0 auto 3rem;
+    width: 12rem;
+
+    @media (min-width: 600px) {
+      width: 16rem;
+    }
+  }
+
   a:hover {
     text-decoration: underline;
   }

@@ -10,12 +10,10 @@
     <path d="M136,128 V104 A85,46 0 0 1 306,104 V128 A85,46 0 0 1 136,128 Z" fill="#c99600"/>
     <ellipse cx="221" cy="104" rx="85" ry="46" fill="#f8c800"/>
   </g>
-  <!-- L on the left face (7x7 tile grid) -->
-  <g fill="#0062d6" stroke="#00285e" stroke-width="2" stroke-linejoin="round" transform="matrix(2.19 1.265 0 2.67 2 128) scale(14.2857)">
-    <path d="M1,1 H2 V5 H6 V6 H1 Z" vector-effect="non-scaling-stroke"/>
-  </g>
-  <!-- G on the right face (7x7 tile grid) -->
-  <g fill="#004fae" stroke="#00285e" stroke-width="2" stroke-linejoin="round" transform="matrix(2.19 -1.265 0 2.67 221 255) scale(14.2857)">
-    <path d="M1,1 H6 V2 H2 V5 H5 V4 H3 V3 H6 V6 H1 Z" vector-effect="non-scaling-stroke"/>
-  </g>
+  <!-- L on the left face -->
+  <path fill="#0062d6" stroke="#00285e" stroke-width="2" stroke-linejoin="round"
+        d="M33.29,184.21 L64.57,202.29 L64.57,354.86 L189.71,427.14 L189.71,465.29 L33.29,374.93 Z"/>
+  <!-- G on the right face -->
+  <path fill="#004fae" stroke="#00285e" stroke-width="2" stroke-linejoin="round"
+        d="M252.29,275.07 L408.71,184.71 L408.71,222.86 L283.57,295.14 L283.57,409.57 L377.43,355.36 L377.43,317.21 L314.86,353.36 L314.86,315.21 L408.71,261.00 L408.71,375.43 L252.29,465.79 Z"/>
 </svg>

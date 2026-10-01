@@ -9,7 +9,7 @@ I want to inspire people and be inspired by them.
 I earned my Bachelor's Degree in Mathematics in Bologna at Collegio Superiore. I continued my studies with a Master's Degree in Applied Mathematics and Machine Learning in Paris at Université Paris Descartes and École Normale Supérieure de Paris-Saclay.
 
 Maths and computer science have always fascinated me.
-Machine learning combines maths and computer science, so it was a natural choice for my career path. After some years spent applying machine learning, I noticed that many people hide or disregard the mathematics in machine learning.
+Machine learning combines maths and computer science, so it was a natural choice for my career path. Lately I specialized on machine learning models applied to 3D meshes and point clouds where a lot of geometry is involved.
 
 This blog is for brave computer scientists, data scientist, and statisticians who are not afraid of maths. At the same time, it could help mathematicians and physicists feel comfortable with machine learning thanks to proven theorems.
 
