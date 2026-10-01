@@ -1,0 +1,35 @@
+[writtenBy]
+other = "Written by"
+
+[on]
+other = "on"
+
+[publishdate]
+other = "{{ .PublishDate.Format \"January 2, 2006\" }}"
+
+[generator]
+other = "Made with <a href='https://gohugo.io'>Hugo</a> using a theme based on <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> and <a href='https://github.com/loikein/hugo-tufte'>Tufte</a>."
+
+[references]
+other = "References"
+
+[corrections]
+other = "Updates and Corrections"
+
+[correctionsText]
+other = "If you see mistakes or want to suggest changes, please <a href='{{ .URL }}'>open an issue on GitHub</a>."
+
+[top]
+other = "Top"
+
+[newer]
+other = "Newer posts"
+
+[older]
+other = "Older posts"
+
+[notFound]
+other = "The requested page could not be found."
+
+[backHome]
+other = "Back to the home page."

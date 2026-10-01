@@ -1,0 +1,19 @@
+{{- /*
+Renders $...$ and $$...$$ with KaTeX at build time.
+Macros are lists of [name, definition] pairs, set site-wide in params.math.macros
+or per page in the math.macros front matter parameter. Lists are used instead of
+maps because Hugo lowercases map keys, and TeX macros are case-sensitive.
+*/}}
+{{- $macros := dict }}
+{{- range (site.Params.math.macros | default slice) | append (.Page.Params.math.macros | default slice) }}
+  {{- $macros = merge $macros (dict (index . 0) (index . 1)) }}
+{{- end }}
+{{- $opts := dict "displayMode" (eq .Type "block") "output" "htmlAndMathml" "strict" "warn" "macros" $macros }}
+{{- with try (transform.ToMath .Inner $opts) }}
+  {{- with .Err }}
+    {{- errorf "Unable to render math with KaTeX at %s: %s" $.Position . }}
+  {{- else }}
+    {{- .Value }}
+    {{- $.Page.Store.Set "hasMath" true }}
+  {{- end }}
+{{- end -}}

@@ -1,0 +1,235 @@
+---
+title: Artificial neurons as ridge functions
+description: Approximation theory of ridge functions
+summary: Artificial neurons are a particular case of ridge functions. Thus, linear combinations of ridge functions are a generalization of multilayer perceptrons with one hidden layer. Approximation theory of ridge functions provides an upper bound on the approximation capabilities of neural networks.
+math:
+  macros:
+    - ['\x', '\bold{x}']
+    - ['\w', '\bold{w}']
+    - ['\a', '\bold{a}']
+    - ['\R', '\mathbb{R}']
+    - ['\RR', '\mathcal{R}']
+    - ['\Rn', '\mathbb{R}^{n}']
+    - ['\argmin', '\underset{#1}{\text{arg\,min}}']
+    - ['\max', '\underset{#1}{\text{max}}']
+references:
+  - "Pinkus, Allan. *Ridge functions.* Vol. 205. Cambridge University Press, 2015."
+  - "Pinkus, Allan. *Approximation theory of the MLP model in neural networks.* Acta numerica 8 (1999): 143-195."
+  - "Vostrecov, B. A., and M. A. Kreines. *Approximation of continuous functions by superpositions of plane waves.* Dokl. Akad. Nauk SSSR. Vol. 140. 1961."
+---
+
+## Approximation theory {#approximation-theory}
+
+Approximation theory is the branch of mathematics that studies how to approximate a large class of functions combining simpler ones.
+It looks for sets of functions described by a finite or countable number of parameters that can faithfully reproduce functional classes with an uncountable number of dimensions. Continuous mappings are the most studied example of such a large family.
+
+This topic has a great practical interest in solving optimization problems on functions without making strong hypotheses on the optimal solution.
+Given a functional $\ell: \mathcal{F} \longrightarrow \R$,
+an optimization problem takes the form
+$$
+f^{*} = \argmin{f \in \mathcal{F}}\ \ell(f),
+$$
+where $\mathcal{F}$ is the search space of functions determined by the assumptions on $f^{*}$.
+For example, if we know that the solution $f^{*}$ is a continuous univariate function, then $\mathcal{F} = C(\R)$.
+
+In practice, we cannot solve the optimization problem on a function space with an infinite number of dimensions, because machines can work only with a finite number of parameters. So we need to restrict $\mathcal{F}$ to a more
+manageable subset $\mathcal{G} \subset \mathcal{F}$.
+This restriction adds more assumptions on $f^{*}$. Computational requirements dictate these assumptions, not the problem itself. For instance, in many cases, the search space is restricted to linear functions because of their simplicity and interpretability.
+
+Representing uncountable dimensions with a countable amount of them seems impossible. The density property makes it possible. We use this same property in every calculation on a computer.
+Since $\mathbb{Q}$ is dense in $\R$, we can represent real numbers on machines with a precision that is only limited by the available memory.
+
+Similarly, the approximation theory of functions looks for a countable set $\mathcal{G}$ dense in $\mathcal{F}$.
+Density assures that the actual search space is not reduced because functions in $\mathcal{G}$ can reproduce $f^{*}$ with arbitrary precision. Let us recall the definition of a dense set.
+
+{{< box "Definition" >}}
+Let $X$ be a topological space and let $A \subseteq X$. $A$ is **dense** in $X$
+if for every $x \in X$, any neighborhood of $x$ contains at least one point from $A$.{{< marginnote >}}The definitions of neighborhood and closure come from general topology. A neighborhood of a point $x$ is a set that includes an open subset containing $x$. The closure of a set $S$ is the smallest closed set that covers $S$. It is the union of $S$ and its limit points.{{< /marginnote >}}
+Equivalently, $A$ is dense in $X$ if the closure of $A$ is $X$: $\overline{A} = X$.
+{{< /box >}}
+
+The most known result of approximation theory is **Weierstrass Approximation Theorem**.
+
+{{< box "Theorem" >}}
+Let $f$ be a continuous real-valued function defined on the interval $[a, b]$.
+For every $\epsilon > 0$, there exists a polynomial $p$ such that $\forall\, x \in [a, b]$, we have
+$|f(x) − p(x)| < \epsilon$, or equivalently, $||f−p||_{\infty} < \epsilon$.{{< marginnote >}}The notation $||\cdot||_{\infty}$ indicates the uniform or supremum norm. The norm assigns to a bounded function $f$ on the interval $[a, b]$ the value $||f||_{\infty} = \text{sup}\{|f(x)|, x \in [a, b]\}$.{{< /marginnote >}}
+{{< /box >}}
+
+## Multilayer perceptron {#mlp}
+
+Neural networks encode a subset of continuous functions. To examine the approximation capabilities of this class, we introduce the multiplayer perceptron and one of its generalization.
+
+The multilayer perceptron (MLP) is a fundamental neural network model consisting of a sequence of *layers*.
+Every layer is composed by *neurons*, the elementary processing units of the network.
+Every artificial neuron in the intermediate *hidden layers* processes the outputs of the previous layer $\x$ with a non-linear function $N: \Rn \longrightarrow \R$ such that
+$$
+N(\x) = \sigma\left(\sum_{j=1}^{n} w_j x_j - \theta \right) =
+\sigma(\w \cdot \x - \theta),
+$$
+where $\w$ and $\theta$ are parameters that change for every neuron.{{< marginnote >}}In scientific literature about neural networks, the values $w_{i}$ are called *weights*. They model the strength of the synapse linking the $i$-th neuron of the previous layer with the current neuron. $\theta$, called *bias*, recalls the threshold potential involved in the firing of biologic neurons.{{< /marginnote >}}
+The non-linearity of $N$ comes from the *activation function* $\sigma$, a non-linear function
+that is the same for every neuron in the network.
+
+In the final layer, said the *output layer*, neurons operate differently. They perform a linear combination of their inputs. Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
+$$
+y = \sum_{i=1}^{r} c_i N_i(\x) = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right).
+$$
+It is possible to stack more hidden layers of various sizes to obtain a deeper network.
+We will focus on this shallow model because it can already approximate a large class of functions.{{< marginnote >}}The considered MLP model outputs a single real number. The analysis can be generalized to outputs in $\R^{m}$ by repeating it on every component. A model whose output is multi-dimensional can be used for both regression and classification tasks. Indeed, classification problems are framed as a regression of class probabilities.{{< /marginnote >}}
+
+## Ridge functions {#ridge}
+
+The function $N(\x)$ has a particular structure: it is the composition of a univariate function sigma with the inner product, one of the simplest multivariate functions. Functions of such form are called ridge functions.
+
+{{< box "Definition" >}}
+A **ridge function** is a function $F: \Rn \longrightarrow \R$
+of the form
+$$
+F(\x) = f(a_1 x_1 + \mathellipsis + a_n x_n) = f(\a \cdot \x),
+$$
+where $f: \R \longrightarrow \R$ is a univariate function and
+$\a = (a_1, \mathellipsis, a_n) \in \Rn - \{\bold{0}\}$ is a fixed vector.
+{{< /box >}}
+
+The vector $\a$ is called *direction* because a ridge function is constant on the parallel hyperplanes orthogonal to $\a$. These hyperplanes are defined by the equation $\a \cdot \x = c$, with $c \in \R$.
+
+We denote the set of ridge functions with direction $\a$
+$$\overline{\RR}(\a) = \{f(\a \cdot \x), f: \R \longrightarrow \R\}.$$
+Since the function $f$ can be arbitrarily scaled, it follows that if $\a = \lambda \bold{b}$ for some $\lambda \in \R - \{0\}$, then $\overline{\RR}(\a) = \overline{\RR}(\bold{b})$.
+
+For a set $\Omega \subseteq \Rn$, we define
+$$
+\overline{\RR}(\Omega) = \text{span}\{f(\a \cdot \x), f: \R \longrightarrow \R, \a \in \Omega\}.
+$$
+A *span* of a set $S$ is the set of linear combinations of elements in $S$, then
+every $F \in \overline{\RR}(\Omega)$ has the form
+$$
+F(\x) = \sum_{i=1}^{r} c_i f_i(\a^i \cdot \x).
+$$
+We can notice that $\overline{\RR}(\Rn)$ includes the set of MLPs with one hidden layer, but MLPs have the additional constraint $f_i = \sigma$ for every $i = 1, \mathellipsis, r$.
+
+If we require the continuity of the activation function $\sigma$ in an MLP, the functions defined by an MLP
+belong to the smaller set of linear combinations of continuous ridge functions
+$$
+\RR(\Omega) = \text{span}\{f(\a \cdot \x), f \in C(\R), \a \in \Omega\}
+$$
+with $\Omega = \Rn$.
+
+We are interested in the approximation theory of the functional vector spaces $\RR(\Omega)$ to characterize the class of functions defined by MLPs.
+If an MLP is capable of approximating a function, the same holds for $\RR(\Rn)$, a larger family of functions.
+Conversely, if $\RR(\Rn)$ cannot approximate a function, then neither MLPs could.
+Therefore $\RR(\Rn)$ gives us an upper bound on the approximation capabilities of MLPs.
+
+## Uniform convergence on compact sets {#compact-convergence}
+
+The breadth of the class of continuous functions $\RR(\Omega)$ depends on $\Omega$.
+For instance, we have already seen that, $\RR(\{\a\})$ represents a limited family of functions constant on parallel hyperplanes.
+Thus, not every $\RR(\Omega)$ is a dense subspace of $C(\Rn)$.
+We will present the conditions on $\Omega$ that ensure that this property holds.
+
+Since density is a property of a topological space, we have to define a topology
+on $C(\Rn)$ to clarify the meaning of this concept.
+In the approximation theory of continuous functions, the topology of uniform
+convergence on compact subsets is the most common.{{< marginnote >}}The general topological definition of a compact involves covers and subcovers. The Heine-Borel theorem gives a much simpler characterization of compactness in a euclidean space: in $\Rn$, a set is compact if and only if it is closed and bounded.{{< /marginnote >}}
+
+{{< box "Definition" >}}
+A sequence of functions $f_{m} \in C(\Rn), m \in \mathbb{N}$ is said to
+**converge uniformly on compact sets** as $m \to \infty$ to some function
+$f \in C(\Rn)$ if, for every compact set $K \subset \Rn$ and every $\epsilon > 0$,
+there exist $\overline{m}$ such that $\forall\, m \geq \overline{m}${{< marginnote >}}If we can prove density in this topology, then the subset is also dense in many other topologies. For example, density would hold in $L^{p}(K)$, where $K$ is any compact subset of $\Rn$ and $p \in [1,\infty[$. Indeed $||f||_{p,K} \leq ||f||_{K} < +\infty$.{{< /marginnote >}}
+$$
+||f_{m} - f||_{K} = \max{x \in K}\ | f_{m}(x) - f(x)| < \epsilon.
+$$
+{{< /box >}}
+
+A very powerful tool to prove results with this topology is the **Stone-Weierstrass Theorem**.
+
+{{< box "Theorem" >}}
+Suppose $X$ is a compact Hausdorff space and $C(X)$ is the space of continuous real-valued functions over $X$.
+A subalgebra $A$ of $C(X)$ containing a non-zero constant function, is dense in $C(X)$ if and only if it separates points.{{< marginnote >}}A set of real-valued functions $S$ separates points if for any pair $x, y \in \R$, there exists a function $f \in S$ such that $f(x) \neq f(y)$.{{< /marginnote >}}
+{{< /box >}}
+
+This theorem implies Weierstrass Approximation Theorem: indeed,  polynomials on $[a, b]$ form a subalgebra of $C([a, b])$, which contains constant functions and separates points.
+Let us recall the definition of algebra and subalgebra.
+
+{{< box "Definition" >}}
+Let $A$ be a vector space over $\R$ equipped with a binary operation (a product) from $\cdot: A \times A \to A$. Then $A$ is an **algebra** if the following identities hold for all elements $x$, $y$, and $z$ of $A$, and all scalars $a$ and $b$ of $\R$:
+$$
+\begin{aligned}
+(x + y) \cdot z &= x \cdot z + y \cdot z; & \qquad \textit{\footnotesize right distributivity}\\
+z \cdot (x + y) &= z \cdot x + z \cdot y; & \qquad \textit{\footnotesize left distributivity}\\
+(ax) \cdot (by) &= (ab) (x \cdot y). & \qquad \textit{\footnotesize compatibility with scalars}
+\end{aligned}
+$$
+{{< /box >}}
+
+{{< box "Definition" >}}
+A **subalgebra** is a subset of an algebra, closed under addition, multiplication by scalar and
+product.{{< marginnote >}}A set is closed under an operation if the result of the operation between elements of the set is still included in the set itself.{{< /marginnote >}}
+{{< /box >}}
+
+## Density of continuous ridge functions {#density}
+
+We now have all the ingredients to state a density theorem about $\RR(\Rn)$ in $C(\Rn)$.
+Actually, the theorem is even stronger because the proof shows that $\RR(\mathbb{Z}^{n})$ is dense in $C(\Rn)$.
+
+{{< box "Theorem" >}}
+$\RR(\Rn)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets.
+{{< /box >}}
+
+### Proof
+
+It is sufficient to prove that linear combinations of the functions $e^{\bold{n} \cdot \x}$,
+where $\bold{n} \in \mathbb{Z}^{n}$, are dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets. This fact is a consequence of the Stone-Weierstrass Theorem.
+
+For every compact set $K \subset \Rn$, $C(K)$ is an algebra: it is a vector space, and the product between functions satisfies all the properties listed in the definition of algebra.
+The set $\mathcal{E}_{K} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}, x \in K \}$ is a linear subspace of $C(K)$, therefore it is closed under addition and multiplication by a scalar.
+Thanks to the properties of the exponential function, the product of two elements $f, g, \in \mathcal{E}_{K}$ is still included in $\mathcal{E}_{K}$:
+$$
+f = \sum_{i=1}^s e^{\bold{n}_i \cdot \x} \quad g = \sum_{j=1}^t e^{\bold{m}_j \cdot \x} \Rightarrow f \cdot g = \sum_{i=1}^s \sum_{j=1}^t e^{(\bold{n}_i + \bold{m}_j) \cdot x}.
+$$
+Thus, $\mathcal{E}_{K}$ is a subalgebra of $C(K)$.
+
+Putting $\bold{n} = \bold{0}$, we obtain
+the non-zero constant function $e^{\bold{0} \cdot \x} = 1$.
+Moreover $\mathcal{E}_{K}$ separates points. Let $\bold{y} \neq \bold{z} \in \Rn$, then
+there exists a coordinate $h \in \{1, \mathellipsis, n\}$ such that $y_h \neq z_h$.
+The function $e^{\bold{e}_h \cdot \x}$, where $\bold{e}_h = (0, \mathellipsis, 0, 1, 0, \mathellipsis, 0)$
+is $h$-th vector of the canonical basis, separates $\bold{y}$ from $\bold{z}$
+$$e^{\bold{e}_h \cdot y} = e^{y_h} \neq e^{z_h} = e^{\bold{e}_h \cdot z}.$$
+
+All the hypotheses of Stone-Weierstrass theorem are satisfied. Thus, for every compact $K$, $\mathcal{E}_{K}$
+is dense in $C(K)$ with respect to the uniform norm. That is equivalent to say that $\mathcal{E} = \text{span}\{e^{\bold{n} \cdot \x}, \bold{n} \in \mathbb{Z}^{n}\}$ is dense in $C(\Rn)$ in the topology of
+uniform convergence on compact subsets.
+<span style="float: right">$\square$</span>
+
+The density of $\RR(\Rn)$ in $C(\Rn)$ tells us that for every continuous functions $f$ it exists a sequence
+of functions in $\RR(\Rn)$ whose limit is $f$ in the chosen topology.
+Thus, any continuous function can be approximated by functions in $\RR(\Rn)$ with an arbitrary small
+approximation error on every compact of $\Rn$.{{< marginnote >}}The uniform convergence on compact sets is not equivalent to uniform convergence. In practice, that difference is irrelevant as we always approximate functions whose domain can be included in a compact set. Most of the time, the approximated function is known only on a finite set of points.{{< /marginnote >}}
+
+We have already observed that every $\RR(\Omega)$ only depends on the set of normalized directions in $\Omega$. By consequence, the theorem implies that $\RR([-M, M]^n)$ is dense in $C(\Rn)$ for an arbitrary constant $M$.
+In general, we can bound the norm of ridge function directions without any loss in expressive power.
+
+The theorem implies nothing about MLPs. A negative result would have been valid for any subset of $\RR(\Rn)$, while such a positive result only give us an idea of what kind of approximation the MLPs could attain and under which conditions.
+
+A more general theorem by Vostrecov and Kreines states a necessary and sufficient condition
+for the density of $\RR(\Omega)$ in $C(\Rn)$.
+
+{{< box "Theorem" >}}
+$\RR(\Omega)$ is dense in $C(\Rn)$ in the topology of uniform convergence on compact subsets,
+if and only if there is no homogeneous polynomial $p \neq 0$ such that $p(\x) = 0 \ \forall\, \x \in \Omega$.
+{{< /box >}}
+
+This final theorem provides the complete characterization of the density of linear combination of ridge functions. We have not discussed if all these properties are preserved by MLPs, but this is a solid starting point to deepen the subject.
+
+## Conclusions {#conclusions}
+
+Single hidden layer MLPs are a particular linear combination of ridge functions.
+We have proved that the class of functions spanned by continuous ridge functions approximates every continuous function with arbitrary precision.
+This fact is relevant in applications because it allows designing parametric models without imposing compelling constraints.
+
+The density of $\RR(\Omega)$ in $C(\Rn)$ does not imply that the same property holds for MLPs, but we can hope that functions represented by MLPs have the same approximation capability.
+Actually, like the linear combinations of ridge functions, MLPs are universal approximators.
+That will be the topic of a follow-up article.

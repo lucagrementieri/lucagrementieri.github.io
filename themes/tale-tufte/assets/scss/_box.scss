@@ -1,0 +1,24 @@
+// Highlighted blocks for definitions, theorems and similar statements.
+.box {
+  background-color: $box-color;
+  margin: 0 0 1.25rem;
+  padding: .75rem $box-padding;
+
+  &-title {
+    color: $box-title;
+    display: block;
+    font-weight: bold;
+    letter-spacing: .5px;
+    padding-bottom: .5rem;
+    text-transform: uppercase;
+  }
+
+  p {
+    text-align: left;
+  }
+
+  > p:last-child,
+  > .katex-display:last-child {
+    margin-bottom: 0;
+  }
+}

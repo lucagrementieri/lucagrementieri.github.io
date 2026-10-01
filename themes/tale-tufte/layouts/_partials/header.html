@@ -1,0 +1,20 @@
+<nav class="nav">
+  <div class="nav-container">
+    <a href="{{ "" | relURL }}">
+      {{- if .IsHome }}
+      <h1 class="nav-title">{{ site.Title }}</h1>
+      {{- else }}
+      <h2 class="nav-title">{{ site.Title }}</h2>
+      {{- end }}
+    </a>
+    <ul>
+      {{- range $entry := site.Menus.main }}
+      {{- with $entry.Params.icon }}
+      <li class="nav-icon"><a href="{{ $entry.URL }}"><img src="{{ . | relURL }}" alt="{{ $entry.Name }}" height="20"></a></li>
+      {{- else }}
+      <li><a href="{{ $entry.URL }}">{{ $entry.Name }}</a></li>
+      {{- end }}
+      {{- end }}
+    </ul>
+  </div>
+</nav>

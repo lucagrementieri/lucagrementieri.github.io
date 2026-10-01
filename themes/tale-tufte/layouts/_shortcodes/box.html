@@ -1,0 +1,8 @@
+{{- /* Highlighted block for definitions and theorems: {{< box "Theorem" >}}Statement in *Markdown*.{{< /box >}} */ -}}
+<div class="box">
+  {{- with .Get 0 | default (.Get "title") }}
+  <span class="box-title">{{ . }}</span>
+  {{- end }}
+  {{ trim .Inner "\n" | .Page.RenderString (dict "display" "block") }}
+</div>
+{{- /**/ -}}

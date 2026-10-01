@@ -1,0 +1,70 @@
+baseURL = "https://lucagrementieri.github.io/"
+locale = "en-US"
+title = "Luca Grementieri"
+theme = "tale-tufte"
+disableKinds = ["taxonomy", "term"]
+
+[pagination]
+  pagerSize = 5
+
+# Keep the URLs of the former Jekyll site: content/posts/2020-04-05-convolutions.md
+# is published at /2020-04-05/convolutions/.
+[frontmatter]
+  date = [":filename", ":default"]
+
+[permalinks.page]
+  posts = "/:year-:month-:day/:slug/"
+
+[outputs]
+  home = ["html", "rss"]
+  section = ["html"]
+
+[outputFormats.rss]
+  baseName = "feed"
+
+[markup.goldmark.renderer]
+  # Shortcodes nested in other shortcodes (e.g. notes in boxes) are raw HTML.
+  unsafe = true
+
+[markup.goldmark.extensions.passthrough]
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    block = [["$$", "$$"]]
+    inline = [["$", "$"]]
+
+[markup.highlight]
+  noClasses = false
+
+[params]
+  description = "Scientific blog about maths and machine learning"
+  keywords = ["Luca Grementieri", "Artificial Intelligence", "Machine Learning", "Mathematics"]
+  issuesURL = "https://github.com/lucagrementieri/lucagrementieri.github.io/issues"
+  [params.author]
+    name = "Luca Grementieri"
+
+[[menus.main]]
+  name = "About"
+  pageRef = "/about"
+  weight = 10
+[[menus.main]]
+  name = "Posts"
+  url = "/"
+  weight = 20
+[[menus.main]]
+  name = "GitHub"
+  url = "https://github.com/lucagrementieri/"
+  weight = 30
+  [menus.main.params]
+    icon = "icons/github.png"
+[[menus.main]]
+  name = "LinkedIn"
+  url = "https://www.linkedin.com/in/luca-grementieri/"
+  weight = 40
+  [menus.main.params]
+    icon = "icons/linkedin.png"
+[[menus.main]]
+  name = "RSS"
+  url = "/feed.xml"
+  weight = 50
+  [menus.main.params]
+    icon = "icons/rss.png"

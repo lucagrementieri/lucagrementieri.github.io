@@ -1,0 +1,8 @@
+<a href="{{ .RelPermalink }}" class="catalogue-item">
+  <div>
+    <time datetime="{{ .PublishDate.Format "2006-01-02" }}" class="catalogue-time">{{ i18n "publishdate" . }}</time>
+    <h2 class="catalogue-title">{{ .Title }}</h2>
+    <div class="catalogue-line"></div>
+    <p>{{ .Summary | plainify }}</p>
+  </div>
+</a>

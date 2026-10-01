@@ -1,0 +1,14 @@
+name = "Tale Tufte"
+license = "MIT"
+description = "A minimal Hugo theme for scientific writing: the Tale theme with Tufte-style sidenotes and server-side KaTeX math."
+min_version = "0.146.0"
+tags = ["blog", "minimal", "katex", "sidenotes"]
+
+[author]
+  name = "Luca Grementieri"
+  homepage = "https://lucagrementieri.github.io"
+
+[original]
+  name = "Tale (tale-hugo) and hugo-tufte"
+  homepage = "https://github.com/EmielH/tale-hugo"
+  repo = "https://github.com/EmielH/tale-hugo"

@@ -1,0 +1,35 @@
+{{ define "main" }}
+{{- $isPost := in site.MainSections .Section }}
+<main>
+  <article class="post">
+    <header>
+      {{- if $isPost }}
+      {{ partial "post-info.html" . }}
+      {{- end }}
+      <h1 class="post-title">{{ .Title }}</h1>
+      <div class="post-line"></div>
+      {{- with .Params.summary }}
+      <p class="post-intro">{{ . | $.Page.RenderString }}</p>
+      {{- end }}
+    </header>
+
+    <div class="post-content">
+      {{ .Content }}
+    </div>
+
+    {{ partial "post-footer.html" . }}
+  </article>
+
+  {{- if $isPost }}
+  <div class="pagination">
+    {{- with .PrevInSection }}
+    <a href="{{ .RelPermalink }}" class="left arrow" aria-label="{{ .Title }}">&#8592;</a>
+    {{- end }}
+    {{- with .NextInSection }}
+    <a href="{{ .RelPermalink }}" class="right arrow" aria-label="{{ .Title }}">&#8594;</a>
+    {{- end }}
+    <a href="#" class="top">{{ i18n "top" }}</a>
+  </div>
+  {{- end }}
+</main>
+{{ end }}

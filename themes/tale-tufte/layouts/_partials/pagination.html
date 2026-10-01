@@ -1,0 +1,9 @@
+<div class="pagination">
+  {{- if .HasPrev }}
+  <a href="{{ .Prev.URL }}" class="left arrow" aria-label="{{ i18n "newer" }}">&#8592;</a>
+  {{- end }}
+  {{- if .HasNext }}
+  <a href="{{ .Next.URL }}" class="right arrow" aria-label="{{ i18n "older" }}">&#8594;</a>
+  {{- end }}
+  <span>{{ .PageNumber }}</span>
+</div>

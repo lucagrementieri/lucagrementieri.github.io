@@ -1,0 +1,97 @@
+main,
+body > footer,
+.nav-container {
+  display: block;
+  margin: 0 auto;
+  max-width: $container-width;
+  width: 80%;
+}
+
+.nav {
+  box-shadow: 0 2px 2px -2px $shadow-color;
+  overflow: auto;
+
+  &-container {
+    margin: 1rem auto;
+    position: relative;
+    text-align: center;
+  }
+
+  &-title {
+    @include transition(opacity .2s ease-out);
+    color: $default-color;
+    display: inline-block;
+    font-size: 1.5rem;
+    margin: 0;
+    padding-right: .2rem;
+
+    &:hover,
+    &:focus {
+      opacity: .6;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    text-align: center;
+  }
+
+  li {
+    @include transition(opacity .2s ease-out);
+    color: $default-color;
+    display: inline-block;
+    opacity: .6;
+    padding: 0 2rem 0 0;
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    &:hover,
+    &:focus-within {
+      opacity: 1;
+    }
+  }
+
+  .nav-icon {
+    padding-right: 1rem;
+  }
+
+  img {
+    display: inline-block;
+    height: 20px;
+    margin: 0;
+    vertical-align: middle;
+    width: auto;
+  }
+
+  a {
+    color: $default-color;
+  }
+}
+
+@media (min-width: 600px) {
+  .nav {
+    &-container {
+      text-align: left;
+    }
+
+    ul {
+      bottom: 0;
+      position: absolute;
+      right: 0;
+    }
+  }
+}
+
+body > footer {
+  padding: 2rem 0;
+  text-align: center;
+
+  span {
+    color: $default-color;
+    font-size: .8rem;
+  }
+}

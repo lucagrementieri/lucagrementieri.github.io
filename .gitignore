@@ -1,7 +1,4 @@
-*.gem
-.bundle
 .DS_Store
-.sass-cache
-_site
-Gemfile.lock
-.jekyll-cache
+/public/
+/resources/_gen/
+.hugo_build.lock

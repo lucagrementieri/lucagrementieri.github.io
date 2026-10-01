@@ -1,0 +1,44 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} &middot; {{ site.Title }}{{ end }}</title>
+  {{- $description := site.Params.description }}
+  {{- if not .IsHome }}
+    {{- with .Description }}{{ $description = . }}{{ else }}{{ with .Params.summary }}{{ $description = . | plainify }}{{ end }}{{ end }}
+  {{- end }}
+  <meta name="description" content="{{ $description }}">
+  {{- with site.Params.keywords }}
+  <meta name="keywords" content="{{ delimit . ", " }}">
+  {{- end }}
+  <link rel="canonical" href="{{ .Permalink }}">
+  {{ partial "opengraph.html" . }}
+  {{ partial "twitter_cards.html" . }}
+
+  <!-- CSS -->
+  {{- $options := dict "targetPath" "css/main.css" "outputStyle" "compressed" }}
+  {{- if hugo.IsServer }}{{ $options = dict "targetPath" "css/main.css" "enableSourceMap" true }}{{ end }}
+  {{- $style := resources.Get "scss/main.scss" | css.Sass $options | fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+  {{- /* Rendering the content first lets the passthrough render hook flag the pages with math. */}}
+  {{- $noop := .Content }}
+  {{- if .Store.Get "hasMath" }}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.4/dist/katex.min.css" integrity="sha384-u1zONI5gPXUx0UKI62c75/zww972y0v2rSK5ZYlVdS6xEuWDeZWUI66v6t1gvlXJ" crossorigin="anonymous">
+  {{- end }}
+  {{- range site.Params.css }}
+  <link rel="stylesheet" href="{{ . | relURL }}">
+  {{- end }}
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ "images/favicon-32x32.png" | relURL }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ "images/favicon-16x16.png" | relURL }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ "images/apple-touch-icon.png" | relURL }}">
+
+  <!-- RSS -->
+  {{- with site.Home.OutputFormats.Get "rss" }}
+  <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}">
+  {{- end }}
+
+  {{- if hugo.IsProduction }}
+  {{ partial "google_analytics.html" . }}
+  {{- end }}
+</head>

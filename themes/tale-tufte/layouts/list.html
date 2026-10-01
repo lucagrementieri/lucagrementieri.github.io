@@ -1,0 +1,10 @@
+{{ define "main" }}
+<main>
+  <div class="catalogue">
+    {{- range (.Paginate .RegularPages).Pages }}
+    {{ .Render "summary" }}
+    {{- end }}
+  </div>
+  {{ partial "pagination.html" .Paginator }}
+</main>
+{{ end }}

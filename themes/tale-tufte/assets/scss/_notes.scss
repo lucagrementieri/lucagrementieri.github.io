@@ -1,0 +1,63 @@
+// Sidenotes (numbered) and margin notes (unnumbered), after Tufte CSS.
+//
+// On wide screens the notes float in the right margin, next to the line where
+// they are referenced. A negative right margin as large as the note (plus the
+// gap) takes them out of the text column without affecting the text flow.
+// On narrow screens they are shown inline, right below the referencing line.
+
+.post-content {
+  counter-reset: sidenote-counter;
+}
+
+.sidenote-number {
+  counter-increment: sidenote-counter;
+
+  &::after {
+    color: $blue;
+    content: counter(sidenote-counter);
+    font-size: .75em;
+    line-height: 0;
+    padding-left: .1em;
+    vertical-align: super;
+  }
+}
+
+.sidenote::before {
+  color: $blue;
+  content: counter(sidenote-counter) ' ';
+  font-size: .75em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.sidenote,
+.marginnote {
+  border-left: 2px solid $grey-2;
+  color: $default-tint;
+  display: block;
+  font-size: .875rem;
+  hyphens: manual;
+  line-height: 1.5;
+  margin: .75rem 0;
+  padding-left: 1rem;
+  text-align: left;
+
+  @include wide {
+    border: 0;
+    clear: right;
+    float: right;
+    margin: .3rem calc(-1 * (#{$note-width} + #{$note-gap})) .75rem 0;
+    padding: 0;
+    width: $note-width;
+  }
+}
+
+// Notes inside elements with a right padding have to compensate for it.
+.box {
+  .sidenote,
+  .marginnote {
+    @include wide {
+      margin-right: calc(-1 * (#{$note-width} + #{$note-gap} + #{$box-padding}));
+    }
+  }
+}

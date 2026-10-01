@@ -1,0 +1,22 @@
+{{- if or .Params.references (and (in site.MainSections .Section) site.Params.issuesURL) }}
+<footer class="post-footer">
+  {{- with .Params.references }}
+  <section>
+    <h2>{{ i18n "references" }}</h2>
+    <ol>
+      {{- range $i, $reference := . }}
+      <li id="ref-{{ add $i 1 }}">{{ $reference | $.Page.RenderString }}</li>
+      {{- end }}
+    </ol>
+  </section>
+  {{- end }}
+  {{- if in site.MainSections .Section }}
+  {{- with site.Params.issuesURL }}
+  <section>
+    <h2>{{ i18n "corrections" }}</h2>
+    <p>{{ i18n "correctionsText" (dict "URL" .) | safeHTML }}</p>
+  </section>
+  {{- end }}
+  {{- end }}
+</footer>
+{{- end }}
