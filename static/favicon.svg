@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 442 525" width="442" height="525">
+  <g stroke="#4a3b00" stroke-width="2" stroke-linejoin="round">
+    <!-- Top face -->
+    <polygon points="221,2 440,128 221,255 2,128" fill="#f8c800"/>
+    <!-- Left face -->
+    <polygon points="2,128 221,255 221,522 2,395" fill="#f2b400"/>
+    <!-- Right face -->
+    <polygon points="221,255 440,128 440,395 221,522" fill="#d9a200"/>
+    <!-- Stud -->
+    <path d="M136,128 V104 A85,46 0 0 1 306,104 V128 A85,46 0 0 1 136,128 Z" fill="#c99600"/>
+    <ellipse cx="221" cy="104" rx="85" ry="46" fill="#f8c800"/>
+  </g>
+  <!-- L on the left face (7x7 tile grid) -->
+  <g fill="#0062d6" stroke="#00285e" stroke-width="2" stroke-linejoin="round" transform="matrix(2.19 1.265 0 2.67 2 128) scale(14.2857)">
+    <path d="M1,1 H2 V5 H6 V6 H1 Z" vector-effect="non-scaling-stroke"/>
+  </g>
+  <!-- G on the right face (7x7 tile grid) -->
+  <g fill="#004fae" stroke="#00285e" stroke-width="2" stroke-linejoin="round" transform="matrix(2.19 -1.265 0 2.67 221 255) scale(14.2857)">
+    <path d="M1,1 H6 V2 H2 V5 H5 V4 H3 V3 H6 V6 H1 Z" vector-effect="non-scaling-stroke"/>
+  </g>
+</svg>

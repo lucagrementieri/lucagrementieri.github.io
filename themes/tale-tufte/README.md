@@ -43,8 +43,8 @@ Posts are the pages in the main sections (by default the section with the most
 pages, usually `posts`). The other pages, such as an about page, use the same
 layout without the date, the footer and the navigation between posts.
 
-Favicons are read from `static/images/favicon-16x16.png`,
-`static/images/favicon-32x32.png` and `static/images/apple-touch-icon.png`.
+Favicons are read from the site root: `static/favicon.svg` (the default),
+`static/favicon.ico`, `static/apple-touch-icon.png` and `static/site.webmanifest`.
 
 ## Dark mode
 
