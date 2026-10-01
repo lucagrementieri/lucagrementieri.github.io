@@ -95,3 +95,30 @@ body > footer {
     font-size: .8rem;
   }
 }
+
+.nav-icon img.invert-in-dark {
+  filter: var(--icon-filter);
+}
+
+.theme-toggle {
+  background: none;
+  border: 0;
+  color: $default-color;
+  cursor: pointer;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+// The toggle needs JavaScript; without it the site simply follows the system.
+html:not(.js) .theme-toggle,
+.theme-icon {
+  display: none;
+}
+
+html:not([data-theme]) .theme-icon-auto,
+html[data-theme='light'] .theme-icon-light,
+html[data-theme='dark'] .theme-icon-dark {
+  display: block;
+}

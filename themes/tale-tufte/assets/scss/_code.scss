@@ -35,3 +35,7 @@ pre code {
     overflow-x: auto;
   }
 }
+
+.highlight pre {
+  filter: var(--code-filter);
+}

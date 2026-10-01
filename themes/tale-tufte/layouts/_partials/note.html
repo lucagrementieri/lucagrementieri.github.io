@@ -1,0 +1,29 @@
+{{- /*
+Renders a sidenote or a margin note. Notes inside a box are not rendered in
+place: they are handed to the box, which shows them next to (wide screens) or
+below (narrow screens) the whole block.
+
+Parameters: shortcode (the calling shortcode), inner (its .Inner, passed
+explicitly because Hugo only detects .Inner in the shortcode template), numbered (bool).
+*/}}
+{{- $sc := .shortcode }}
+{{- $content := trim .inner " \n" | $sc.Page.RenderString }}
+{{- $marker := "" }}
+{{- $note := "" }}
+{{- if .numbered }}
+  {{- $number := add ($sc.Page.Store.Get "sidenoteCounter" | default 0) 1 }}
+  {{- $sc.Page.Store.Set "sidenoteCounter" $number }}
+  {{- $marker = printf `<sup class="sidenote-number">%d</sup>` $number }}
+  {{- $note = printf `<span class="sidenote" role="note"><sup class="sidenote-number">%d</sup> %s</span>` $number $content }}
+{{- else }}
+  {{- $note = printf `<span class="marginnote" role="note">%s</span>` $content }}
+{{- end }}
+{{- with $sc.Parent }}
+  {{- if eq .Name "box" }}
+    {{- .Store.Add "notes" (slice $note) }}
+    {{- $note = "" }}
+  {{- end }}
+{{- end }}
+{{- /* The markers let align-notes.html find the notes in the rendered content. */}}
+{{- with $note }}{{ $note = printf "<!--note-->%s<!--/note-->" . }}{{ end }}
+{{- print $marker $note | safeHTML -}}

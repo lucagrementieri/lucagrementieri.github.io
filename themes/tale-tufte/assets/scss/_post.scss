@@ -3,13 +3,9 @@
 
   &-info {
     color: $default-tint;
-    font-family: $serif-secondary;
+    font-size: .8rem;
     letter-spacing: .5px;
-    text-align: center;
-
-    span {
-      font-style: italic;
-    }
+    text-transform: uppercase;
   }
 
   &-title {

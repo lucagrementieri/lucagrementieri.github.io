@@ -1,6 +1,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  {{- if not site.Params.hideThemeToggle }}
+  {{- with resources.Get "js/theme.js" | minify }}
+  <script>{{ .Content | safeJS }}</script>
+  {{- end }}
+  {{- end }}
   <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} &middot; {{ site.Title }}{{ end }}</title>
   {{- $description := site.Params.description }}
   {{- if not .IsHome }}

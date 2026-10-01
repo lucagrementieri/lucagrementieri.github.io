@@ -4,30 +4,20 @@
 // they are referenced. A negative right margin as large as the note (plus the
 // gap) takes them out of the text column without affecting the text flow.
 // On narrow screens they are shown inline, right below the referencing line.
-
-.post-content {
-  counter-reset: sidenote-counter;
-}
+//
+// Notes inside a box are moved out of it by the box shortcode: they are placed
+// before the box, so that on wide screens they float next to its top, and on
+// narrow screens they are reordered below it.
 
 .sidenote-number {
-  counter-increment: sidenote-counter;
-
-  &::after {
-    color: $blue;
-    content: counter(sidenote-counter);
-    font-size: .75em;
-    line-height: 0;
-    padding-left: .1em;
-    vertical-align: super;
-  }
-}
-
-.sidenote::before {
   color: $blue;
-  content: counter(sidenote-counter) ' ';
   font-size: .75em;
   line-height: 0;
-  vertical-align: super;
+  padding-left: .1em;
+}
+
+.sidenote .sidenote-number {
+  padding-left: 0;
 }
 
 .sidenote,
@@ -52,12 +42,41 @@
   }
 }
 
-// Notes inside elements with a right padding have to compensate for it.
-.box {
-  .sidenote,
-  .marginnote {
+.box-container {
+  margin: 0 0 1.25rem;
+
+  > .sidenote,
+  > .marginnote {
     @include wide {
-      margin-right: calc(-1 * (#{$note-width} + #{$note-gap} + #{$box-padding}));
+      margin-top: 0;
     }
+  }
+
+  > .box {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: $wide-breakpoint - 1px) {
+    display: flex;
+    flex-direction: column;
+
+    > .sidenote,
+    > .marginnote {
+      margin-bottom: 0;
+      order: 1;
+    }
+  }
+}
+
+// See layouts/_partials/align-notes.html.
+.note-wide {
+  @media (max-width: $wide-breakpoint - 1px) {
+    display: none;
+  }
+}
+
+.note-narrow {
+  @include wide {
+    display: none;
   }
 }

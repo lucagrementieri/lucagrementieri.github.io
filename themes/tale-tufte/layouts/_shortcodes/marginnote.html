@@ -1,3 +1,2 @@
 {{- /* Unnumbered note in the right margin: text{{< marginnote >}}Note in *Markdown*.{{< /marginnote >}} */ -}}
-<span class="marginnote" role="note">{{ trim .Inner " \n" | .Page.RenderString }}</span>
-{{- /**/ -}}
+{{- partial "note.html" (dict "shortcode" . "inner" .Inner "numbered" false) -}}

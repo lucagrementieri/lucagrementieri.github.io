@@ -1,0 +1,19 @@
+{{- /*
+Aligns the notes of each paragraph with the start of the paragraph on wide
+screens: a copy of the notes is put at the beginning of the paragraph and shown
+only on wide screens, while the notes in their original position are shown only
+on narrow screens, where they appear inline next to the text they refer to.
+Hidden copies use display: none, so they are skipped by screen readers.
+
+Context: the rendered content of a page. Returns the transformed content.
+*/}}
+{{- $content := string . }}
+{{- range $paragraph := findRE `(?s)<p>.*?</p>` $content }}
+  {{- with findRE `(?s)<!--note-->.*?<!--/note-->` $paragraph }}
+    {{- $copies := delimit . "" | replaceRE `<!--note--><span class="(sidenote|marginnote)"` `<span class="$1 note-wide"` | replaceRE `<!--/note-->` "" }}
+    {{- $inline := $paragraph | replaceRE `<!--note--><span class="(sidenote|marginnote)"` `<span class="$1 note-narrow"` | replaceRE `<!--/note-->` "" }}
+    {{- $content = replace $content $paragraph (printf "<p>%s%s" $copies (strings.TrimPrefix "<p>" $inline)) }}
+  {{- end }}
+{{- end }}
+{{- $content = $content | replaceRE `<!--/?note-->` "" | safeHTML }}
+{{- return $content }}

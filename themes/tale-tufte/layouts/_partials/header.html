@@ -10,10 +10,13 @@
     <ul>
       {{- range $entry := site.Menus.main }}
       {{- with $entry.Params.icon }}
-      <li class="nav-icon"><a href="{{ $entry.URL }}"><img src="{{ . | relURL }}" alt="{{ $entry.Name }}" height="20"></a></li>
+      <li class="nav-icon"><a href="{{ $entry.URL }}"><img src="{{ . | relURL }}" alt="{{ $entry.Name }}" height="20"{{ if $entry.Params.invertInDark }} class="invert-in-dark"{{ end }}></a></li>
       {{- else }}
       <li><a href="{{ $entry.URL }}">{{ $entry.Name }}</a></li>
       {{- end }}
+      {{- end }}
+      {{- if not site.Params.hideThemeToggle }}
+      {{ partial "theme-toggle.html" . }}
       {{- end }}
     </ul>
   </div>

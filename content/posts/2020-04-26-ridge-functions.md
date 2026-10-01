@@ -71,12 +71,12 @@ where $\w$ and $\theta$ are parameters that change for every neuron.{{< marginno
 The non-linearity of $N$ comes from the *activation function* $\sigma$, a non-linear function
 that is the same for every neuron in the network.
 
-In the final layer, said the *output layer*, neurons operate differently. They perform a linear combination of their inputs. Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
+In the final layer, said the *output layer*, neurons operate differently. They perform a linear combination of their inputs.{{< marginnote >}}The considered MLP model outputs a single real number. The analysis can be generalized to outputs in $\R^{m}$ by repeating it on every component. A model whose output is multi-dimensional can be used for both regression and classification tasks. Indeed, classification problems are framed as a regression of class probabilities.{{< /marginnote >}} Therefore, the output $y$ of multilayer perceptron with a single hidden layer with $r$ units is
 $$
 y = \sum_{i=1}^{r} c_i N_i(\x) = \sum_{i=1}^{r} c_i \sigma\left(\w^i \cdot \x - \theta_i\right).
 $$
 It is possible to stack more hidden layers of various sizes to obtain a deeper network.
-We will focus on this shallow model because it can already approximate a large class of functions.{{< marginnote >}}The considered MLP model outputs a single real number. The analysis can be generalized to outputs in $\R^{m}$ by repeating it on every component. A model whose output is multi-dimensional can be used for both regression and classification tasks. Indeed, classification problems are framed as a regression of class probabilities.{{< /marginnote >}}
+We will focus on this shallow model because it can already approximate a large class of functions.
 
 ## Ridge functions {#ridge}
 
@@ -129,9 +129,9 @@ Thus, not every $\RR(\Omega)$ is a dense subspace of $C(\Rn)$.
 We will present the conditions on $\Omega$ that ensure that this property holds.
 
 Since density is a property of a topological space, we have to define a topology
-on $C(\Rn)$ to clarify the meaning of this concept.
+on $C(\Rn)$ to clarify the meaning of this concept.{{< marginnote >}}The general topological definition of a compact involves covers and subcovers. The Heine-Borel theorem gives a much simpler characterization of compactness in a euclidean space: in $\Rn$, a set is compact if and only if it is closed and bounded.{{< /marginnote >}}
 In the approximation theory of continuous functions, the topology of uniform
-convergence on compact subsets is the most common.{{< marginnote >}}The general topological definition of a compact involves covers and subcovers. The Heine-Borel theorem gives a much simpler characterization of compactness in a euclidean space: in $\Rn$, a set is compact if and only if it is closed and bounded.{{< /marginnote >}}
+convergence on compact subsets is the most common.
 
 {{< box "Definition" >}}
 A sequence of functions $f_{m} \in C(\Rn), m \in \mathbb{N}$ is said to

@@ -1,18 +1,18 @@
-// Colors
-$default-color: #555;
-$default-shade: #353535;
-$default-tint: #666;
-$grey-1: #979797;
-$grey-2: #e5e5e5;
-$grey-3: #f9f9f9;
-$blue: #3c6eb4;
-$shadow-color: rgba(0, 0, 0, .2);
-$code-color: #bf616a;
-$box-color: #d8deea;
-$box-title: #434498;
+// Colors, defined as custom properties in _colors.scss
+$background-color: var(--background-color);
+$default-color: var(--default-color);
+$default-shade: var(--default-shade);
+$default-tint: var(--default-tint);
+$grey-1: var(--grey-1);
+$grey-2: var(--grey-2);
+$grey-3: var(--grey-3);
+$blue: var(--blue);
+$shadow-color: var(--shadow-color);
+$code-color: var(--code-color);
+$box-color: var(--box-color);
+$box-title: var(--box-title);
 
 // Fonts
-$serif-secondary: Palatino, 'Palatino LT STD', 'Palatino Linotype', 'Book Antiqua', 'Georgia', serif;
 $sans-serif: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, sans-serif;
 $monospaced: Menlo, Monaco, Consolas, monospace;
 

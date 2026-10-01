@@ -1,0 +1,54 @@
+// Color schemes. The site follows the system preference by default; the theme
+// toggle can force a scheme by setting data-theme="light" or "dark" on <html>.
+
+@mixin light-colors {
+  color-scheme: light;
+  --background-color: #fff;
+  --default-color: #555;
+  --default-shade: #353535;
+  --default-tint: #666;
+  --grey-1: #979797;
+  --grey-2: #e5e5e5;
+  --grey-3: #f9f9f9;
+  --blue: #3c6eb4;
+  --shadow-color: rgba(0, 0, 0, .2);
+  --code-color: #bf616a;
+  --box-color: #d8deea;
+  --box-title: #434498;
+  --icon-filter: none;
+  --code-filter: none;
+}
+
+@mixin dark-colors {
+  color-scheme: dark;
+  --background-color: #181818;
+  --default-color: #b5b5b5;
+  --default-shade: #e2e2e2;
+  --default-tint: #9a9a9a;
+  --grey-1: #8a8a8a;
+  --grey-2: #353535;
+  --grey-3: #222;
+  --blue: #7fa9e6;
+  --shadow-color: rgba(0, 0, 0, .8);
+  --code-color: #e48a92;
+  --box-color: #262c3b;
+  --box-title: #a9abf2;
+  // Icons marked with invertInDark (e.g. a black logo) are inverted.
+  --icon-filter: invert(1);
+  // The syntax highlighting palette is meant for light backgrounds.
+  --code-filter: invert(1) hue-rotate(180deg);
+}
+
+:root {
+  @include light-colors;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-colors;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include dark-colors;
+}

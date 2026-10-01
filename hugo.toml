@@ -56,6 +56,7 @@ disableKinds = ["taxonomy", "term"]
   weight = 30
   [menus.main.params]
     icon = "icons/github.png"
+    invertInDark = true
 [[menus.main]]
   name = "LinkedIn"
   url = "https://www.linkedin.com/in/luca-grementieri/"

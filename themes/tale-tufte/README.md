@@ -46,6 +46,18 @@ layout without the date, the footer and the navigation between posts.
 Favicons are read from `static/images/favicon-16x16.png`,
 `static/images/favicon-32x32.png` and `static/images/apple-touch-icon.png`.
 
+## Dark mode
+
+By default the site follows the system color scheme (`prefers-color-scheme`),
+also without JavaScript. A button at the end of the menu cycles through
+automatic (◐), light (☀) and dark (☾). The choice is stored in `localStorage`;
+choosing automatic again clears it. Set `params.hideThemeToggle = true` to
+remove the button and always follow the system.
+
+Colors are CSS custom properties defined in `assets/scss/_colors.scss`. Menu
+icons that would be invisible on a dark background (e.g. a black logo) can be
+inverted with `invertInDark = true` in the menu entry params.
+
 ## Front matter
 
 ```yaml
@@ -68,8 +80,11 @@ Math uses the usual delimiters: `$x^2$` inline and `$$…$$` for display
 equations. Invalid TeX fails the build and reports where the error is.
 
 Notes go right after the word or sentence they refer to. On wide screens they
-are shown in the right margin, aligned with that line. On narrow screens they
-are shown inline, below that line.
+are shown in the right margin, aligned with the first line of their paragraph
+(below the notes above, if those are still taking the space). On narrow screens
+they are shown inline, below the line where they are written. Display equations
+split paragraphs: a note written after an equation is aligned with the text
+that follows the equation.
 
 ```markdown
 A numbered sidenote.{{< sidenote >}}Content in *Markdown*, with $math$.{{< /sidenote >}}
@@ -78,7 +93,9 @@ An unnumbered margin note.{{< marginnote >}}Content in *Markdown*.{{< /marginnot
 ```
 
 Definitions, theorems and similar statements go in boxes, which can contain
-display math and notes:
+display math and notes. Notes in a box are shown outside it: next to the top
+of the box on wide screens (or as close as the notes above allow), below the
+box on narrow screens.
 
 ```markdown
 {{< box "Theorem" >}}

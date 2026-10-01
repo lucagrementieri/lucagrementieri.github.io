@@ -1,9 +1,3 @@
-[writtenBy]
-other = "Written by"
-
-[on]
-other = "on"
-
 [publishdate]
 other = "{{ .PublishDate.Format \"January 2, 2006\" }}"
 
@@ -33,3 +27,12 @@ other = "The requested page could not be found."
 
 [backHome]
 other = "Back to the home page."
+
+[themeAuto]
+other = "Color scheme: automatic (follows the system)"
+
+[themeLight]
+other = "Color scheme: light"
+
+[themeDark]
+other = "Color scheme: dark"

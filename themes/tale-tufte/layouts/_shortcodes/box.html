@@ -1,8 +1,15 @@
 {{- /* Highlighted block for definitions and theorems: {{< box "Theorem" >}}Statement in *Markdown*.{{< /box >}} */ -}}
-<div class="box">
-  {{- with .Get 0 | default (.Get "title") }}
-  <span class="box-title">{{ . }}</span>
+{{- /* Notes in the block are collected by the note partial and shown outside of it. */ -}}
+{{- $content := trim .Inner "\n" | .Page.RenderString (dict "display" "block") }}
+<div class="box-container">
+  {{- range .Store.Get "notes" }}
+  {{ . | safeHTML }}
   {{- end }}
-  {{ trim .Inner "\n" | .Page.RenderString (dict "display" "block") }}
+  <div class="box">
+    {{- with .Get 0 | default (.Get "title") }}
+    <span class="box-title">{{ . }}</span>
+    {{- end }}
+    {{ $content }}
+  </div>
 </div>
 {{- /**/ -}}
